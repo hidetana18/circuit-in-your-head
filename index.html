@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Circuit in Your Head — an interactive exhibit</title>
+  <meta name="description" content="See the brain-body loop through a short animation, then help Peter Rabbit calm down after being chased by Mr. McGregor." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=9" />
+</head>
+<body>
+
+  <!-- ====================== PAGE TOOLBAR ======================
+       Fixed top-right cluster: sound + camera toggles. Both opt-in. -->
+  <div class="page-toolbar" role="toolbar" aria-label="Exhibit options">
+    <button class="tool-btn" id="sound-toggle" aria-pressed="false"
+            title="Toggle sound effects">
+      <span class="tool-icon" id="sound-icon">🔇</span>
+      <span class="tool-label">Sound</span>
+    </button>
+    <button class="tool-btn" id="camera-toggle" aria-pressed="false"
+            title="Optional local heart-rate estimate; video stays on this device">
+      <span class="tool-icon">📷</span>
+      <span class="tool-label">My heart rate</span>
+    </button>
+  </div>
+
+  <!-- Camera preview & live BPM (only visible when camera is active) -->
+  <div class="camera-preview" id="camera-preview" aria-hidden="true">
+    <video class="camera-video" id="camera-video" autoplay playsinline muted></video>
+    <div class="camera-readout">
+      <span class="readout-label">Your live heart rate</span>
+      <span class="readout-value">
+        <span id="camera-bpm">--</span>
+        <span class="readout-unit">bpm</span>
+      </span>
+      <span class="readout-hint" id="camera-hint">Hold still, look at camera</span>
+      <span class="readout-note">Estimate only. Video stays on this device.</span>
+    </div>
+    <button class="camera-close" id="camera-close" aria-label="Stop camera">×</button>
+  </div>
+
+  <!-- ====================== SHARED SVG SYMBOLS ====================== -->
+  <svg style="display: none" aria-hidden="true">
+    <defs>
+      <!-- (The kid is now inlined in the intro scene so limbs can be animated
+           individually via CSS. The <use href="#kid" /> reference has been
+           replaced with the full SVG tree below in the intro stage.) -->
+
+      <!-- Peter Rabbit: section 2 game character. -->
+      <symbol id="peter" viewBox="0 0 220 240">
+        <!-- watering can shadow -->
+        <ellipse class="watering-can-shadow" cx="110" cy="232" rx="76" ry="5" fill="rgba(0,0,0,0.1)" />
+
+        <g class="watering-can">
+          <!-- watering can body -->
+          <path d="M 38 130
+                   L 38 220
+                   Q 38 230, 50 230
+                   L 180 230
+                   Q 192 230, 192 220
+                   L 192 130
+                   Z"
+                fill="#7da7a0" stroke="#4a6b66" stroke-width="2.5" />
+          <!-- watering can top rim -->
+          <ellipse cx="115" cy="130" rx="78" ry="10" fill="#5e8a83" stroke="#4a6b66" stroke-width="2" />
+          <!-- spout (left side) -->
+          <path d="M 38 160 Q 14 158, 8 178 Q 4 188, 14 192 L 38 188 Z"
+                fill="#7da7a0" stroke="#4a6b66" stroke-width="2" />
+          <!-- handle -->
+          <path d="M 188 140 Q 208 150, 208 180 Q 208 210, 188 218"
+                fill="none" stroke="#4a6b66" stroke-width="6" stroke-linecap="round" />
+        </g>
+
+        <!-- Peter peeking out -->
+        <g class="peter-body">
+          <!-- ears — closed paths so the base is properly outlined, with
+               matching start/end y so the bottom doesn't slant. The head
+               (drawn after) overlaps the inner portion of each base for a
+               natural junction. -->
+          <g class="peter-ear peter-ear-left">
+            <path d="M 90 58 Q 80 24, 94 14 Q 108 24, 104 58 Z" fill="#e8d4b8" stroke="#a89070" stroke-width="2" stroke-linejoin="round" />
+            <path d="M 94 54 Q 89 28, 96 22 Q 103 28, 100 54 Z" fill="#f8e4cd" />
+          </g>
+          <g class="peter-ear peter-ear-right">
+            <path d="M 116 58 Q 112 24, 126 14 Q 140 24, 130 58 Z" fill="#e8d4b8" stroke="#a89070" stroke-width="2" stroke-linejoin="round" />
+            <path d="M 120 54 Q 117 28, 126 22 Q 132 28, 128 54 Z" fill="#f8e4cd" />
+          </g>
+          <!-- head -->
+          <ellipse cx="110" cy="92" rx="38" ry="36" fill="#e8d4b8" stroke="#a89070" stroke-width="2.5" />
+          <!-- nose/snout -->
+          <ellipse cx="110" cy="106" rx="14" ry="10" fill="#f8e4cd" />
+          <!-- pink nose tip -->
+          <ellipse cx="110" cy="100" rx="3.5" ry="2.5" fill="#d97a7a" />
+          <!-- whiskers -->
+          <line x1="80" y1="108" x2="98" y2="106" stroke="#a89070" stroke-width="1" />
+          <line x1="80" y1="113" x2="98" y2="111" stroke="#a89070" stroke-width="1" />
+          <line x1="140" y1="108" x2="122" y2="106" stroke="#a89070" stroke-width="1" />
+          <line x1="140" y1="113" x2="122" y2="111" stroke="#a89070" stroke-width="1" />
+          <!-- eyes — scared, wide -->
+          <circle cx="94" cy="82" r="6" fill="white" />
+          <circle cx="126" cy="82" r="6" fill="white" />
+          <g class="peter-pupil-group peter-pupil-left">
+            <circle class="peter-pupil" cx="94" cy="83" r="3.5" fill="#3a3a3a" />
+            <circle class="peter-eye-shine" cx="95.5" cy="81" r="1" fill="white" />
+          </g>
+          <g class="peter-pupil-group peter-pupil-right">
+            <circle class="peter-pupil" cx="126" cy="83" r="3.5" fill="#3a3a3a" />
+            <circle class="peter-eye-shine" cx="127.5" cy="81" r="1" fill="white" />
+          </g>
+          <!-- mouth -->
+          <path class="peter-mouth" d="M 104 118 Q 110 121 116 118" stroke="#3a3a3a" stroke-width="1.6" fill="none" stroke-linecap="round" />
+          <!-- blue jacket collar peeking above the can rim -->
+          <path d="M 84 128 L 110 138 L 136 128 L 136 132 L 110 142 L 84 132 Z" fill="#4a6fa8" stroke="#2c4570" stroke-width="1.5" />
+        </g>
+      </symbol>
+
+      <!-- Brain — simplified layered map, with a more brain-like silhouette -->
+      <symbol id="brain-three-layers" viewBox="0 0 220 260">
+        <!-- Cortex (top, folded) -->
+        <g class="brain-layer" data-region="cortex">
+          <path d="M 30 84
+                   C 20 54, 42 24, 78 18
+                   C 102 6, 134 8, 156 18
+                   C 188 22, 202 48, 192 78
+                   C 186 100, 168 114, 144 120
+                   C 112 126, 74 122, 50 114
+                   C 38 108, 31 98, 30 84 Z"
+                fill="#9FB2D4" stroke="#5a6fa0" stroke-width="2" class="layer-fill" />
+          <!-- wrinkles -->
+          <path d="M 48 54 C 70 42, 88 60, 110 54 S 150 42, 174 56"
+                stroke="#5a6fa0" stroke-width="1.6" fill="none" opacity="0.4" />
+          <path d="M 42 82 C 66 70, 88 92, 112 82 S 148 72, 172 86"
+                stroke="#5a6fa0" stroke-width="1.6" fill="none" opacity="0.4" />
+          <text x="110" y="78" text-anchor="middle" class="layer-label" fill="#2c3a60">CORTEX</text>
+          <text x="110" y="100" text-anchor="middle" class="layer-sub" fill="#2c3a60">thinking · planning</text>
+        </g>
+
+        <!-- Limbic (middle) -->
+        <g class="brain-layer" data-region="limbic">
+          <path d="M 50 120
+                   C 70 112, 92 114, 110 120
+                   C 132 113, 160 114, 176 124
+                   L 168 164
+                   C 160 178, 132 181, 110 174
+                   C 88 181, 62 177, 52 164
+                   C 46 148, 43 130, 50 120 Z"
+                fill="#F4A6B5" stroke="#a85e6a" stroke-width="2" class="layer-fill" />
+          <text x="110" y="148" text-anchor="middle" class="layer-label" fill="#6a2f3a">LIMBIC SYSTEM</text>
+          <text x="110" y="166" text-anchor="middle" class="layer-sub" fill="#6a2f3a">feelings · memories</text>
+        </g>
+
+        <!-- Brain Stem (bottom) -->
+        <g class="brain-layer" data-region="brainstem">
+          <path d="M 62 174
+                   C 84 168, 136 168, 158 174
+                   C 154 202, 144 226, 126 238
+                   C 116 244, 104 244, 94 238
+                   C 76 226, 66 202, 62 174 Z"
+                fill="#9CC09A" stroke="#5a7a5a" stroke-width="2" class="layer-fill" />
+          <text x="110" y="204" text-anchor="middle" class="layer-label" fill="#2c4a2c">BRAIN STEM</text>
+          <text x="110" y="222" text-anchor="middle" class="layer-sub" fill="#2c4a2c">heart · breath</text>
+        </g>
+      </symbol>
+
+      <!-- Heart icon — anatomical-ish but friendly -->
+      <symbol id="body-heart" viewBox="0 0 100 100">
+        <path d="M 50 86
+                 C 50 86, 14 64, 14 38
+                 C 14 24, 24 14, 36 14
+                 C 44 14, 48 18, 50 24
+                 C 52 18, 56 14, 64 14
+                 C 76 14, 86 24, 86 38
+                 C 86 64, 50 86, 50 86 Z"
+              fill="#E15F5F" stroke="#a83a3a" stroke-width="2" />
+      </symbol>
+
+      <!-- Lungs icon -->
+      <symbol id="body-lungs" viewBox="0 0 100 100">
+        <!-- trachea -->
+        <rect x="46" y="12" width="8" height="22" rx="3" fill="#c89a82" stroke="#8a6450" stroke-width="1.5" />
+        <!-- left lung -->
+        <path d="M 38 30 Q 18 36, 18 60 Q 18 80, 32 84 Q 44 84, 46 70 L 46 34 Z"
+              fill="#e8b5a4" stroke="#8a6450" stroke-width="2" />
+        <!-- right lung -->
+        <path d="M 62 30 Q 82 36, 82 60 Q 82 80, 68 84 Q 56 84, 54 70 L 54 34 Z"
+              fill="#e8b5a4" stroke="#8a6450" stroke-width="2" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ====================== HERO ====================== -->
+  <header class="hero">
+    <p class="kicker">An interactive exhibit · Boston Museum of Science</p>
+    <h1>The Circuit <em>in Your Head</em></h1>
+    <p class="hero-sub">
+      See the loop between your brain and body. Then help Peter Rabbit calm down.
+    </p>
+    <a href="#part-1" class="hero-cta">Start ↓</a>
+  </header>
+
+  <!-- ====================== PART 1: THE INTRO ====================== -->
+  <section id="part-1" class="part part-intro">
+    <div class="part-head">
+      <span class="part-num">Part 1</span>
+      <h2>When you trip</h2>
+      <p class="part-note">A simplified map: these brain-body systems work together.</p>
+    </div>
+
+    <div class="intro-stage" id="intro-stage">
+      <!-- Left: the kid scene (walks → trips → stands up again).
+           Limbs are separately animatable. -->
+      <div class="intro-scene">
+        <div class="ground"></div>
+        <div class="kid-wrap" id="kid-wrap">
+          <svg viewBox="0 0 140 200" class="kid-svg">
+            <ellipse class="kid-shadow" cx="70" cy="194" rx="32" ry="3.5" fill="rgba(0,0,0,0.08)" />
+
+            <!-- BACK arm (drawn first → behind body) -->
+            <g class="kid-limb kid-arm-back">
+              <rect x="44" y="68" width="24" height="9" rx="4.5" fill="#E08896" />
+            </g>
+
+            <!-- BACK leg -->
+            <g class="kid-limb kid-leg-back">
+              <rect x="60" y="116" width="10" height="46" rx="4" fill="#3a4f80" />
+            </g>
+
+            <!-- BODY -->
+            <rect class="kid-body" x="56" y="62" width="28" height="56" rx="8" fill="#F4A6B5" />
+
+            <!-- HEAD -->
+            <g class="kid-head">
+              <circle cx="70" cy="40" r="22" fill="#f7d9c4" stroke="#a8745a" stroke-width="2" />
+              <circle cx="63" cy="38" r="2.5" fill="#3a3a3a" />
+              <circle cx="77" cy="38" r="2.5" fill="#3a3a3a" />
+              <path d="M 64 47 Q 70 51 76 47" stroke="#3a3a3a" stroke-width="2" fill="none" stroke-linecap="round" />
+              <path d="M 56 24 Q 70 14 84 24" fill="#7a4a2a" />
+            </g>
+
+            <!-- FRONT arm -->
+            <g class="kid-limb kid-arm-front">
+              <rect x="72" y="68" width="24" height="9" rx="4.5" fill="#F4A6B5" />
+            </g>
+
+            <!-- FRONT leg -->
+            <g class="kid-limb kid-leg-front">
+              <rect x="70" y="116" width="10" height="46" rx="4" fill="#5a6fa8" />
+            </g>
+          </svg>
+        </div>
+        <div class="ouch" id="ouch">!</div>
+        <div class="kid-thought" id="kid-thought" aria-hidden="true">
+          <span class="thought-text">I can choose my next move.</span>
+        </div>
+      </div>
+
+      <!-- Right: ONE combined brain + body wiring diagram -->
+      <svg class="wiring-svg" viewBox="0 0 460 340" id="wiring" aria-label="Brain and body wiring diagram">
+        <defs>
+          <!-- One chevron-style arrowhead per color. SVG markers don't reliably
+               inherit currentColor across browsers, so we define one each. -->
+          <marker id="arr-pink" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 9 5 L 0 9"
+                  fill="none" stroke="#a85e6a" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </marker>
+          <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 9 5 L 0 9"
+                  fill="none" stroke="#5a7a5a" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </marker>
+          <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 9 5 L 0 9"
+                  fill="none" stroke="#5a6fa0" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </marker>
+        </defs>
+
+        <!-- ===== BRAIN (left half) ===== -->
+        <g class="wiring-brain">
+          <!-- CORTEX -->
+          <g class="brain-layer" data-region="cortex">
+            <path class="layer-fill"
+                  d="M 30 62
+                     C 22 34, 48 12, 86 10
+                     C 112 2, 154 0, 178 12
+                     C 220 10, 246 34, 238 66
+                     C 233 88, 216 102, 192 108
+                     C 152 116, 94 112, 58 104
+                     C 40 100, 30 84, 30 62 Z"
+                  fill="#9FB2D4" stroke="#5a6fa0" stroke-width="2" />
+            <path d="M 42 36 C 72 20, 98 44, 126 34 S 182 20, 220 42"
+                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+            <path d="M 38 66 C 70 52, 100 78, 130 66 S 184 52, 218 72"
+                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+            <text x="130" y="56" text-anchor="middle" class="layer-label" fill="#2c3a60">CORTEX</text>
+            <text x="130" y="76" text-anchor="middle" class="layer-sub" fill="#2c3a60">thinks · plans</text>
+          </g>
+          <!-- LIMBIC -->
+          <g class="brain-layer" data-region="limbic">
+            <path class="layer-fill"
+                  d="M 56 101
+                     C 80 94, 108 95, 130 102
+                     C 156 94, 190 95, 212 106
+                     L 204 145
+                     C 196 158, 162 160, 132 153
+                     C 104 160, 74 158, 56 146
+                     C 48 132, 46 112, 56 101 Z"
+                  fill="#F4A6B5" stroke="#a85e6a" stroke-width="2" />
+            <text x="130" y="124" text-anchor="middle" class="layer-label" fill="#6a2f3a">LIMBIC</text>
+            <text x="130" y="142" text-anchor="middle" class="layer-sub" fill="#6a2f3a">feels · alarms</text>
+          </g>
+          <!-- BRAIN STEM -->
+          <g class="brain-layer" data-region="brainstem">
+            <path class="layer-fill"
+                  d="M 74 154
+                     C 100 148, 160 148, 186 154
+                     C 182 182, 170 206, 150 218
+                     C 138 225, 122 225, 110 218
+                     C 90 206, 78 182, 74 154 Z"
+                  fill="#9CC09A" stroke="#5a7a5a" stroke-width="2" />
+            <text x="130" y="184" text-anchor="middle" class="layer-label" fill="#2c4a2c">BRAIN STEM</text>
+            <text x="130" y="202" text-anchor="middle" class="layer-sub" fill="#2c4a2c">runs body</text>
+          </g>
+        </g>
+
+        <!-- ===== BODY (right half) ===== -->
+        <g class="wiring-body">
+          <!-- heart -->
+          <g class="body-organ" id="wiring-heart">
+            <text x="380" y="10" text-anchor="middle" class="organ-name-label" fill="#a83a3a">HEART RATE</text>
+            <path class="heart-path"
+                  d="M 380 86
+                     C 380 86, 348 68, 348 46
+                     C 348 34, 356 26, 366 26
+                     C 372 26, 376 30, 380 36
+                     C 384 30, 388 26, 394 26
+                     C 404 26, 412 34, 412 46
+                     C 412 68, 380 86, 380 86 Z"
+                  fill="#E15F5F" stroke="#a83a3a" stroke-width="2" />
+            <text x="380" y="108" text-anchor="middle" class="organ-text-label" fill="#a83a3a">
+              <tspan class="bpm-num" id="w-bpm" font-weight="700">90</tspan>
+              <tspan dx="3">bpm</tspan>
+            </text>
+          </g>
+          <!-- lungs -->
+          <g class="body-organ" id="wiring-lungs">
+            <text x="380" y="138" text-anchor="middle" class="organ-name-label" fill="#8a6450">BREATHING</text>
+            <rect x="376" y="156" width="8" height="22" rx="3" fill="#c89a82" stroke="#8a6450" stroke-width="1.5" />
+            <path class="lungs-path"
+                  d="M 368 174 Q 348 180, 348 204 Q 348 224, 362 228 Q 374 228, 376 214 L 376 178 Z"
+                  fill="#e8b5a4" stroke="#8a6450" stroke-width="2" />
+            <path class="lungs-path"
+                  d="M 392 174 Q 412 180, 412 204 Q 412 224, 398 228 Q 386 228, 384 214 L 384 178 Z"
+                  fill="#e8b5a4" stroke="#8a6450" stroke-width="2" />
+            <text x="380" y="250" text-anchor="middle" class="organ-text-label" fill="#8a6450">
+              <tspan class="brpm-num" id="w-brpm" font-weight="700">16</tspan>
+              <tspan dx="3">/min</tspan>
+            </text>
+          </g>
+        </g>
+
+        <!-- ===== ARROWS (initially hidden via CSS dashoffset) ===== -->
+        <g class="wiring-arrows">
+          <!-- limbic → brain stem (short, on the right side, curved around badge) -->
+          <path class="arrow" data-arrow="limbic-stem"
+                d="M 130 134 L 130 152"
+                stroke="#a85e6a" stroke-width="2.4" fill="none"
+                stroke-linecap="round" marker-end="url(#arr-pink)" />
+          <!-- brain stem → heart -->
+          <path class="arrow" data-arrow="stem-heart"
+                d="M 200 178 Q 260 150, 332 70"
+                stroke="#5a7a5a" stroke-width="2.4" fill="none"
+                stroke-linecap="round" marker-end="url(#arr-green)" />
+          <!-- brain stem → lungs -->
+          <path class="arrow" data-arrow="stem-lungs"
+                d="M 200 198 Q 260 210, 332 196"
+                stroke="#5a7a5a" stroke-width="2.4" fill="none"
+                stroke-linecap="round" marker-end="url(#arr-green)" />
+          <!-- brain stem → cortex (slow path, dotted to emphasize slowness) -->
+          <path class="arrow slow" data-arrow="stem-cortex"
+                d="M 60 184 Q 14 130, 60 70"
+                stroke="#5a6fa0" stroke-width="2.4" fill="none"
+                stroke-linecap="round" stroke-dasharray="4 6"
+                marker-end="url(#arr-blue)" />
+        </g>
+
+        <!-- ===== NUMBER BADGES =====
+             Each badge has TWO nested groups:
+             - outer carries the SVG translate (positioning)
+             - inner carries the CSS transform (the pop-in scale animation)
+             Without this split, CSS transform replaces the SVG translate and
+             the badge snaps to (0, 0) of the viewBox. -->
+        <g class="wiring-badges">
+          <g transform="translate(240, 124)">
+            <g class="step-badge" data-step="1">
+              <circle r="14" fill="#a85e6a" />
+              <text text-anchor="middle" dy="5" fill="white" font-weight="700" font-size="16">1</text>
+            </g>
+          </g>
+          <g transform="translate(216, 184)">
+            <g class="step-badge" data-step="2">
+              <circle r="14" fill="#5a7a5a" />
+              <text text-anchor="middle" dy="5" fill="white" font-weight="700" font-size="16">2</text>
+            </g>
+          </g>
+          <g transform="translate(296, 130)">
+            <g class="step-badge" data-step="3">
+              <circle r="14" fill="#a83a3a" />
+              <text text-anchor="middle" dy="5" fill="white" font-weight="700" font-size="16">3</text>
+            </g>
+          </g>
+          <g transform="translate(40, 56)">
+            <g class="step-badge" data-step="4">
+              <circle r="14" fill="#5a6fa0" />
+              <text text-anchor="middle" dy="5" fill="white" font-weight="700" font-size="16">4</text>
+            </g>
+          </g>
+        </g>
+      </svg>
+
+      <!-- Caption — sits INSIDE the stage like a movie subtitle, spans both columns -->
+      <p class="intro-caption" id="intro-caption" aria-live="polite" aria-atomic="true">Running.</p>
+    </div>
+
+    <!-- Step controls -->
+    <div class="intro-controls">
+      <button class="step-btn" id="intro-prev" aria-label="Previous step">◀ Prev</button>
+      <button class="step-btn primary" id="intro-play" aria-label="Play / pause">▶ Auto-play</button>
+      <button class="step-btn" id="intro-next" aria-label="Next step">Next ▶</button>
+      <div class="step-indicator" aria-live="polite">
+        Step <span id="intro-step">1</span> / <span id="intro-total">5</span>
+      </div>
+      <button class="ghost-btn" id="intro-replay" aria-label="Restart">↺ Restart</button>
+    </div>
+  </section>
+
+  <!-- ====================== PART 2: THE GAME ====================== -->
+  <section id="part-2" class="part part-game">
+    <div class="part-head">
+      <span class="part-num">Part 2</span>
+      <h2>Help <em>Peter Rabbit</em></h2>
+      <p class="part-sub">
+        Peter snuck into Mr. McGregor's garden. McGregor saw him. Peter is hiding in a watering can — heart pounding.
+        <strong>Pick three actions. Each one changes Peter's brain and body. Find an order that calms him.</strong>
+      </p>
+    </div>
+
+    <!-- Same two-column shape as Part 1: character on the left, brain+body
+         wiring diagram on the right, caption spanning both columns below. -->
+    <div class="game-stage" id="game-stage">
+      <!-- Peter in the watering can -->
+      <div class="game-scene">
+        <div class="game-character" id="game-character" data-peter="panic">
+          <svg viewBox="0 0 220 240" class="peter-svg" id="peter-svg"><use href="#peter" /></svg>
+          <!-- breath puff (only visible during a breathe action) -->
+          <div class="breath-puff" id="breath-puff" aria-hidden="true"></div>
+          <!-- thought bubble used for the reframe beat -->
+          <div class="peter-thought" id="peter-thought" aria-hidden="true">
+            <span class="thought-text">I am hidden right now.</span>
+          </div>
+          <!-- gate appears on win -->
+          <div class="gate-hint" id="gate-hint" aria-hidden="true">
+            <span class="gate-arrow">→</span>
+            <span class="gate-label">the gate</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wiring diagram — same vocabulary as Part 1, starts in the
+           post-trip "alarm firing" state. Intervention arrows are unique. -->
+      <svg class="wiring-svg" viewBox="0 0 460 340" id="game-wiring" aria-label="Peter's brain and body">
+        <defs>
+          <!-- intervention-specific markers (alarm markers are reused via the
+               global #arr-pink / #arr-green refs in the top-of-document SVG;
+               we add the two new ones here) -->
+          <marker id="arr-vagal" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 9 5 L 0 9"
+                  fill="none" stroke="#3a8a8a" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </marker>
+          <marker id="arr-attn" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 9 5 L 0 9"
+                  fill="none" stroke="#5a6fa0" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </marker>
+          <marker id="arr-block" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 9 5 L 0 9"
+                  fill="none" stroke="#a83a3a" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </marker>
+        </defs>
+
+        <!-- ===== BRAIN ===== -->
+        <g class="wiring-brain">
+          <g class="brain-layer" data-region="cortex">
+            <path class="layer-fill"
+                  d="M 30 62
+                     C 22 34, 48 12, 86 10
+                     C 112 2, 154 0, 178 12
+                     C 220 10, 246 34, 238 66
+                     C 233 88, 216 102, 192 108
+                     C 152 116, 94 112, 58 104
+                     C 40 100, 30 84, 30 62 Z"
+                  fill="#9FB2D4" stroke="#5a6fa0" stroke-width="2" />
+            <path d="M 42 36 C 72 20, 98 44, 126 34 S 182 20, 220 42"
+                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+            <path d="M 38 66 C 70 52, 100 78, 130 66 S 184 52, 218 72"
+                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+            <text x="130" y="56" text-anchor="middle" class="layer-label" fill="#2c3a60">CORTEX</text>
+            <text x="130" y="76" text-anchor="middle" class="layer-sub" fill="#2c3a60">thinks · plans</text>
+          </g>
+          <g class="brain-layer" data-region="limbic">
+            <path class="layer-fill"
+                  d="M 56 101
+                     C 80 94, 108 95, 130 102
+                     C 156 94, 190 95, 212 106
+                     L 204 145
+                     C 196 158, 162 160, 132 153
+                     C 104 160, 74 158, 56 146
+                     C 48 132, 46 112, 56 101 Z"
+                  fill="#F4A6B5" stroke="#a85e6a" stroke-width="2" />
+            <text x="130" y="124" text-anchor="middle" class="layer-label" fill="#6a2f3a">LIMBIC</text>
+            <text x="130" y="142" text-anchor="middle" class="layer-sub" fill="#6a2f3a">feels · alarms</text>
+          </g>
+          <g class="brain-layer" data-region="brainstem">
+            <path class="layer-fill"
+                  d="M 74 154
+                     C 100 148, 160 148, 186 154
+                     C 182 182, 170 206, 150 218
+                     C 138 225, 122 225, 110 218
+                     C 90 206, 78 182, 74 154 Z"
+                  fill="#9CC09A" stroke="#5a7a5a" stroke-width="2" />
+            <text x="130" y="184" text-anchor="middle" class="layer-label" fill="#2c4a2c">BRAIN STEM</text>
+            <text x="130" y="202" text-anchor="middle" class="layer-sub" fill="#2c4a2c">runs body</text>
+          </g>
+        </g>
+
+        <!-- ===== BODY ===== -->
+        <g class="wiring-body">
+          <g class="body-organ" id="game-wiring-heart">
+            <text x="380" y="10" text-anchor="middle" class="organ-name-label" fill="#a83a3a">HEART RATE</text>
+            <path class="heart-path"
+                  d="M 380 86
+                     C 380 86, 348 68, 348 46
+                     C 348 34, 356 26, 366 26
+                     C 372 26, 376 30, 380 36
+                     C 384 30, 388 26, 394 26
+                     C 404 26, 412 34, 412 46
+                     C 412 68, 380 86, 380 86 Z"
+                  fill="#E15F5F" stroke="#a83a3a" stroke-width="2" />
+            <text x="380" y="108" text-anchor="middle" class="organ-text-label" fill="#a83a3a">
+              <tspan class="bpm-num" id="g-bpm" font-weight="700">180</tspan>
+              <tspan dx="3">bpm</tspan>
+            </text>
+          </g>
+          <g class="body-organ" id="game-wiring-lungs">
+            <text x="380" y="138" text-anchor="middle" class="organ-name-label" fill="#8a6450">BREATHING</text>
+            <rect x="376" y="156" width="8" height="22" rx="3" fill="#c89a82" stroke="#8a6450" stroke-width="1.5" />
+            <path class="lungs-path"
+                  d="M 368 174 Q 348 180, 348 204 Q 348 224, 362 228 Q 374 228, 376 214 L 376 178 Z"
+                  fill="#e8b5a4" stroke="#8a6450" stroke-width="2" />
+            <path class="lungs-path"
+                  d="M 392 174 Q 412 180, 412 204 Q 412 224, 398 228 Q 386 228, 384 214 L 384 178 Z"
+                  fill="#e8b5a4" stroke="#8a6450" stroke-width="2" />
+            <text x="380" y="250" text-anchor="middle" class="organ-text-label" fill="#8a6450">
+              <tspan class="brpm-num" id="g-brpm" font-weight="700">35</tspan>
+              <tspan dx="3">/min</tspan>
+            </text>
+          </g>
+        </g>
+
+        <!-- ===== ALARM ARROWS (from Part 1's vocabulary, shown initially) ===== -->
+        <g class="wiring-arrows alarm-arrows">
+          <path class="arrow" data-arrow="limbic-stem"
+                d="M 130 134 L 130 152"
+                stroke="#a85e6a" stroke-width="2.4" fill="none"
+                stroke-linecap="round" marker-end="url(#arr-pink)" />
+          <path class="arrow" data-arrow="stem-heart"
+                d="M 200 178 Q 260 150, 332 70"
+                stroke="#5a7a5a" stroke-width="2.4" fill="none"
+                stroke-linecap="round" marker-end="url(#arr-green)" />
+          <path class="arrow" data-arrow="stem-lungs"
+                d="M 200 198 Q 260 210, 332 196"
+                stroke="#5a7a5a" stroke-width="2.4" fill="none"
+                stroke-linecap="round" marker-end="url(#arr-green)" />
+        </g>
+
+        <!-- ===== INTERVENTION ARROWS (lit by the player's actions) ===== -->
+        <g class="wiring-arrows intervention-arrows">
+          <!-- ATTN: cortex → limbic. Used by Notice (small) and Reframe (strong).
+               Draws a short downward arrow on the LEFT side of the brain. -->
+          <path class="arrow attn" data-arrow="attn"
+                d="M 80 86 L 80 104"
+                stroke="#5a6fa0" stroke-width="2.4" fill="none"
+                stroke-linecap="round" marker-end="url(#arr-attn)" />
+          <!-- BREATH: lungs → brain stem → limbic, going UP via the vagal pathway.
+               One long sweeping curve that enters the brain stem from below-right. -->
+          <path class="arrow breath" data-arrow="breath"
+                d="M 348 200
+                   C 240 240, 160 240, 130 215
+                   L 130 162"
+                stroke="#3a8a8a" stroke-width="2.4" fill="none"
+                stroke-linecap="round" marker-end="url(#arr-vagal)" />
+          <!-- BLOCK: same path as attn but red and dashed; X is drawn separately. -->
+          <path class="arrow block" data-arrow="block"
+                d="M 80 86 L 80 104"
+                stroke="#a83a3a" stroke-width="2.4" fill="none"
+                stroke-linecap="round" stroke-dasharray="3 4" marker-end="url(#arr-block)" />
+          <!-- Block X — two short crossing strokes over the block arrow. Hidden
+               until block is fired. -->
+          <g class="block-x" data-arrow="block-x">
+            <line x1="72" y1="88" x2="88" y2="104" stroke="#a83a3a" stroke-width="2.6" stroke-linecap="round" />
+            <line x1="88" y1="88" x2="72" y2="104" stroke="#a83a3a" stroke-width="2.6" stroke-linecap="round" />
+          </g>
+        </g>
+      </svg>
+
+      <!-- Caption — same role and styling as Part 1's intro-caption. -->
+      <p class="game-caption" id="game-caption" aria-live="polite" aria-atomic="true">Peter's alarm is loud. His body is racing. Pick an action.</p>
+    </div>
+
+    <!-- Sequence slots — three picks, fills left to right. -->
+    <div class="game-sequence" id="game-sequence" aria-label="Action sequence">
+      <div class="seq-slot" data-slot="0">
+        <span class="seq-num">1</span>
+        <span class="seq-placeholder">?</span>
+      </div>
+      <div class="seq-arrow">→</div>
+      <div class="seq-slot" data-slot="1">
+        <span class="seq-num">2</span>
+        <span class="seq-placeholder">?</span>
+      </div>
+      <div class="seq-arrow">→</div>
+      <div class="seq-slot" data-slot="2">
+        <span class="seq-num">3</span>
+        <span class="seq-placeholder">?</span>
+      </div>
+    </div>
+
+    <!-- Action cards -->
+    <div class="game-cards" id="game-cards" role="group" aria-label="Action cards">
+      <button class="action-card" data-action="notice">
+        <span class="card-emoji">👂</span>
+        <span class="card-label">Notice the feeling</span>
+      </button>
+      <button class="action-card" data-action="breathe">
+        <span class="card-emoji">🌬️</span>
+        <span class="card-label">Breathe slow</span>
+      </button>
+      <button class="action-card" data-action="reframe">
+        <span class="card-emoji">💭</span>
+        <span class="card-label">"I am hidden right now"</span>
+      </button>
+      <button class="action-card" data-action="suppress">
+        <span class="card-emoji">🙈</span>
+        <span class="card-label">Push it down</span>
+      </button>
+    </div>
+
+    <!-- Retry button — only appears when a 3-pick attempt didn't calm Peter. -->
+    <div class="game-controls">
+      <button class="ghost-btn game-retry" id="game-retry" hidden>↺ Try again</button>
+    </div>
+
+    <!-- Win overlay -->
+    <div class="win-overlay" id="win-overlay" aria-hidden="true">
+      <div class="win-card">
+        <p class="win-emoji">✦</p>
+        <h3>Peter can think now.</h3>
+        <p>His heart is slowing. He sees the gate. He can wait, then run.</p>
+        <button class="primary-btn" id="play-again">Play again ↺</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== FOOTER ====================== -->
+  <footer class="foot">
+    <p>An interactive exhibit · 2026</p>
+    <p class="micro">Camera estimates run locally in your browser and are not recorded.</p>
+  </footer>
+
+  <script src="script.js?v=9"></script>
+</body>
+</html>

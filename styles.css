@@ -1,0 +1,1564 @@
+/* =========================================================
+   THE CIRCUIT IN YOUR HEAD — interactive exhibit
+   Two parts: a short intro animation, then a game.
+   Minimal words; everything else is visual.
+   ========================================================= */
+
+:root {
+  --cortex:        #9FB2D4;
+  --cortex-deep:   #5a6fa0;
+  --cortex-soft:   #DDE4F2;
+  --limbic:        #F4A6B5;
+  --limbic-deep:   #a85e6a;
+  --limbic-soft:   #FBD5D9;
+  --brainstem:     #9CC09A;
+  --brainstem-deep:#5a7a5a;
+  --brainstem-soft:#D8EAD7;
+  --gold:          #F4C25A;
+  --gold-soft:     #FFEDC0;
+  --heart-red:     #E15F5F;
+  --cream:         #FFF9F0;
+  --paper:         #FDF6E8;
+  --ink:           #38353a;
+  --ink-soft:      #6c6770;
+  --ink-light:     #aaa39e;
+  --serif:         "Cormorant Garamond", "Georgia", serif;
+  --sans:          "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+  scroll-behavior: smooth;
+}
+
+/* ====================== TOOLBAR (fixed top-right) ====================== */
+.page-toolbar {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 90;
+  display: flex;
+  gap: 8px;
+}
+.tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 249, 240, 0.92);
+  border: 1.5px solid #ece2cd;
+  border-radius: 999px;
+  padding: 7px 14px 7px 12px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.2s, transform 0.15s, border-color 0.2s;
+}
+.tool-btn:hover { background: white; border-color: var(--gold); transform: translateY(-1px); }
+.tool-btn[aria-pressed="true"],
+.tool-btn.on {
+  background: var(--gold-soft);
+  border-color: var(--gold);
+  color: var(--ink);
+}
+.tool-icon { font-size: 14px; line-height: 1; }
+.tool-label { letter-spacing: 0.04em; }
+
+@media (max-width: 640px) {
+  .tool-label { display: none; }
+  .tool-btn { padding: 8px 10px; }
+}
+
+/* ====================== CAMERA PREVIEW (fixed bottom-right) ====================== */
+.camera-preview {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 95;
+  background: white;
+  border: 1.5px solid var(--gold);
+  border-radius: 16px;
+  padding: 10px 12px 10px 10px;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  max-width: 320px;
+}
+.camera-preview[aria-hidden="false"] { display: flex; }
+.camera-preview.error { border-color: var(--heart-red); }
+.camera-video {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #222;
+  transform: scaleX(-1); /* mirror — feels more natural */
+}
+.camera-preview.error .camera-video { display: none; }
+.camera-readout {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.readout-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.readout-value {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 28px;
+  color: var(--heart-red);
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.readout-unit {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+.readout-hint {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+.readout-note {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--ink-light);
+}
+.camera-close {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink-soft);
+  padding: 4px 6px;
+}
+.camera-close:hover { color: var(--ink); }
+
+@media (max-width: 640px) {
+  .camera-preview { bottom: 8px; right: 8px; }
+  .camera-video { width: 52px; height: 52px; }
+  .readout-value { font-size: 22px; }
+}
+
+/* ====================== HERO ====================== */
+.hero {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 24px;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(244, 166, 181, 0.25), transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(156, 192, 154, 0.25), transparent 55%),
+    linear-gradient(180deg, #FFF9F0 0%, #FDF0E2 100%);
+}
+.kicker {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 22px;
+}
+.kicker::before { content: "✦  "; color: var(--gold); }
+.kicker::after  { content: "  ✦"; color: var(--gold); }
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(56px, 9vw, 110px);
+  margin: 0 0 18px;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.hero h1 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--limbic);
+}
+.hero-sub {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(20px, 2.2vw, 26px);
+  color: var(--ink);
+  margin: 0 0 36px;
+  max-width: 680px;
+}
+.hero-cta {
+  display: inline-block;
+  padding: 14px 32px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 4px 0 #1c191e;
+}
+.hero-cta:hover { background: #1c191e; transform: translateY(-2px); }
+.hero-cta:active { transform: translateY(2px); box-shadow: 0 1px 0 #1c191e; }
+
+/* ====================== PARTS ====================== */
+.part {
+  padding: clamp(60px, 9vw, 110px) clamp(20px, 5vw, 56px);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.part-head {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.part-num {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+.part-num::before { content: "✦  "; color: var(--gold); }
+.part-num::after  { content: "  ✦"; color: var(--gold); }
+.part-head h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(40px, 5.6vw, 64px);
+  margin: 0 0 14px;
+  line-height: 1.05;
+  color: var(--ink);
+}
+.part-head h2 em { font-style: italic; color: var(--limbic); }
+.part-note {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin: -2px auto 12px;
+}
+.part-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(17px, 1.8vw, 21px);
+  color: var(--ink);
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+.part-sub strong {
+  font-style: normal;
+  font-family: var(--sans);
+  font-weight: 700;
+  background: var(--gold-soft);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* ====================== PART 1 — INTRO ANIMATION ====================== */
+.intro-stage {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  align-items: stretch;
+  background: var(--paper);
+  border: 1px solid #ece2cd;
+  border-radius: 22px;
+  padding: 32px 28px 28px;
+  position: relative;
+  min-height: 380px;
+}
+@media (max-width: 880px) {
+  .intro-stage { grid-template-columns: 1fr; gap: 16px; }
+}
+
+.intro-scene {
+  position: relative;
+  height: 360px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, #fdf3df 0%, #f5e2c2 100%);
+}
+.ground {
+  position: absolute;
+  bottom: 0;
+  left: -5%;
+  right: -5%;
+  height: 36px;
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0,
+      transparent 36px,
+      rgba(0, 0, 0, 0.06) 36px,
+      rgba(0, 0, 0, 0.06) 38px),
+    linear-gradient(180deg, #c89a72 0%, #a88058 100%);
+  background-size: 76px 100%, 100% 100%;
+  border-top: 3px solid #8d6840;
+}
+/* Ground scrolls leftward to suggest the kid is moving forward */
+body[data-intro="run"] .ground {
+  animation: groundScroll 0.5s linear infinite;
+}
+@keyframes groundScroll {
+  from { background-position: 0 0, 0 0; }
+  to   { background-position: -76px 0, 0 0; }
+}
+.kid-wrap {
+  position: relative;
+  bottom: 16px;
+  width: 110px;
+  transform-origin: 50% 100%;
+}
+.kid-svg { width: 100%; height: auto; overflow: visible; }
+
+/* Each limb pivots from its top (shoulder for arms, hip for legs).
+   fill-box puts the transform-origin in each limb's own bounding box. */
+.kid-limb {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  transition: transform 0.5s cubic-bezier(0.3, 0, 0.5, 1);
+}
+.kid-body, .kid-head {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transition: transform 0.5s ease;
+}
+
+/* ============== STATE: RUNNING ==============
+   Legs alternate, arms counter-swing, body subtly bobs, the wrap
+   translates forward across the scene. */
+body[data-intro="run"] .kid-wrap     { animation: walkAcross 1.8s linear forwards; }
+body[data-intro="run"] .kid-leg-front { animation: legCycleA 0.5s linear infinite; }
+body[data-intro="run"] .kid-leg-back  { animation: legCycleB 0.5s linear infinite; }
+body[data-intro="run"] .kid-arm-front { animation: armCycleB 0.5s linear infinite; }
+body[data-intro="run"] .kid-arm-back  { animation: armCycleA 0.5s linear infinite; }
+body[data-intro="run"] .kid-body      { animation: torsoBob   0.5s linear infinite; }
+body[data-intro="run"] .kid-head      { animation: torsoBob   0.5s linear infinite; }
+
+@keyframes walkAcross {
+  from { transform: translateX(-60px); }
+  to   { transform: translateX(0); }
+}
+@keyframes legCycleA {
+  0%   { transform: rotate(22deg); }                    /* foot forward */
+  25%  { transform: rotate(8deg)  translateY(-1px); }   /* foot lifting (mid-stride) */
+  50%  { transform: rotate(-22deg); }                   /* foot back */
+  75%  { transform: rotate(-6deg) translateY(0); }      /* coming forward */
+  100% { transform: rotate(22deg); }
+}
+@keyframes legCycleB {
+  0%   { transform: rotate(-22deg); }
+  25%  { transform: rotate(-6deg) translateY(0); }
+  50%  { transform: rotate(22deg); }
+  75%  { transform: rotate(8deg) translateY(-1px); }
+  100% { transform: rotate(-22deg); }
+}
+@keyframes armCycleA {
+  0%   { transform: rotate(-18deg); }
+  50%  { transform: rotate(18deg); }
+  100% { transform: rotate(-18deg); }
+}
+@keyframes armCycleB {
+  0%   { transform: rotate(18deg); }
+  50%  { transform: rotate(-18deg); }
+  100% { transform: rotate(18deg); }
+}
+@keyframes torsoBob {
+  0%, 50%, 100% { transform: translateY(-1px); }
+  25%, 75%      { transform: translateY(1px); }
+}
+
+/* ============== STATE: TRIP / FALLEN ==============
+   Wrap rotates forward (with brief anticipation up); limbs splay out. */
+body[data-intro="trip"] .kid-wrap     { animation: tripFall 0.55s cubic-bezier(0.4, -0.1, 0.7, 1.1) forwards; }
+body[data-intro="trip"] .kid-leg-front { transform: rotate(-45deg); }
+body[data-intro="trip"] .kid-leg-back  { transform: rotate(15deg); }
+body[data-intro="trip"] .kid-arm-front { transform: rotate(-65deg); }   /* hand out to brace */
+body[data-intro="trip"] .kid-arm-back  { transform: rotate(50deg); }
+body[data-intro="trip"] .kid-body      { transform: translateY(0); }
+body[data-intro="trip"] .kid-head      { transform: translateY(0); }
+
+@keyframes tripFall {
+  0%   { transform: translateX(0) translateY(0) rotate(0deg); }
+  18%  { transform: translateX(2px) translateY(-6px) rotate(-10deg); }   /* anticipation up + back tilt */
+  45%  { transform: translateX(8px) translateY(-2px) rotate(30deg); }    /* falling forward */
+  100% { transform: translateX(20px) translateY(-30px) rotate(80deg); }  /* landed */
+}
+
+/* ============== STATE: THINK / STANDING AGAIN ==============
+   Rotates back up; limbs return to neutral pose. */
+body[data-intro="think"] .kid-wrap     { animation: standUp 0.6s cubic-bezier(0.3, 0, 0.2, 1) forwards; }
+body[data-intro="think"] .kid-leg-front { transform: rotate(0deg); }
+body[data-intro="think"] .kid-leg-back  { transform: rotate(0deg); }
+body[data-intro="think"] .kid-arm-front { transform: rotate(0deg); }
+body[data-intro="think"] .kid-arm-back  { transform: rotate(0deg); }
+body[data-intro="think"] .kid-body      { transform: translateY(0); }
+body[data-intro="think"] .kid-head      { transform: translateY(0); }
+
+@keyframes standUp {
+  0%   { transform: translateX(20px) translateY(-30px) rotate(80deg); }
+  60%  { transform: translateX(6px) translateY(-4px) rotate(-8deg); }   /* slight overshoot back */
+  100% { transform: translateX(0) translateY(0) rotate(0deg); }
+}
+
+.ouch {
+  position: absolute;
+  top: 30%;
+  left: 60%;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 64px;
+  color: var(--heart-red);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.4s, transform 0.4s;
+}
+body[data-intro="trip"] .ouch,
+body[data-intro="body"] .ouch {
+  opacity: 1;
+  transform: scale(1) rotate(-12deg);
+}
+
+/* Thought bubble for the cortex beat — "Now I'm safe." */
+.kid-thought {
+  position: absolute;
+  top: 28px;
+  right: 24px;
+  background: white;
+  border-radius: 22px;
+  padding: 12px 20px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--ink);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  transform: scale(0.7) translateY(8px);
+  transition: opacity 0.5s, transform 0.5s cubic-bezier(0.22, 1.6, 0.36, 1);
+  pointer-events: none;
+  z-index: 5;
+  max-width: 80%;
+  white-space: nowrap;
+}
+.kid-thought.shown { opacity: 1; transform: scale(1) translateY(0); }
+/* tail of the thought bubble — two small circles going down toward the kid */
+.kid-thought::before,
+.kid-thought::after {
+  content: "";
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+}
+.kid-thought::before {
+  width: 10px;
+  height: 10px;
+  bottom: -12px;
+  left: 22px;
+}
+.kid-thought::after {
+  width: 6px;
+  height: 6px;
+  bottom: -24px;
+  left: 14px;
+}
+
+/* ============== COMBINED BRAIN-BODY WIRING DIAGRAM ============== */
+.wiring-svg {
+  width: 100%;
+  height: 100%;
+  max-height: 380px;
+  display: block;
+}
+
+/* organ keepalive — generic styles (small organs in main game still use these) */
+.organ {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0;
+}
+.organ-svg {
+  width: 64px;
+  height: 64px;
+  transition: transform 0.3s;
+}
+.heart-organ .organ-svg { transform-origin: 50% 70%; }
+.organ-label {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.organ-label span:first-child {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 22px;
+  display: block;
+  line-height: 1;
+}
+@keyframes organPulseFast {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.18); }
+}
+@keyframes organPulseSlow {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.06); }
+}
+
+/* Wiring SVG: brain layers + body organs + arrows + badges */
+.wiring-svg .organ-name-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  opacity: 0.78;
+}
+.wiring-svg .organ-text-label {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 700;
+}
+.wiring-svg .bpm-num,
+.wiring-svg .brpm-num {
+  font-size: 18px;
+}
+
+/* Heart and lung pulse inside wiring SVG */
+.wiring-svg .heart-path {
+  transform-origin: 380px 60px;
+  transition: filter 0.3s;
+}
+.wiring-svg .lungs-path {
+  transform-origin: 380px 195px;
+}
+.wiring-svg .body-organ.fast .heart-path,
+.wiring-svg #wiring-heart.fast .heart-path {
+  animation: organPulseFast 0.45s ease-in-out infinite;
+}
+.wiring-svg #wiring-heart.calm .heart-path {
+  animation: organPulseSlow 1.4s ease-in-out infinite;
+}
+.wiring-svg #wiring-lungs.fast .lungs-path {
+  animation: organPulseFast 0.6s ease-in-out infinite;
+}
+.wiring-svg #wiring-lungs.calm .lungs-path {
+  animation: organPulseSlow 1.5s ease-in-out infinite;
+}
+
+/* Arrows — hidden by default via stroke-dashoffset trick */
+.wiring-arrows .arrow {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.wiring-arrows .arrow.shown {
+  opacity: 1;
+  animation: drawArrow 0.7s ease-out forwards;
+}
+.wiring-arrows .arrow.shown.slow {
+  animation: drawArrow 1.6s ease-out forwards;
+}
+@keyframes drawArrow {
+  from { stroke-dashoffset: 200; }
+  to   { stroke-dashoffset: 0; }
+}
+/* keep dotted look for the slow arrow */
+.wiring-arrows .arrow.slow.shown {
+  stroke-dasharray: 4 6;
+  animation: none;
+}
+.wiring-arrows .arrow.slow {
+  stroke-dasharray: 4 6;
+  stroke-dashoffset: 0;
+}
+
+/* Number badges */
+.wiring-badges .step-badge {
+  opacity: 0;
+  transform: scale(0.6);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 0.35s, transform 0.35s cubic-bezier(0.22, 1.6, 0.36, 1);
+}
+.wiring-badges .step-badge.shown {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* "current" badge gets a gentle pulse */
+.wiring-badges .step-badge.current circle {
+  animation: badgePulse 1.2s ease-in-out infinite;
+}
+@keyframes badgePulse {
+  0%, 100% { filter: drop-shadow(0 0 2px currentColor); }
+  50%      { filter: drop-shadow(0 0 10px currentColor); }
+}
+.wiring-badges .step-badge[data-step="1"] { color: #a85e6a; }
+.wiring-badges .step-badge[data-step="2"] { color: #5a7a5a; }
+.wiring-badges .step-badge[data-step="3"] { color: #a83a3a; }
+.wiring-badges .step-badge[data-step="4"] { color: #5a6fa0; }
+
+/* Brain-layer activation via CSS variables set by JS */
+.brain-layer {
+  transition: opacity 0.6s, transform 0.6s;
+  transform-origin: center;
+}
+.brain-layer .layer-fill {
+  transition: filter 0.6s, fill 0.4s;
+  filter: brightness(1);
+}
+.brain-layer .layer-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  pointer-events: none;
+  user-select: none;
+}
+.brain-layer .layer-sub {
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.75;
+}
+
+/* Activation classes set by JS — small glow + slight scale */
+.brain-layer.active .layer-fill {
+  filter: brightness(1.12) drop-shadow(0 0 8px currentColor);
+}
+.brain-layer.hot .layer-fill {
+  filter: brightness(1.18) drop-shadow(0 0 16px currentColor);
+  animation: layerPulse 0.6s ease-in-out infinite;
+}
+.brain-layer.dim .layer-fill {
+  filter: brightness(0.75) saturate(0.5);
+}
+@keyframes layerPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.03); }
+}
+
+/* color reference for currentColor in drop-shadow */
+.brain-layer[data-region="cortex"]    { color: var(--cortex); }
+.brain-layer[data-region="limbic"]    { color: var(--limbic-deep); }
+.brain-layer[data-region="brainstem"] { color: var(--brainstem-deep); }
+
+/* Caption lives INSIDE the .intro-stage grid, spanning both columns —
+   reads as the diagram's own subtitle, not a floating note below. */
+.intro-caption {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(17px, 1.9vw, 22px);
+  color: var(--ink);
+  margin: 0;
+  padding: 14px 18px 0;
+  border-top: 1px dashed rgba(28, 28, 28, 0.12);
+  min-height: 1.5em;
+  transition: opacity 0.3s;
+}
+.intro-caption.fade { opacity: 0; }
+
+.intro-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.step-btn {
+  background: white;
+  border: 1.5px solid #ece2cd;
+  color: var(--ink);
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+  box-shadow: 0 2px 0 #ece2cd;
+}
+.step-btn:hover { border-color: var(--gold); background: var(--gold-soft); transform: translateY(-1px); }
+.step-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 #ece2cd; }
+.step-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: 0 2px 0 #ece2cd; }
+.step-btn:disabled:hover { border-color: #ece2cd; background: white; }
+.step-btn.primary {
+  background: var(--ink);
+  color: var(--cream);
+  border-color: var(--ink);
+  box-shadow: 0 2px 0 #1c191e;
+  min-width: 130px;
+}
+.step-btn.primary:hover { background: #1c191e; }
+
+.step-indicator {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  padding: 0 8px;
+}
+.step-indicator span { color: var(--ink); }
+
+.ghost-btn {
+  background: transparent;
+  border: 1px solid var(--ink-light);
+  color: var(--ink-soft);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.ghost-btn:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+/* ====================== PART 2 — GAME ======================
+   Same two-column shape as Part 1's intro-stage so the visual handoff
+   from "watch the alarm" to "calm the alarm" feels seamless. The user
+   reaches in to the same circuit they just learned. */
+.part-game {
+  background: linear-gradient(180deg, #FFF9F0 0%, #FDF0E2 100%);
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+.part-game > * {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(20px, 5vw, 56px);
+  padding-right: clamp(20px, 5vw, 56px);
+}
+
+.game-stage {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  align-items: stretch;
+  background: var(--paper);
+  border: 1px solid #ece2cd;
+  border-radius: 22px;
+  padding: 32px 28px 28px;
+  margin-top: 12px;
+  position: relative;
+  min-height: 380px;
+}
+@media (max-width: 880px) {
+  .game-stage { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* LEFT: scene with Peter in the watering can. Mirrors intro-scene. */
+.game-scene {
+  position: relative;
+  height: 360px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fdf3df 0%, #f5e2c2 100%);
+}
+.game-character {
+  position: relative;
+  width: 100%;
+  max-width: 240px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 8px;
+  transition: filter 0.5s;
+  transform-origin: center bottom;
+}
+.peter-svg {
+  width: 100%;
+  height: auto;
+  transition: transform 0.4s;
+  transform-origin: center bottom;
+  will-change: transform;
+}
+.watering-can,
+.watering-can-shadow,
+.peter-ear,
+.peter-pupil-group {
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform;
+}
+.watering-can {
+  transform-origin: center 86%;
+}
+.watering-can-shadow {
+  transform-origin: center center;
+}
+.peter-ear {
+  transform-origin: center bottom;
+}
+.peter-pupil-group {
+  transform-origin: center center;
+}
+
+/* Peter's state, driven by data-peter on the wrapper. Each value is the
+   visible reaction to a card pick (or the initial panic state). */
+.game-character[data-peter="panic"] .peter-svg {
+  animation: peterTremble 0.52s ease-in-out infinite;
+}
+.game-character[data-peter="panic"] .watering-can {
+  animation: canWobble 0.52s ease-in-out infinite;
+}
+.game-character[data-peter="panic"] .watering-can-shadow {
+  animation: canShadowWobble 0.52s ease-in-out infinite;
+}
+.game-character[data-peter="panic"] .peter-ear-left {
+  animation: earNervousLeft 0.52s ease-in-out infinite;
+}
+.game-character[data-peter="panic"] .peter-ear-right {
+  animation: earNervousRight 0.52s ease-in-out infinite;
+}
+.game-character[data-peter="panic"] .peter-pupil-group {
+  animation: pupilDart 0.9s steps(1, end) infinite;
+}
+.game-character[data-peter="hyper"] .peter-svg {
+  animation: peterTremble 0.34s ease-in-out infinite;
+  filter: saturate(1.1);
+}
+.game-character[data-peter="hyper"] .watering-can {
+  animation: canRattle 0.34s ease-in-out infinite;
+}
+.game-character[data-peter="hyper"] .watering-can-shadow {
+  animation: canShadowWobble 0.34s ease-in-out infinite;
+}
+.game-character[data-peter="hyper"] .peter-ear-left {
+  animation: earNervousLeft 0.34s ease-in-out infinite;
+}
+.game-character[data-peter="hyper"] .peter-ear-right {
+  animation: earNervousRight 0.34s ease-in-out infinite;
+}
+.game-character[data-peter="hyper"] .peter-pupil-group {
+  animation: pupilDart 0.62s steps(1, end) infinite;
+}
+.game-character[data-peter="notice"] .peter-svg {
+  animation: peterListen 0.82s cubic-bezier(0.22, 1.45, 0.36, 1) 1;
+}
+.game-character[data-peter="notice"] .peter-ear-left {
+  animation: earPerkLeft 0.82s cubic-bezier(0.22, 1.45, 0.36, 1) 1;
+}
+.game-character[data-peter="notice"] .peter-ear-right {
+  animation: earPerkRight 0.82s cubic-bezier(0.22, 1.45, 0.36, 1) 1;
+}
+.game-character[data-peter="notice"] .peter-pupil-group {
+  animation: pupilCenter 0.82s ease-out 1;
+}
+.game-character[data-peter="breathe"] .peter-svg {
+  animation: peterBreathe 2.55s ease-in-out 1;
+}
+.game-character[data-peter="breathe"] .watering-can {
+  animation: canSettle 2.55s ease-in-out 1;
+}
+.game-character[data-peter="breathe"] .peter-ear-left,
+.game-character[data-peter="breathe"] .peter-ear-right {
+  animation: earRelax 2.55s ease-in-out 1;
+}
+.game-character[data-peter="breathe"] .peter-pupil-group {
+  animation: pupilSlowBlink 2.55s ease-in-out 1;
+}
+.game-character[data-peter="reframe"] .peter-svg {
+  animation: peterCalm 1.25s cubic-bezier(0.22, 1.35, 0.36, 1) 1;
+}
+.game-character[data-peter="reframe"] .peter-ear-left,
+.game-character[data-peter="reframe"] .peter-ear-right {
+  animation: earHappy 1.25s cubic-bezier(0.22, 1.35, 0.36, 1) 1;
+}
+.game-character[data-peter="reframe"] .peter-pupil-group {
+  animation: pupilSoft 1.25s ease-out 1;
+}
+.game-character[data-peter="suppress"] .peter-svg {
+  animation: peterClench 0.36s ease-in-out 3;
+  filter: contrast(1.15) saturate(1.1);
+}
+.game-character[data-peter="suppress"] .watering-can {
+  animation: canRattle 0.36s ease-in-out 3;
+}
+.game-character[data-peter="suppress"] .watering-can-shadow {
+  animation: canShadowWobble 0.36s ease-in-out 3;
+}
+.game-character[data-peter="suppress"] .peter-ear-left,
+.game-character[data-peter="suppress"] .peter-ear-right {
+  animation: earFlatten 0.36s ease-in-out 3;
+}
+.game-character[data-peter="suppress"] .peter-pupil-group {
+  animation: pupilSquint 0.36s ease-in-out 3;
+}
+.game-character[data-peter="calm"] { filter: saturate(0.95); }
+.game-character[data-peter="calm"] .peter-svg {
+  animation: peterPeek 2.8s ease-in-out infinite;
+}
+.game-character[data-peter="calm"] .peter-ear-left,
+.game-character[data-peter="calm"] .peter-ear-right {
+  animation: earCalm 2.8s ease-in-out infinite;
+}
+.game-character[data-peter="calm"] .peter-pupil-group {
+  animation: pupilCalm 2.8s ease-in-out infinite;
+}
+.game-character.won .peter-svg {
+  animation:
+    peterVictory 0.9s cubic-bezier(0.22, 1.45, 0.36, 1) 1,
+    peterPeek 2.8s ease-in-out 0.9s infinite;
+}
+.game-character.won .watering-can {
+  animation: canVictory 0.9s cubic-bezier(0.22, 1.35, 0.36, 1) 1;
+}
+.game-character.won .peter-ear-left {
+  animation:
+    earVictoryLeft 0.9s cubic-bezier(0.22, 1.45, 0.36, 1) 1,
+    earCalm 2.8s ease-in-out 0.9s infinite;
+}
+.game-character.won .peter-ear-right {
+  animation:
+    earVictoryRight 0.9s cubic-bezier(0.22, 1.45, 0.36, 1) 1,
+    earCalm 2.8s ease-in-out 0.9s infinite;
+}
+.game-character.won .peter-pupil-group {
+  animation:
+    pupilGateLook 0.9s ease-out 1,
+    pupilCalm 2.8s ease-in-out 0.9s infinite;
+}
+
+@keyframes peterTremble {
+  0%, 100% { transform: translateX(0) translateY(0) rotate(0deg) scale(1); }
+  20%      { transform: translateX(-2px) translateY(-1px) rotate(-1.2deg) scale(1.01); }
+  42%      { transform: translateX(2px) translateY(0) rotate(1.1deg) scale(0.995); }
+  64%      { transform: translateX(-1px) translateY(-2px) rotate(-0.7deg) scale(1.01); }
+  82%      { transform: translateX(1px) translateY(0) rotate(0.6deg) scale(1); }
+}
+@keyframes peterListen {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); }
+  28%  { transform: translateY(-10px) rotate(-4deg) scale(1.04); }
+  52%  { transform: translateY(-5px) rotate(3deg) scale(1.02); }
+  76%  { transform: translateY(-8px) rotate(-1deg) scale(1.03); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+@keyframes peterBreathe {
+  0%   { transform: translateY(0) scale(1); }
+  28%  { transform: translateY(-8px) scale(1.045); }   /* inhale */
+  48%  { transform: translateY(-8px) scale(1.04); }    /* hold */
+  82%  { transform: translateY(7px) scale(0.975); }    /* long exhale */
+  100% { transform: translateY(0) scale(1); }
+}
+@keyframes peterCalm {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); }
+  35%  { transform: translateY(-9px) rotate(2deg) scale(1.04); }
+  64%  { transform: translateY(-4px) rotate(-1deg) scale(1.015); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+@keyframes peterClench {
+  0%, 100% { transform: translateX(0) scale(1); }
+  25%      { transform: translateX(-4px) rotate(-1.5deg) scale(0.99); }
+  50%      { transform: translateX(4px) rotate(1.5deg) scale(0.975); }
+  75%      { transform: translateX(-2px) rotate(-0.8deg) scale(0.99); }
+}
+@keyframes peterPeek {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  35%      { transform: translateY(-8px) rotate(-1deg); }
+  65%      { transform: translateY(-5px) rotate(1deg); }
+}
+@keyframes peterVictory {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); }
+  30%  { transform: translateY(-22px) rotate(-5deg) scale(1.08); }
+  55%  { transform: translateY(-8px) rotate(4deg) scale(1.03); }
+  78%  { transform: translateY(-14px) rotate(-2deg) scale(1.04); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+@keyframes canWobble {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25%      { transform: translateX(-1px) rotate(-0.6deg); }
+  55%      { transform: translateX(1px) rotate(0.7deg); }
+  78%      { transform: translateX(-0.5px) rotate(-0.3deg); }
+}
+@keyframes canRattle {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  20%      { transform: translateX(-3px) rotate(-1.7deg); }
+  42%      { transform: translateX(3px) rotate(1.5deg); }
+  64%      { transform: translateX(-2px) rotate(-1deg); }
+  82%      { transform: translateX(2px) rotate(0.8deg); }
+}
+@keyframes canSettle {
+  0%   { transform: translateY(0) scale(1); }
+  30%  { transform: translateY(2px) scale(0.995, 1.01); }
+  58%  { transform: translateY(0) scale(1.005, 0.995); }
+  100% { transform: translateY(0) scale(1); }
+}
+@keyframes canVictory {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  34%      { transform: translateY(3px) rotate(1deg); }
+  62%      { transform: translateY(0) rotate(-0.7deg); }
+}
+@keyframes canShadowWobble {
+  0%, 100% { transform: scaleX(1); opacity: 1; }
+  50%      { transform: scaleX(0.94); opacity: 0.8; }
+}
+@keyframes earNervousLeft {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25%      { transform: rotate(-5deg) translateY(-1px); }
+  55%      { transform: rotate(3deg) translateY(0); }
+  78%      { transform: rotate(-2deg) translateY(-1px); }
+}
+@keyframes earNervousRight {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25%      { transform: rotate(5deg) translateY(-1px); }
+  55%      { transform: rotate(-3deg) translateY(0); }
+  78%      { transform: rotate(2deg) translateY(-1px); }
+}
+@keyframes earPerkLeft {
+  0%   { transform: rotate(0deg) translateY(0) scaleY(1); }
+  36%  { transform: rotate(-11deg) translateY(-6px) scaleY(1.08); }
+  66%  { transform: rotate(4deg) translateY(-2px) scaleY(1.02); }
+  100% { transform: rotate(0deg) translateY(0) scaleY(1); }
+}
+@keyframes earPerkRight {
+  0%   { transform: rotate(0deg) translateY(0) scaleY(1); }
+  36%  { transform: rotate(11deg) translateY(-6px) scaleY(1.08); }
+  66%  { transform: rotate(-4deg) translateY(-2px) scaleY(1.02); }
+  100% { transform: rotate(0deg) translateY(0) scaleY(1); }
+}
+@keyframes earRelax {
+  0%   { transform: rotate(0deg) translateY(0) scaleY(1); }
+  40%  { transform: rotate(0deg) translateY(2px) scaleY(0.94); }
+  100% { transform: rotate(0deg) translateY(0) scaleY(1); }
+}
+@keyframes earHappy {
+  0%   { transform: rotate(0deg) translateY(0); }
+  42%  { transform: rotate(3deg) translateY(-5px) scaleY(1.05); }
+  72%  { transform: rotate(-2deg) translateY(-2px); }
+  100% { transform: rotate(0deg) translateY(0); }
+}
+@keyframes earFlatten {
+  0%, 100% { transform: rotate(0deg) translateY(0) scaleY(1); }
+  50%      { transform: rotate(-9deg) translateY(5px) scaleY(0.78); }
+}
+@keyframes earCalm {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  45%      { transform: translateY(-2px) rotate(1.5deg); }
+}
+@keyframes earVictoryLeft {
+  0%   { transform: rotate(0deg) translateY(0) scaleY(1); }
+  28%  { transform: rotate(-14deg) translateY(-9px) scaleY(1.12); }
+  58%  { transform: rotate(7deg) translateY(-3px) scaleY(1.03); }
+  100% { transform: rotate(0deg) translateY(0) scaleY(1); }
+}
+@keyframes earVictoryRight {
+  0%   { transform: rotate(0deg) translateY(0) scaleY(1); }
+  28%  { transform: rotate(14deg) translateY(-9px) scaleY(1.12); }
+  58%  { transform: rotate(-7deg) translateY(-3px) scaleY(1.03); }
+  100% { transform: rotate(0deg) translateY(0) scaleY(1); }
+}
+@keyframes pupilDart {
+  0%, 100% { transform: translate(0, 0); }
+  20%      { transform: translate(-2px, -0.5px); }
+  42%      { transform: translate(2px, 0.5px); }
+  66%      { transform: translate(0, -1.5px); }
+  84%      { transform: translate(1px, 0); }
+}
+@keyframes pupilCenter {
+  0%   { transform: translate(-1px, 0); }
+  38%  { transform: translate(0, -1px) scale(1.08); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes pupilSlowBlink {
+  0%, 100% { transform: translate(0, 0) scaleY(1); }
+  42%      { transform: translate(0, 1px) scaleY(0.62); }
+  58%      { transform: translate(0, 1px) scaleY(0.72); }
+}
+@keyframes pupilSoft {
+  0%   { transform: translate(0, 0) scale(1); }
+  45%  { transform: translate(1.5px, -0.5px) scale(1.06); }
+  100% { transform: translate(0.5px, 0) scale(1); }
+}
+@keyframes pupilSquint {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(0, 1px) scale(1.12, 0.55); }
+}
+@keyframes pupilCalm {
+  0%, 100% { transform: translate(0, 0); }
+  45%      { transform: translate(0.8px, -0.4px); }
+}
+@keyframes pupilGateLook {
+  0%   { transform: translate(0, 0); }
+  35%  { transform: translate(3px, -1px) scale(1.08); }
+  100% { transform: translate(2px, -0.5px); }
+}
+
+/* Breath puff — soft cloud that drifts up out of the watering can during
+   a breathe action. Pure CSS, no extra SVG. */
+.breath-puff {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 56px;
+  height: 28px;
+  transform: translate(-50%, 0) scale(0);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(200, 226, 240, 0.85) 0%, rgba(200, 226, 240, 0) 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+.breath-puff::before,
+.breath-puff::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(218, 235, 243, 0.65);
+}
+.breath-puff::before {
+  width: 22px;
+  height: 14px;
+  left: 4px;
+  top: 7px;
+}
+.breath-puff::after {
+  width: 28px;
+  height: 17px;
+  right: 5px;
+  top: 4px;
+}
+.breath-puff.shown { animation: breathPuff 2.4s ease-out 1; }
+@keyframes breathPuff {
+  0%   { opacity: 0;   transform: translate(-50%, 0)  scale(0.35) rotate(0deg); }
+  18%  { opacity: 0.95; transform: translate(-50%, 4px) scale(1) rotate(-2deg); }
+  58%  { opacity: 0.5; transform: translate(-56%, -20px) scale(1.65) rotate(3deg); }
+  100% { opacity: 0;   transform: translate(-62%, -52px) scale(2.35) rotate(6deg); }
+}
+
+/* Peter's thought bubble — used by the reframe beat. Same visual
+   vocabulary as the kid-thought in Part 1. */
+.peter-thought {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: white;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ink);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  transform: scale(0.7) translateY(8px);
+  transition: opacity 0.5s, transform 0.5s cubic-bezier(0.22, 1.6, 0.36, 1);
+  pointer-events: none;
+  z-index: 5;
+  max-width: 75%;
+  white-space: nowrap;
+}
+.peter-thought.shown { opacity: 1; transform: scale(1) translateY(0); }
+.peter-thought::before,
+.peter-thought::after {
+  content: "";
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+}
+.peter-thought::before { width: 8px; height: 8px; bottom: -10px; left: 14px; }
+.peter-thought::after  { width: 5px; height: 5px; bottom: -20px; left: 8px; }
+
+/* Gate hint — anchors inside the game-scene now. */
+.gate-hint {
+  position: absolute;
+  bottom: 16px;
+  right: 14px;
+  font-family: var(--sans);
+  font-weight: 700;
+  color: var(--brainstem-deep);
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: opacity 0.5s, transform 0.5s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 13px;
+  z-index: 4;
+}
+.gate-hint .gate-arrow { font-size: 22px; }
+.game-character.won .gate-hint { opacity: 1; transform: translateX(0); }
+.game-character::before,
+.game-character::after {
+  content: "✦";
+  position: absolute;
+  top: 74px;
+  color: var(--gold);
+  font-size: 18px;
+  opacity: 0;
+  transform: scale(0.2) rotate(0deg);
+  pointer-events: none;
+  z-index: 6;
+}
+.game-character::before { left: 36px; }
+.game-character::after  { right: 38px; top: 96px; font-size: 14px; }
+.game-character.won::before,
+.game-character.won::after {
+  animation: peterSparkle 1.1s ease-out 1;
+}
+@keyframes peterSparkle {
+  0%   { opacity: 0; transform: translateY(0) scale(0.2) rotate(0deg); }
+  28%  { opacity: 1; transform: translateY(-14px) scale(1) rotate(16deg); }
+  100% { opacity: 0; transform: translateY(-34px) scale(0.55) rotate(46deg); }
+}
+
+/* Caption — same role and styling as Part 1's intro-caption. */
+.game-caption {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(17px, 1.9vw, 22px);
+  color: var(--ink);
+  margin: 0;
+  padding: 14px 18px 0;
+  border-top: 1px dashed rgba(28, 28, 28, 0.12);
+  min-height: 1.5em;
+  transition: opacity 0.3s, color 0.3s;
+}
+.game-caption.fade    { opacity: 0; }
+.game-caption.warn    { color: #b85a3a; }
+.game-caption.error   { color: var(--heart-red); }
+.game-caption.success { color: var(--brainstem-deep); }
+
+/* "Racing" pulse for the panic start state (HR ≥ 150). */
+.wiring-svg .body-organ.racing .heart-path {
+  animation: organPulseFast 0.35s ease-in-out infinite;
+}
+.wiring-svg .body-organ.racing .lungs-path {
+  animation: organPulseFast 0.50s ease-in-out infinite;
+}
+
+/* Alarm arrows in the game wiring dim/fade as Peter calms. */
+#game-wiring .alarm-arrows .arrow.dim   { opacity: 0.22; animation: none; stroke-dashoffset: 0; }
+#game-wiring .alarm-arrows .arrow.faded { opacity: 0;    animation: none; stroke-dashoffset: 0; }
+
+/* Intervention arrows — lit by the player's actions. */
+#game-wiring .intervention-arrows .arrow {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#game-wiring .intervention-arrows .arrow.shown {
+  opacity: 1;
+  animation: drawArrow 0.7s ease-out forwards;
+}
+#game-wiring .intervention-arrows .arrow.breath.shown {
+  animation-duration: 1.2s;
+}
+/* Block arrow stays dashed, flickers, never settles. */
+#game-wiring .intervention-arrows .arrow.block { stroke-dasharray: 3 4; }
+#game-wiring .intervention-arrows .arrow.block.shown {
+  stroke-dashoffset: 0;
+  animation: blockFlicker 0.55s ease-in-out 2;
+}
+@keyframes blockFlicker {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+/* Reframe-while-panicked: arrow tries to draw, then bounces back. */
+#game-wiring .intervention-arrows .arrow.attn.bounced {
+  animation: attnBounce 0.9s ease-in-out 1 forwards;
+}
+@keyframes attnBounce {
+  0%   { opacity: 0;   stroke-dashoffset: 200; }
+  35%  { opacity: 0.9; stroke-dashoffset: 80; }
+  70%  { opacity: 0.4; stroke-dashoffset: 200; }
+  100% { opacity: 0;   stroke-dashoffset: 200; }
+}
+
+/* Block X overlay on the cortex→limbic arrow. */
+#game-wiring .block-x {
+  opacity: 0;
+  transform: scale(0);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 0.3s, transform 0.35s cubic-bezier(0.22, 1.6, 0.36, 1);
+}
+#game-wiring .block-x.shown {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ============== SEQUENCE SLOTS ============== */
+.game-sequence {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 36px auto 18px;
+}
+.seq-slot {
+  width: 110px;
+  height: 110px;
+  border-radius: 18px;
+  border: 2px dashed var(--ink-light);
+  background: rgba(255, 249, 240, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+  transition: background 0.3s, border-color 0.3s, transform 0.3s;
+}
+.seq-slot .seq-num {
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink-light);
+  letter-spacing: 0.1em;
+}
+.seq-placeholder {
+  font-family: var(--serif);
+  font-size: 30px;
+  color: var(--ink-light);
+}
+.seq-slot.filled {
+  background: var(--gold-soft);
+  border: 2px solid var(--gold);
+  border-style: solid;
+}
+.seq-slot.filled .seq-placeholder { display: none; }
+.seq-slot.filled .seq-emoji {
+  font-size: 36px;
+  margin-top: 4px;
+}
+.seq-slot.filled .seq-text {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 2px;
+}
+.seq-arrow {
+  font-family: var(--serif);
+  font-size: 26px;
+  color: var(--ink-light);
+}
+
+@media (max-width: 640px) {
+  .seq-slot { width: 86px; height: 86px; }
+  .seq-slot.filled .seq-emoji { font-size: 28px; }
+  .seq-slot.filled .seq-text { font-size: 9px; }
+}
+
+/* ============== ACTION CARDS ============== */
+.game-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 18px 0 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 760px) { .game-cards { grid-template-columns: 1fr 1fr; } }
+
+.action-card {
+  background: white;
+  border: 2px solid #ece2cd;
+  border-radius: 18px;
+  padding: 20px 14px;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.15s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 3px 0 #ece2cd;
+}
+.action-card:hover {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #c89c30;
+}
+.action-card:active { transform: translateY(0); box-shadow: 0 2px 0 #c89c30; }
+.action-card.pressed {
+  /* brief feedback right after a click — pulses to confirm the choice */
+  animation: cardPress 0.45s ease-out 1;
+  border-color: var(--gold);
+  background: var(--gold-soft);
+}
+@keyframes cardPress {
+  0%   { transform: translateY(0)  scale(1); }
+  40%  { transform: translateY(-3px) scale(1.04); }
+  100% { transform: translateY(0)  scale(1); }
+}
+.action-card.shake {
+  animation: cardShake 0.4s ease-in-out;
+  border-color: var(--heart-red);
+}
+.action-card.locked {
+  /* used while a per-pick animation is playing — prevents double-tap */
+  opacity: 0.55;
+  pointer-events: none;
+}
+@keyframes cardShake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}
+.card-emoji { font-size: 36px; line-height: 1; }
+.card-label { line-height: 1.3; }
+
+/* Retry button row — only appears when a 3-pick attempt didn't calm Peter.
+   Per-pick narration lives in .game-caption inside the stage, not here. */
+.game-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+  min-height: 1.5em;
+}
+.game-retry[hidden] { display: none; }
+
+/* ============== WIN OVERLAY ============== */
+.win-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(56, 53, 58, 0.5);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.win-overlay.open {
+  display: flex;
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.win-card {
+  background: var(--cream);
+  border-radius: 24px;
+  padding: 40px 44px;
+  text-align: center;
+  max-width: 440px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  animation: winPop 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes winPop {
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.win-emoji {
+  font-size: 56px;
+  margin: 0 0 14px;
+  color: var(--gold);
+}
+.win-card h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 32px;
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+.win-card p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--ink);
+  margin: 0 0 22px;
+}
+.primary-btn {
+  background: var(--ink);
+  color: var(--cream);
+  border: none;
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #1c191e;
+  transition: background 0.2s, transform 0.15s;
+}
+.primary-btn:hover { background: #1c191e; transform: translateY(-1px); }
+
+/* ====================== FOOTER ====================== */
+.foot {
+  text-align: center;
+  padding: 36px 24px 44px;
+  background: var(--ink);
+  color: #cfc7b8;
+  font-family: var(--sans);
+  font-size: 14px;
+}
+.foot p { margin: 0 0 6px; }
+.foot .micro {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ====================== REDUCED MOTION ====================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
