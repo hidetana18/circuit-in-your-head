@@ -767,6 +767,8 @@ body[data-intro="body"] .ouch {
 .part-game {
   background: linear-gradient(180deg, #FFF9F0 0%, #FDF0E2 100%);
   max-width: none;
+  padding-top: clamp(36px, 5vw, 72px);
+  padding-bottom: clamp(42px, 6vw, 78px);
   padding-left: 0;
   padding-right: 0;
 }
@@ -777,20 +779,31 @@ body[data-intro="body"] .ouch {
   padding-left: clamp(20px, 5vw, 56px);
   padding-right: clamp(20px, 5vw, 56px);
 }
+.part-game .part-head {
+  margin-bottom: 22px;
+}
+.part-game .part-sub {
+  max-width: 780px;
+  line-height: 1.42;
+}
 
 .game-stage {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 28px;
+  grid-template-columns: minmax(210px, 250px) 1fr;
+  gap: 18px;
   align-items: stretch;
   background: var(--paper);
   border: 1px solid #ece2cd;
-  border-radius: 22px;
-  padding: 32px 28px 28px;
-  margin-top: 12px;
+  border-radius: 18px;
+  padding: 18px 18px 16px;
+  margin-top: 0;
   position: relative;
-  min-height: 380px;
+  min-height: 0;
   transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+}
+.game-stage .wiring-svg {
+  max-height: 300px;
+  align-self: center;
 }
 .game-stage[data-regulation="alarm"] {
   background: linear-gradient(180deg, #fff6ed 0%, #fde8df 100%);
@@ -810,14 +823,10 @@ body[data-intro="body"] .ouch {
   border-color: #bddbd6;
   box-shadow: 0 12px 36px rgba(58, 138, 138, 0.12);
 }
-@media (max-width: 880px) {
-  .game-stage { grid-template-columns: 1fr; gap: 16px; }
-}
-
 /* LEFT: scene with Peter in the watering can. Mirrors intro-scene. */
 .game-scene {
   position: relative;
-  height: 360px;
+  height: clamp(250px, 25vw, 300px);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -861,14 +870,79 @@ body[data-intro="body"] .ouch {
 .game-stage[data-regulation="calm"] .game-scene::before {
   opacity: 0.65;
 }
+@media (max-width: 880px) {
+  .part-game > * {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .part-game .part-head {
+    margin-bottom: 16px;
+  }
+  .part-game .part-num {
+    margin-bottom: 8px;
+  }
+  .part-game .part-head h2 {
+    font-size: clamp(34px, 10vw, 46px);
+    margin-bottom: 8px;
+  }
+  .part-game .part-sub {
+    font-size: 16px;
+    line-height: 1.35;
+  }
+  .game-stage {
+    grid-template-columns: minmax(112px, 40%) minmax(0, 1fr);
+    gap: 10px;
+    border-radius: 16px;
+    padding: 12px 12px 10px;
+  }
+  .game-scene {
+    height: clamp(186px, 55vw, 230px);
+    border-radius: 12px;
+  }
+  .game-stage .wiring-svg {
+    max-height: clamp(186px, 55vw, 230px);
+  }
+  .game-caption {
+    font-size: 15px;
+    line-height: 1.28;
+    padding: 7px 2px 0;
+  }
+}
+@media (max-width: 420px) {
+  .part-game {
+    padding-top: 28px;
+    padding-bottom: 46px;
+  }
+  .part-game > * {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .part-game .part-sub {
+    font-size: 15px;
+  }
+  .game-stage {
+    grid-template-columns: minmax(104px, 38%) minmax(0, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+  .game-scene {
+    height: 190px;
+  }
+  .game-stage .wiring-svg {
+    max-height: 190px;
+  }
+  .game-caption {
+    font-size: 14px;
+  }
+}
 .game-character {
   position: relative;
   width: 100%;
-  max-width: 240px;
+  max-width: 205px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  margin-bottom: 8px;
+  margin-bottom: 0;
   transition: filter 0.5s;
   transform-origin: center bottom;
   z-index: 1;
@@ -899,6 +973,16 @@ body[data-intro="body"] .ouch {
 }
 .peter-pupil-group {
   transform-origin: center center;
+}
+@media (max-width: 880px) {
+  .game-character {
+    max-width: min(150px, 38vw);
+  }
+}
+@media (max-width: 420px) {
+  .game-character {
+    max-width: 136px;
+  }
 }
 
 /* Peter's state, driven by data-peter on the wrapper. Each value is the
@@ -1347,12 +1431,12 @@ body[data-intro="body"] .ouch {
   text-align: center;
   font-family: var(--serif);
   font-style: italic;
-  font-size: clamp(17px, 1.9vw, 22px);
+  font-size: clamp(15px, 1.6vw, 19px);
   color: var(--ink);
   margin: 0;
-  padding: 14px 18px 0;
+  padding: 8px 14px 0;
   border-top: 1px dashed rgba(28, 28, 28, 0.12);
-  min-height: 1.5em;
+  min-height: 1.35em;
   transition: opacity 0.3s, color 0.3s;
 }
 .game-caption.fade    { opacity: 0; }
@@ -1425,13 +1509,13 @@ body[data-intro="body"] .ouch {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin: 36px auto 18px;
+  gap: 9px;
+  margin: 14px auto 8px;
 }
 .seq-slot {
-  width: 110px;
-  height: 110px;
-  border-radius: 18px;
+  width: 86px;
+  height: 78px;
+  border-radius: 14px;
   border: 2px dashed var(--ink-light);
   background: rgba(255, 249, 240, 0.7);
   display: flex;
@@ -1454,7 +1538,7 @@ body[data-intro="body"] .ouch {
 }
 .seq-placeholder {
   font-family: var(--serif);
-  font-size: 30px;
+  font-size: 24px;
   color: var(--ink-light);
 }
 .seq-slot.filled {
@@ -1464,34 +1548,37 @@ body[data-intro="body"] .ouch {
 }
 .seq-slot.filled .seq-placeholder { display: none; }
 .seq-slot.filled .seq-emoji {
-  font-size: 36px;
-  margin-top: 4px;
+  font-size: 30px;
+  margin-top: 2px;
 }
 .seq-slot.filled .seq-text {
   font-family: var(--sans);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--ink);
-  margin-top: 2px;
+  margin-top: 0;
 }
 .seq-arrow {
   font-family: var(--serif);
-  font-size: 26px;
+  font-size: 22px;
   color: var(--ink-light);
 }
 
 @media (max-width: 640px) {
-  .seq-slot { width: 86px; height: 86px; }
-  .seq-slot.filled .seq-emoji { font-size: 28px; }
-  .seq-slot.filled .seq-text { font-size: 9px; }
+  .seq-slot { width: 62px; height: 58px; border-radius: 12px; }
+  .seq-slot .seq-num { top: 4px; left: 7px; font-size: 9px; }
+  .seq-placeholder { font-size: 21px; }
+  .seq-slot.filled .seq-emoji { font-size: 23px; }
+  .seq-slot.filled .seq-text { display: none; }
+  .seq-arrow { font-size: 19px; }
 }
 
 /* ============== ACTION CARDS ============== */
 .game-cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin: 18px 0 0;
+  gap: 10px;
+  margin: 8px 0 0;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
@@ -1501,17 +1588,18 @@ body[data-intro="body"] .ouch {
 .action-card {
   background: white;
   border: 2px solid #ece2cd;
-  border-radius: 18px;
-  padding: 20px 14px;
+  border-radius: 14px;
+  padding: 12px 10px;
+  min-height: 82px;
   font-family: var(--sans);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--ink);
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   transition: transform 0.15s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
   box-shadow: 0 3px 0 #ece2cd;
 }
@@ -1547,8 +1635,22 @@ body[data-intro="body"] .ouch {
   25%      { transform: translateX(-6px); }
   75%      { transform: translateX(6px); }
 }
-.card-emoji { font-size: 36px; line-height: 1; }
+.card-emoji { font-size: 28px; line-height: 1; }
 .card-label { line-height: 1.3; }
+@media (max-width: 420px) {
+  .game-cards {
+    gap: 8px;
+  }
+  .action-card {
+    min-height: 70px;
+    padding: 9px 7px;
+    border-radius: 12px;
+    font-size: 12px;
+  }
+  .card-emoji {
+    font-size: 24px;
+  }
+}
 
 /* Retry button row — only appears when a 3-pick attempt didn't calm Peter.
    Per-pick narration lives in .game-caption inside the stage, not here. */
