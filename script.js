@@ -813,7 +813,8 @@
         this.ended = true;
         this.setPeterState("calm");
         this.applyRegulationState();
-        this.setCaption("Peter's body settles. He can look around and see the gate.", "success");
+        this.pulseLearningCircuit();
+        this.setCaption("Peter's body settles. The circuit has a new safe experience.", "success");
         setTimeout(() => this.showWin(), 900);
         return;
       }
@@ -983,6 +984,15 @@
       if (!t) return;
       t.classList.remove("shown");
       t.setAttribute("aria-hidden", "true");
+    },
+
+    pulseLearningCircuit() {
+      const stage = document.getElementById("game-stage");
+      if (!stage) return;
+      stage.classList.remove("learned");
+      void stage.offsetWidth;
+      stage.classList.add("learned");
+      setTimeout(() => stage.classList.remove("learned"), 1600);
     },
 
     setPeterState(state) {
