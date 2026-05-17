@@ -1,12 +1,14 @@
 # The Circuit in Your Head
 
-An interactive single-page demo for child psychology education.
+An interactive single-page demo for child psychology education:
+a neural window into the mind through body, alarm, attention, and action.
 
 ## What it teaches
 
 Two beats:
 
-1. **The framework** — a 4-step animation showing what happens when a kid
+1. **The framework** — a neural window into the mind: body, alarm,
+   attention, and action. A 4-step animation shows what happens when a kid
    trips: limbic system fires, brain stem activates the body, then the cortex
    catches up.
 2. **The game** — Peter Rabbit is hiding in Mr. McGregor's watering can,
