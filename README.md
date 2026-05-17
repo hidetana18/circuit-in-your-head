@@ -1,6 +1,6 @@
 # The Circuit in Your Head
 
-An interactive single-page exhibit for the Boston Museum of Science.
+An interactive single-page demo for child psychology education.
 
 ## What it teaches
 
