@@ -812,7 +812,8 @@
       if (calmed) {
         this.ended = true;
         this.setPeterState("calm");
-        this.setCaption("Peter can breathe, think, and look out. The gate is right there.", "success");
+        this.applyRegulationState();
+        this.setCaption("Peter's body settles. He can look around and see the gate.", "success");
         setTimeout(() => this.showWin(), 900);
         return;
       }
@@ -851,7 +852,21 @@
       if (hr >= 170) return "hyper";
       if (hr >= 130) return "panic";
       if (hr <= 95 && this.state.cortex === "active") return "calm";
-      return "panic"; // intermediate "still alert" — small tremble is fine
+      return "settling"; // intermediate: still alert, but body is coming down
+    },
+
+    regulationState() {
+      const s = this.state;
+      if (!s) return "alarm";
+      if (s.picks.includes("suppress") || s.hr >= 165 || s.limbic === "hot") return "alarm";
+      if (s.hr >= 130) return "active";
+      if (s.hr <= 100 && s.cortex === "active" && s.limbic === "calm") return "calm";
+      return "settling";
+    },
+
+    applyRegulationState() {
+      const stage = document.getElementById("game-stage");
+      if (stage) stage.dataset.regulation = this.regulationState();
     },
 
     /* ---------- DOM application: state → visual ------------------------- */
@@ -887,6 +902,7 @@
         else if (s.limbic === "active") { a.classList.add("shown"); a.classList.add("dim"); }
         else                       { a.classList.remove("shown"); a.classList.add("faded"); }
       });
+      this.applyRegulationState();
     },
 
     fireInterventionArrow(name) {

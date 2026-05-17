@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=9" />
+  <link rel="stylesheet" href="styles.css?v=10" />
 </head>
 <body>
 
@@ -454,7 +454,7 @@
 
     <!-- Same two-column shape as Part 1: character on the left, brain+body
          wiring diagram on the right, caption spanning both columns below. -->
-    <div class="game-stage" id="game-stage">
+    <div class="game-stage" id="game-stage" data-regulation="alarm">
       <!-- Peter in the watering can -->
       <div class="game-scene">
         <div class="game-character" id="game-character" data-peter="panic">
@@ -676,8 +676,8 @@
     <div class="win-overlay" id="win-overlay" aria-hidden="true">
       <div class="win-card">
         <p class="win-emoji">✦</p>
-        <h3>Peter can think now.</h3>
-        <p>His heart is slowing. He sees the gate. He can wait, then run.</p>
+        <h3>Peter can look around now.</h3>
+        <p>His body has settled. The gate comes back into view.</p>
         <button class="primary-btn" id="play-again">Play again ↺</button>
       </div>
     </div>
@@ -689,6 +689,6 @@
     <p class="micro">Camera estimates run locally in your browser and are not recorded.</p>
   </footer>
 
-  <script src="script.js?v=9"></script>
+  <script src="script.js?v=10"></script>
 </body>
 </html>

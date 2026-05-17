@@ -790,6 +790,25 @@ body[data-intro="body"] .ouch {
   margin-top: 12px;
   position: relative;
   min-height: 380px;
+  transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+}
+.game-stage[data-regulation="alarm"] {
+  background: linear-gradient(180deg, #fff6ed 0%, #fde8df 100%);
+  border-color: #efc6ba;
+  box-shadow: 0 12px 36px rgba(168, 58, 58, 0.08);
+}
+.game-stage[data-regulation="active"] {
+  background: linear-gradient(180deg, #fff9f0 0%, #f9eddf 100%);
+  border-color: #ead6bd;
+}
+.game-stage[data-regulation="settling"] {
+  background: linear-gradient(180deg, #f7fbf4 0%, #eaf4ed 100%);
+  border-color: #c8ddcb;
+}
+.game-stage[data-regulation="calm"] {
+  background: linear-gradient(180deg, #f4fbfb 0%, #e4f0ed 100%);
+  border-color: #bddbd6;
+  box-shadow: 0 12px 36px rgba(58, 138, 138, 0.12);
 }
 @media (max-width: 880px) {
   .game-stage { grid-template-columns: 1fr; gap: 16px; }
@@ -805,6 +824,42 @@ body[data-intro="body"] .ouch {
   overflow: hidden;
   border-radius: 14px;
   background: linear-gradient(180deg, #fdf3df 0%, #f5e2c2 100%);
+  transition: background 0.8s ease, box-shadow 0.8s ease;
+}
+.game-scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.45), transparent 46%);
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity 0.8s ease, background 0.8s ease;
+}
+.game-stage[data-regulation="alarm"] .game-scene {
+  background:
+    radial-gradient(circle at 52% 30%, rgba(225, 95, 95, 0.22), transparent 34%),
+    linear-gradient(180deg, #fce6d6 0%, #f3cfbc 100%);
+}
+.game-stage[data-regulation="active"] .game-scene {
+  background:
+    radial-gradient(circle at 52% 32%, rgba(232, 158, 130, 0.16), transparent 35%),
+    linear-gradient(180deg, #fdf0db 0%, #f2dcc5 100%);
+}
+.game-stage[data-regulation="settling"] .game-scene {
+  background:
+    radial-gradient(circle at 52% 34%, rgba(156, 192, 154, 0.2), transparent 38%),
+    linear-gradient(180deg, #f4efd7 0%, #e3efd9 100%);
+}
+.game-stage[data-regulation="calm"] .game-scene {
+  background:
+    radial-gradient(circle at 52% 34%, rgba(58, 138, 138, 0.18), transparent 40%),
+    linear-gradient(180deg, #edf6ec 0%, #dbece8 100%);
+}
+.game-stage[data-regulation="alarm"] .game-scene::before {
+  opacity: 0.2;
+}
+.game-stage[data-regulation="calm"] .game-scene::before {
+  opacity: 0.65;
 }
 .game-character {
   position: relative;
@@ -816,6 +871,7 @@ body[data-intro="body"] .ouch {
   margin-bottom: 8px;
   transition: filter 0.5s;
   transform-origin: center bottom;
+  z-index: 1;
 }
 .peter-svg {
   width: 100%;
@@ -909,6 +965,19 @@ body[data-intro="body"] .ouch {
 .game-character[data-peter="breathe"] .peter-pupil-group {
   animation: pupilSlowBlink 2.55s ease-in-out 1;
 }
+.game-character[data-peter="settling"] .peter-svg {
+  animation: peterSettling 2.2s ease-in-out infinite;
+}
+.game-character[data-peter="settling"] .watering-can {
+  animation: canSettleLoop 2.2s ease-in-out infinite;
+}
+.game-character[data-peter="settling"] .peter-ear-left,
+.game-character[data-peter="settling"] .peter-ear-right {
+  animation: earSettling 2.2s ease-in-out infinite;
+}
+.game-character[data-peter="settling"] .peter-pupil-group {
+  animation: pupilSettling 2.2s ease-in-out infinite;
+}
 .game-character[data-peter="reframe"] .peter-svg {
   animation: peterCalm 1.25s cubic-bezier(0.22, 1.35, 0.36, 1) 1;
 }
@@ -992,6 +1061,11 @@ body[data-intro="body"] .ouch {
   82%  { transform: translateY(7px) scale(0.975); }    /* long exhale */
   100% { transform: translateY(0) scale(1); }
 }
+@keyframes peterSettling {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  45%      { transform: translateY(-3px) rotate(-0.5deg) scale(1.01); }
+  70%      { transform: translateY(-1px) rotate(0.4deg) scale(1.005); }
+}
 @keyframes peterCalm {
   0%   { transform: translateY(0) rotate(0deg) scale(1); }
   35%  { transform: translateY(-9px) rotate(2deg) scale(1.04); }
@@ -1035,6 +1109,10 @@ body[data-intro="body"] .ouch {
   58%  { transform: translateY(0) scale(1.005, 0.995); }
   100% { transform: translateY(0) scale(1); }
 }
+@keyframes canSettleLoop {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  45%      { transform: translateY(1px) rotate(0.25deg); }
+}
 @keyframes canVictory {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   34%      { transform: translateY(3px) rotate(1deg); }
@@ -1072,6 +1150,10 @@ body[data-intro="body"] .ouch {
   0%   { transform: rotate(0deg) translateY(0) scaleY(1); }
   40%  { transform: rotate(0deg) translateY(2px) scaleY(0.94); }
   100% { transform: rotate(0deg) translateY(0) scaleY(1); }
+}
+@keyframes earSettling {
+  0%, 100% { transform: translateY(0) rotate(0deg) scaleY(1); }
+  48%      { transform: translateY(-1px) rotate(1deg) scaleY(0.98); }
 }
 @keyframes earHappy {
   0%   { transform: rotate(0deg) translateY(0); }
@@ -1115,6 +1197,11 @@ body[data-intro="body"] .ouch {
   0%, 100% { transform: translate(0, 0) scaleY(1); }
   42%      { transform: translate(0, 1px) scaleY(0.62); }
   58%      { transform: translate(0, 1px) scaleY(0.72); }
+}
+@keyframes pupilSettling {
+  0%, 100% { transform: translate(0, 0); }
+  38%      { transform: translate(1px, -0.3px); }
+  70%      { transform: translate(-0.4px, 0); }
 }
 @keyframes pupilSoft {
   0%   { transform: translate(0, 0) scale(1); }
