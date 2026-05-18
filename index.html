@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=18" />
+  <link rel="stylesheet" href="styles.css?v=19" />
 </head>
 <body>
 
@@ -699,11 +699,49 @@
           <span class="dyad-eye right"></span>
           <span class="dyad-mouth"></span>
         </div>
-        <div class="dyad-brain mini-brain" role="img" aria-label="Maya brain-body circuit">
-          <div class="dyad-layer mini-layer cortex">CORTEX <small>attention</small></div>
-          <div class="dyad-layer mini-layer limbic">LIMBIC <small>alarm</small></div>
-          <div class="dyad-layer mini-layer stem">BRAIN STEM <small>body</small></div>
-        </div>
+        <svg class="mini-brain-svg dyad-brain" viewBox="0 0 260 230" role="img" aria-label="Maya brain-body circuit">
+          <g class="brain-layer mini-brain-layer" data-region="cortex">
+            <path class="layer-fill"
+                  d="M 30 62
+                     C 22 34, 48 12, 86 10
+                     C 112 2, 154 0, 178 12
+                     C 220 10, 246 34, 238 66
+                     C 233 88, 216 102, 192 108
+                     C 152 116, 94 112, 58 104
+                     C 40 100, 30 84, 30 62 Z"
+                  fill="#9FB2D4" stroke="#5a6fa0" stroke-width="2" />
+            <path d="M 42 36 C 72 20, 98 44, 126 34 S 182 20, 220 42"
+                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+            <path d="M 38 66 C 70 52, 100 78, 130 66 S 184 52, 218 72"
+                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+            <text x="130" y="56" text-anchor="middle" class="layer-label" fill="#2c3a60">CORTEX</text>
+            <text x="130" y="76" text-anchor="middle" class="layer-sub" fill="#2c3a60">attention</text>
+          </g>
+          <g class="brain-layer mini-brain-layer" data-region="limbic">
+            <path class="layer-fill"
+                  d="M 56 101
+                     C 80 94, 108 95, 130 102
+                     C 156 94, 190 95, 212 106
+                     L 204 145
+                     C 196 158, 162 160, 132 153
+                     C 104 160, 74 158, 56 146
+                     C 48 132, 46 112, 56 101 Z"
+                  fill="#F4A6B5" stroke="#a85e6a" stroke-width="2" />
+            <text x="130" y="124" text-anchor="middle" class="layer-label" fill="#6a2f3a">LIMBIC</text>
+            <text x="130" y="142" text-anchor="middle" class="layer-sub" fill="#6a2f3a">alarm</text>
+          </g>
+          <g class="brain-layer mini-brain-layer" data-region="brainstem">
+            <path class="layer-fill"
+                  d="M 74 154
+                     C 100 148, 160 148, 186 154
+                     C 182 182, 170 206, 150 218
+                     C 138 225, 122 225, 110 218
+                     C 90 206, 78 182, 74 154 Z"
+                  fill="#9CC09A" stroke="#5a7a5a" stroke-width="2" />
+            <text x="130" y="184" text-anchor="middle" class="layer-label" fill="#2c4a2c">BRAIN STEM</text>
+            <text x="130" y="202" text-anchor="middle" class="layer-sub" fill="#2c4a2c">body</text>
+          </g>
+        </svg>
         <div class="dyad-vitals signal-vitals" aria-label="Maya body signals">
           <div class="dyad-vital signal-vital heart">
             <svg viewBox="0 0 48 48" class="dyad-vital-icon signal-vital-icon" aria-hidden="true">
@@ -799,11 +837,49 @@
           <span class="dyad-eye right"></span>
           <span class="dyad-mouth"></span>
         </div>
-        <div class="dyad-brain mini-brain" role="img" aria-label="Leo brain-body circuit">
-          <div class="dyad-layer mini-layer cortex">CORTEX <small>attention</small></div>
-          <div class="dyad-layer mini-layer limbic">LIMBIC <small>alarm</small></div>
-          <div class="dyad-layer mini-layer stem">BRAIN STEM <small>body</small></div>
-        </div>
+        <svg class="mini-brain-svg dyad-brain" viewBox="0 0 260 230" role="img" aria-label="Leo brain-body circuit">
+          <g class="brain-layer mini-brain-layer" data-region="cortex">
+            <path class="layer-fill"
+                  d="M 30 62
+                     C 22 34, 48 12, 86 10
+                     C 112 2, 154 0, 178 12
+                     C 220 10, 246 34, 238 66
+                     C 233 88, 216 102, 192 108
+                     C 152 116, 94 112, 58 104
+                     C 40 100, 30 84, 30 62 Z"
+                  fill="#9FB2D4" stroke="#5a6fa0" stroke-width="2" />
+            <path d="M 42 36 C 72 20, 98 44, 126 34 S 182 20, 220 42"
+                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+            <path d="M 38 66 C 70 52, 100 78, 130 66 S 184 52, 218 72"
+                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+            <text x="130" y="56" text-anchor="middle" class="layer-label" fill="#2c3a60">CORTEX</text>
+            <text x="130" y="76" text-anchor="middle" class="layer-sub" fill="#2c3a60">attention</text>
+          </g>
+          <g class="brain-layer mini-brain-layer" data-region="limbic">
+            <path class="layer-fill"
+                  d="M 56 101
+                     C 80 94, 108 95, 130 102
+                     C 156 94, 190 95, 212 106
+                     L 204 145
+                     C 196 158, 162 160, 132 153
+                     C 104 160, 74 158, 56 146
+                     C 48 132, 46 112, 56 101 Z"
+                  fill="#F4A6B5" stroke="#a85e6a" stroke-width="2" />
+            <text x="130" y="124" text-anchor="middle" class="layer-label" fill="#6a2f3a">LIMBIC</text>
+            <text x="130" y="142" text-anchor="middle" class="layer-sub" fill="#6a2f3a">alarm</text>
+          </g>
+          <g class="brain-layer mini-brain-layer" data-region="brainstem">
+            <path class="layer-fill"
+                  d="M 74 154
+                     C 100 148, 160 148, 186 154
+                     C 182 182, 170 206, 150 218
+                     C 138 225, 122 225, 110 218
+                     C 90 206, 78 182, 74 154 Z"
+                  fill="#9CC09A" stroke="#5a7a5a" stroke-width="2" />
+            <text x="130" y="184" text-anchor="middle" class="layer-label" fill="#2c4a2c">BRAIN STEM</text>
+            <text x="130" y="202" text-anchor="middle" class="layer-sub" fill="#2c4a2c">body</text>
+          </g>
+        </svg>
         <div class="dyad-vitals signal-vitals" aria-label="Leo body signals">
           <div class="dyad-vital signal-vital heart">
             <svg viewBox="0 0 48 48" class="dyad-vital-icon signal-vital-icon" aria-hidden="true">
@@ -889,11 +965,49 @@
           <p class="lit-mind-kicker">Elizabeth reads</p>
           <h3>Elizabeth Bennet</h3>
           <div class="lit-circuit" aria-label="Elizabeth brain and body signals">
-            <div class="lit-brain mini-brain" role="img" aria-label="Elizabeth brain-body circuit">
-              <div class="dyad-layer mini-layer cortex">CORTEX <small>attention</small></div>
-              <div class="dyad-layer mini-layer limbic">LIMBIC <small>alarm</small></div>
-              <div class="dyad-layer mini-layer stem">BRAIN STEM <small>body</small></div>
-            </div>
+            <svg class="mini-brain-svg lit-brain" viewBox="0 0 260 230" role="img" aria-label="Elizabeth brain-body circuit">
+              <g class="brain-layer mini-brain-layer" data-region="cortex">
+                <path class="layer-fill"
+                      d="M 30 62
+                         C 22 34, 48 12, 86 10
+                         C 112 2, 154 0, 178 12
+                         C 220 10, 246 34, 238 66
+                         C 233 88, 216 102, 192 108
+                         C 152 116, 94 112, 58 104
+                         C 40 100, 30 84, 30 62 Z"
+                      fill="#9FB2D4" stroke="#5a6fa0" stroke-width="2" />
+                <path d="M 42 36 C 72 20, 98 44, 126 34 S 182 20, 220 42"
+                      stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+                <path d="M 38 66 C 70 52, 100 78, 130 66 S 184 52, 218 72"
+                      stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+                <text x="130" y="56" text-anchor="middle" class="layer-label" fill="#2c3a60">CORTEX</text>
+                <text x="130" y="76" text-anchor="middle" class="layer-sub" fill="#2c3a60">attention</text>
+              </g>
+              <g class="brain-layer mini-brain-layer" data-region="limbic">
+                <path class="layer-fill"
+                      d="M 56 101
+                         C 80 94, 108 95, 130 102
+                         C 156 94, 190 95, 212 106
+                         L 204 145
+                         C 196 158, 162 160, 132 153
+                         C 104 160, 74 158, 56 146
+                         C 48 132, 46 112, 56 101 Z"
+                      fill="#F4A6B5" stroke="#a85e6a" stroke-width="2" />
+                <text x="130" y="124" text-anchor="middle" class="layer-label" fill="#6a2f3a">LIMBIC</text>
+                <text x="130" y="142" text-anchor="middle" class="layer-sub" fill="#6a2f3a">alarm</text>
+              </g>
+              <g class="brain-layer mini-brain-layer" data-region="brainstem">
+                <path class="layer-fill"
+                      d="M 74 154
+                         C 100 148, 160 148, 186 154
+                         C 182 182, 170 206, 150 218
+                         C 138 225, 122 225, 110 218
+                         C 90 206, 78 182, 74 154 Z"
+                      fill="#9CC09A" stroke="#5a7a5a" stroke-width="2" />
+                <text x="130" y="184" text-anchor="middle" class="layer-label" fill="#2c4a2c">BRAIN STEM</text>
+                <text x="130" y="202" text-anchor="middle" class="layer-sub" fill="#2c4a2c">body</text>
+              </g>
+            </svg>
             <div class="signal-vitals lit-vitals" aria-label="Elizabeth body signals">
               <div class="signal-vital lit-vital heart">
                 <svg viewBox="0 0 48 48" class="signal-vital-icon lit-vital-icon" aria-hidden="true">
@@ -925,11 +1039,49 @@
           <p class="lit-mind-kicker">Darcy reads</p>
           <h3>Fitzwilliam Darcy</h3>
           <div class="lit-circuit" aria-label="Darcy brain and body signals">
-            <div class="lit-brain mini-brain" role="img" aria-label="Darcy brain-body circuit">
-              <div class="dyad-layer mini-layer cortex">CORTEX <small>attention</small></div>
-              <div class="dyad-layer mini-layer limbic">LIMBIC <small>alarm</small></div>
-              <div class="dyad-layer mini-layer stem">BRAIN STEM <small>body</small></div>
-            </div>
+            <svg class="mini-brain-svg lit-brain" viewBox="0 0 260 230" role="img" aria-label="Darcy brain-body circuit">
+              <g class="brain-layer mini-brain-layer" data-region="cortex">
+                <path class="layer-fill"
+                      d="M 30 62
+                         C 22 34, 48 12, 86 10
+                         C 112 2, 154 0, 178 12
+                         C 220 10, 246 34, 238 66
+                         C 233 88, 216 102, 192 108
+                         C 152 116, 94 112, 58 104
+                         C 40 100, 30 84, 30 62 Z"
+                      fill="#9FB2D4" stroke="#5a6fa0" stroke-width="2" />
+                <path d="M 42 36 C 72 20, 98 44, 126 34 S 182 20, 220 42"
+                      stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+                <path d="M 38 66 C 70 52, 100 78, 130 66 S 184 52, 218 72"
+                      stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
+                <text x="130" y="56" text-anchor="middle" class="layer-label" fill="#2c3a60">CORTEX</text>
+                <text x="130" y="76" text-anchor="middle" class="layer-sub" fill="#2c3a60">attention</text>
+              </g>
+              <g class="brain-layer mini-brain-layer" data-region="limbic">
+                <path class="layer-fill"
+                      d="M 56 101
+                         C 80 94, 108 95, 130 102
+                         C 156 94, 190 95, 212 106
+                         L 204 145
+                         C 196 158, 162 160, 132 153
+                         C 104 160, 74 158, 56 146
+                         C 48 132, 46 112, 56 101 Z"
+                      fill="#F4A6B5" stroke="#a85e6a" stroke-width="2" />
+                <text x="130" y="124" text-anchor="middle" class="layer-label" fill="#6a2f3a">LIMBIC</text>
+                <text x="130" y="142" text-anchor="middle" class="layer-sub" fill="#6a2f3a">alarm</text>
+              </g>
+              <g class="brain-layer mini-brain-layer" data-region="brainstem">
+                <path class="layer-fill"
+                      d="M 74 154
+                         C 100 148, 160 148, 186 154
+                         C 182 182, 170 206, 150 218
+                         C 138 225, 122 225, 110 218
+                         C 90 206, 78 182, 74 154 Z"
+                      fill="#9CC09A" stroke="#5a7a5a" stroke-width="2" />
+                <text x="130" y="184" text-anchor="middle" class="layer-label" fill="#2c4a2c">BRAIN STEM</text>
+                <text x="130" y="202" text-anchor="middle" class="layer-sub" fill="#2c4a2c">body</text>
+              </g>
+            </svg>
             <div class="signal-vitals lit-vitals" aria-label="Darcy body signals">
               <div class="signal-vital lit-vital heart">
                 <svg viewBox="0 0 48 48" class="signal-vital-icon lit-vital-icon" aria-hidden="true">
@@ -958,24 +1110,6 @@
         </article>
       </div>
 
-      <div class="lit-learning">
-        <p class="lit-learning-kicker">learning circuit</p>
-        <div class="lit-path" aria-label="Learning path">
-          <span class="lit-node" data-node="prior">prior</span>
-          <span class="lit-path-line"></span>
-          <span class="lit-node" data-node="signal">signal</span>
-          <span class="lit-path-line"></span>
-          <span class="lit-node" data-node="story">story</span>
-          <span class="lit-path-line"></span>
-          <span class="lit-node" data-node="evidence">evidence</span>
-          <span class="lit-path-line"></span>
-          <span class="lit-node" data-node="update">update</span>
-        </div>
-        <p class="lit-learning-text" id="lit-learning-text">
-          A first social signal becomes a prediction: what kind of person is he?
-        </p>
-      </div>
-
       <p class="lit-caption" id="lit-caption" aria-live="polite" aria-atomic="true">
         The novel begins with two guarded circuits reading too much from too little data.
       </p>
@@ -998,6 +1132,6 @@
     <p class="micro">Camera estimates run locally in your browser and are not recorded.</p>
   </footer>
 
-  <script src="script.js?v=18"></script>
+  <script src="script.js?v=19"></script>
 </body>
 </html>
