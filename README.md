@@ -20,7 +20,7 @@ Four beats:
    into two threat stories. Their heart rate, breathing, actions, and
    interpretations become each other's input until a listener gives both
    circuits safer data.
-4. **A neural lens on literature** — Jane Austen's *Pride and Prejudice* shows the same
+4. **Revisiting a classic through a neural lens** — Jane Austen's *Pride and Prejudice* shows the same
    loop at an adult scale: first impressions become predictions, then letters
    and actions provide new evidence that updates the model.
 
