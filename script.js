@@ -1365,6 +1365,7 @@
         read: "\"This room is unsafe for me.\"",
         body: "His body chooses distance before curiosity.",
       },
+      vitals: { e: { bpm: 96, brpm: 18 }, d: { bpm: 88, brpm: 16 } },
       nodes: ["prior", "signal", "story"],
       learning: "A first social signal becomes a prediction: what kind of person is he?",
       caption: "The novel begins with two guarded circuits reading too much from too little data.",
@@ -1384,6 +1385,7 @@
         read: "\"She has already judged me.\"",
         body: "His guarded style becomes even harder to read.",
       },
+      vitals: { e: { bpm: 112, brpm: 22 }, d: { bpm: 104, brpm: 19 } },
       nodes: ["prior", "signal", "story"],
       learning: "A mind often trusts data that fits the model it already built.",
       caption: "Prejudice works like a strong prior: new input is pulled toward the old story.",
@@ -1403,6 +1405,7 @@
         read: "\"My intention should be obvious.\"",
         body: "He misses how his signal lands in her circuit.",
       },
+      vitals: { e: { bpm: 132, brpm: 26 }, d: { bpm: 124, brpm: 24 } },
       nodes: ["signal", "story"],
       learning: "The same action can carry two signals: intention inside, impact outside.",
       caption: "The loop peaks when each person reads the other's behavior through a narrowed lens.",
@@ -1422,6 +1425,7 @@
         read: "\"I must make my actions readable.\"",
         body: "Distance begins to turn into repair.",
       },
+      vitals: { e: { bpm: 102, brpm: 20 }, d: { bpm: 94, brpm: 18 } },
       nodes: ["evidence"],
       learning: "A letter slows the loop: more context creates prediction error.",
       caption: "New evidence does not erase the first story. It makes revision possible.",
@@ -1441,6 +1445,7 @@
         read: "\"Respect changes the signal.\"",
         body: "His behavior becomes new data, not just explanation.",
       },
+      vitals: { e: { bpm: 82, brpm: 15 }, d: { bpm: 82, brpm: 15 } },
       nodes: ["evidence", "update"],
       learning: "Learning is not instant insight. It is repeated evidence changing a model.",
       caption: "Austen's romance is also a learning story: two minds update through better data.",
@@ -1457,6 +1462,10 @@
   const litElizabethBody = document.getElementById("lit-elizabeth-body");
   const litDarcyRead = document.getElementById("lit-darcy-read");
   const litDarcyBody = document.getElementById("lit-darcy-body");
+  const litEBpm = document.getElementById("lit-e-bpm");
+  const litEBrpm = document.getElementById("lit-e-brpm");
+  const litDBpm = document.getElementById("lit-d-bpm");
+  const litDBrpm = document.getElementById("lit-d-brpm");
   const litLearningText = document.getElementById("lit-learning-text");
   const litCaption = document.getElementById("lit-caption");
   const litStepEl = document.getElementById("lit-step");
@@ -1476,6 +1485,19 @@
 
   if (litTotalEl) litTotalEl.textContent = litBeats.length;
 
+  function animateLitNumber(textNode, from, to, dur) {
+    if (!textNode) return;
+    if (isNaN(from)) { textNode.textContent = to; return; }
+    const start = performance.now();
+    function step(now) {
+      const t = Math.min(1, (now - start) / dur);
+      const v = Math.round(from + (to - from) * t);
+      textNode.textContent = v;
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
   function applyLitBeat(idx) {
     const b = litBeats[idx];
     if (!b) return;
@@ -1488,6 +1510,10 @@
     if (litElizabethBody) litElizabethBody.textContent = b.elizabeth.body;
     if (litDarcyRead) litDarcyRead.textContent = b.darcy.read;
     if (litDarcyBody) litDarcyBody.textContent = b.darcy.body;
+    if (litEBpm) animateLitNumber(litEBpm, parseInt(litEBpm.textContent, 10), b.vitals.e.bpm, 600);
+    if (litEBrpm) animateLitNumber(litEBrpm, parseInt(litEBrpm.textContent, 10), b.vitals.e.brpm, 600);
+    if (litDBpm) animateLitNumber(litDBpm, parseInt(litDBpm.textContent, 10), b.vitals.d.bpm, 600);
+    if (litDBrpm) animateLitNumber(litDBrpm, parseInt(litDBrpm.textContent, 10), b.vitals.d.brpm, 600);
     if (litLearningText) litLearningText.textContent = b.learning;
 
     litNodes.forEach((node) => {

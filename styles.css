@@ -1764,6 +1764,10 @@ body[data-intro="body"] .ouch {
   display: grid;
   gap: 5px;
 }
+.mini-brain {
+  display: grid;
+  gap: 5px;
+}
 .dyad-layer {
   border-radius: 999px;
   padding: 8px 10px;
@@ -1801,6 +1805,10 @@ body[data-intro="body"] .ouch {
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
+.signal-vitals {
+  display: grid;
+  gap: 8px;
+}
 .dyad-vital {
   display: flex;
   align-items: center;
@@ -1816,19 +1824,38 @@ body[data-intro="body"] .ouch {
   font-weight: 800;
   color: var(--ink);
 }
+.signal-vital {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  border: 1px solid #ece2cd;
+  border-radius: 10px;
+  background: rgba(255, 249, 240, 0.72);
+  font-family: var(--sans);
+  font-weight: 800;
+  color: var(--ink);
+}
 .dyad-vital-icon {
   width: 26px;
   height: 26px;
   flex: 0 0 26px;
   overflow: visible;
 }
+.signal-vital-icon {
+  overflow: visible;
+}
 .dyad-heart-path,
-.dyad-lung-path {
+.dyad-lung-path,
+.signal-heart-path,
+.signal-lung-path {
   transform-box: fill-box;
   transform-origin: center;
   transition: filter 0.35s ease;
 }
-.dyad-heart-path {
+.dyad-heart-path,
+.signal-heart-path {
   transform-origin: 50% 68%;
 }
 .dyad-person[data-state="calm"] .dyad-heart-path,
@@ -2667,8 +2694,8 @@ body[data-intro="body"] .ouch {
 .lit-mind {
   display: grid;
   align-content: start;
-  gap: 9px;
-  min-height: 212px;
+  gap: 8px;
+  min-height: 292px;
   padding: 16px;
   transition: background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
 }
@@ -2679,8 +2706,42 @@ body[data-intro="body"] .ouch {
   font-weight: 600;
   line-height: 1;
 }
+.lit-circuit {
+  display: grid;
+  grid-template-columns: minmax(118px, 1fr) minmax(104px, 0.82fr);
+  gap: 8px;
+  align-items: center;
+  margin: 2px 0 1px;
+}
+.lit-brain {
+  width: 100%;
+}
+.lit-circuit .dyad-layer {
+  padding: 5px 6px;
+  border-width: 1.5px;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+.lit-circuit .dyad-layer small {
+  margin-top: 0;
+  font-size: 7px;
+  letter-spacing: 0.02em;
+}
+.lit-vitals {
+  grid-template-columns: 1fr;
+}
+.lit-vital {
+  justify-content: flex-start;
+  padding: 4px 6px;
+  font-size: 10px;
+}
+.lit-vital-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+}
 .lit-read {
-  min-height: 2.6em;
+  min-height: 2.3em;
   margin: 0;
   font-family: var(--serif);
   font-size: 22px;
@@ -2716,6 +2777,34 @@ body[data-intro="body"] .ouch {
 .lit-mind[data-state="curious"] .lit-read,
 .lit-mind[data-state="changed"] .lit-read {
   color: var(--brainstem-deep);
+}
+.lit-mind[data-state="wounded"] .dyad-layer.limbic,
+.lit-mind[data-state="defensive"] .dyad-layer.limbic,
+.lit-mind[data-state="wounded"] .dyad-layer.stem,
+.lit-mind[data-state="defensive"] .dyad-layer.stem {
+  filter: brightness(1.08) drop-shadow(0 0 7px rgba(244, 194, 90, 0.42));
+}
+.lit-mind[data-state="curious"] .dyad-layer.cortex,
+.lit-mind[data-state="changed"] .dyad-layer.cortex,
+.lit-mind[data-state="changed"] .dyad-layer.stem {
+  filter: brightness(1.08) drop-shadow(0 0 8px rgba(58, 138, 138, 0.24));
+}
+.lit-mind[data-state="wounded"] .signal-heart-path,
+.lit-mind[data-state="defensive"] .signal-heart-path {
+  animation: organPulseFast 0.62s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(244, 194, 90, 0.38));
+}
+.lit-mind[data-state="wounded"] .signal-lung-path,
+.lit-mind[data-state="defensive"] .signal-lung-path {
+  animation: organPulseFast 0.78s ease-in-out infinite;
+}
+.lit-mind[data-state="curious"] .signal-heart-path,
+.lit-mind[data-state="changed"] .signal-heart-path {
+  animation: organPulseSlow 1.35s ease-in-out infinite;
+}
+.lit-mind[data-state="curious"] .signal-lung-path,
+.lit-mind[data-state="changed"] .signal-lung-path {
+  animation: organPulseSlow 1.55s ease-in-out infinite;
 }
 .lit-learning {
   grid-column: 2;
