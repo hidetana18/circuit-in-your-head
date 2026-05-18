@@ -17,8 +17,9 @@ Three beats:
    (**Notice → Breathe → Reframe**) to give his circuit a safe experience.
    One trap card (**Push it down**) never works.
 3. **The shared loop** — two children each have a brain-body circuit.
-   Their heart rate, breathing, and alarms can become each other's input,
-   escalating the loop until a pause gives both circuits safer data.
+   Their heart rate, breathing, actions, and interpretations can become each
+   other's input, escalating the loop until a pause gives both circuits safer
+   data.
 
 The page is intentionally one screen of words and one screen of game.
 Everything else is visual.

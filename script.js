@@ -1125,7 +1125,11 @@
       links: [],
       alarms: { a: "low", b: "low" },
       vitals: { a: { bpm: 82, brpm: 15 }, b: { bpm: 82, brpm: 15 } },
-      caption: "Two minds, two learning circuits.",
+      read: {
+        primary: "Both read: safe enough.",
+        secondary: "Bodies are calm, so attention stays wide.",
+      },
+      caption: "Two minds, two learning circuits. Each one is reading the other.",
       mod: "",
       hold: 1600,
     },
@@ -1135,7 +1139,11 @@
       links: ["a-hot"],
       alarms: { a: "rising", b: "low" },
       vitals: { a: { bpm: 112, brpm: 22 }, b: { bpm: 82, brpm: 15 } },
-      caption: "A's alarm changes the signal B sees.",
+      read: {
+        primary: "B reads: \"A is angry.\"",
+        secondary: "A's stiff body becomes data for B's alarm.",
+      },
+      caption: "A freezes. B does not see the alarm inside A, only the signal outside.",
       mod: "",
       hold: 1700,
     },
@@ -1145,7 +1153,11 @@
       links: ["a-hot"],
       alarms: { a: "rising", b: "rising" },
       vitals: { a: { bpm: 118, brpm: 24 }, b: { bpm: 108, brpm: 21 } },
-      caption: "B reads danger. B's own alarm rises.",
+      read: {
+        primary: "A reads: \"B is against me.\"",
+        secondary: "B's bracing body becomes data for A.",
+      },
+      caption: "B braces. Now A reads B's body as another threat.",
       mod: "",
       hold: 1700,
     },
@@ -1155,7 +1167,11 @@
       links: ["a-hot", "b-hot"],
       alarms: { a: "high", b: "high" },
       vitals: { a: { bpm: 152, brpm: 31 }, b: { bpm: 148, brpm: 30 } },
-      caption: "Each alarm becomes the other's input. The loop escalates.",
+      read: {
+        primary: "Each mind guesses danger.",
+        secondary: "The body makes the guess louder.",
+      },
+      caption: "Both alarms are reading the other alarm. The shared loop escalates.",
       mod: "",
       hold: 2100,
     },
@@ -1165,7 +1181,11 @@
       links: ["pause"],
       alarms: { a: "falling", b: "rising" },
       vitals: { a: { bpm: 118, brpm: 22 }, b: { bpm: 132, brpm: 27 } },
-      caption: "A pause gives both circuits new data: space, time, safety.",
+      read: {
+        primary: "New input: pause + space.",
+        secondary: "The loop slows before either mind has to be right.",
+      },
+      caption: "A pause changes the data in the loop: more space, slower body.",
       mod: "",
       hold: 1900,
     },
@@ -1175,6 +1195,10 @@
       links: ["safe"],
       alarms: { a: "low", b: "low" },
       vitals: { a: { bpm: 86, brpm: 16 }, b: { bpm: 86, brpm: 16 } },
+      read: {
+        primary: "\"Maybe we were both scared.\"",
+        secondary: "A safer read lets both circuits update.",
+      },
       caption: "Both circuits settle. Now each mind can read the other more clearly.",
       mod: "settle",
       hold: 0,
@@ -1193,6 +1217,8 @@
   const dyadReplayBtn = document.getElementById("dyad-replay");
   const dyadAAlarm = document.getElementById("dyad-a-alarm");
   const dyadBAlarm = document.getElementById("dyad-b-alarm");
+  const dyadReadPrimary = document.getElementById("dyad-read-primary");
+  const dyadReadSecondary = document.getElementById("dyad-read-secondary");
   const dyadABpm = document.getElementById("dyad-a-bpm");
   const dyadABrpm = document.getElementById("dyad-a-brpm");
   const dyadBBpm = document.getElementById("dyad-b-bpm");
@@ -1214,6 +1240,8 @@
     if (dyadB) dyadB.dataset.state = b.b;
     if (dyadAAlarm) dyadAAlarm.textContent = b.alarms.a;
     if (dyadBAlarm) dyadBAlarm.textContent = b.alarms.b;
+    if (dyadReadPrimary) dyadReadPrimary.textContent = b.read.primary;
+    if (dyadReadSecondary) dyadReadSecondary.textContent = b.read.secondary;
     if (dyadABpm) animateNumber(dyadABpm, parseInt(dyadABpm.textContent, 10), b.vitals.a.bpm, 600);
     if (dyadABrpm) animateNumber(dyadABrpm, parseInt(dyadABrpm.textContent, 10), b.vitals.a.brpm, 600);
     if (dyadBBpm) animateNumber(dyadBBpm, parseInt(dyadBBpm.textContent, 10), b.vitals.b.bpm, 600);
