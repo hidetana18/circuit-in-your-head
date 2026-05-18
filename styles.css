@@ -1708,8 +1708,8 @@ body[data-intro="body"] .ouch {
 }
 .dyad-person {
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  gap: 12px;
+  grid-template-rows: auto auto 1fr auto auto;
+  gap: 10px;
   align-items: center;
   justify-items: center;
   min-height: 360px;
@@ -1794,6 +1794,65 @@ body[data-intro="body"] .ouch {
 .dyad-layer.stem {
   background: var(--brainstem-soft);
   border-color: var(--brainstem-deep);
+}
+.dyad-vitals {
+  width: min(100%, 230px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.dyad-vital {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 5px 6px;
+  border: 1px solid #ece2cd;
+  border-radius: 10px;
+  background: rgba(255, 249, 240, 0.72);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.dyad-vital-icon {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  overflow: visible;
+}
+.dyad-heart-path,
+.dyad-lung-path {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: filter 0.35s ease;
+}
+.dyad-heart-path {
+  transform-origin: 50% 68%;
+}
+.dyad-person[data-state="calm"] .dyad-heart-path,
+.dyad-person[data-state="settling"] .dyad-heart-path {
+  animation: organPulseSlow 1.35s ease-in-out infinite;
+}
+.dyad-person[data-state="calm"] .dyad-lung-path,
+.dyad-person[data-state="settling"] .dyad-lung-path {
+  animation: organPulseSlow 1.55s ease-in-out infinite;
+}
+.dyad-person[data-state="alert"] .dyad-heart-path {
+  animation: organPulseFast 0.62s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(244, 194, 90, 0.42));
+}
+.dyad-person[data-state="alert"] .dyad-lung-path {
+  animation: organPulseFast 0.78s ease-in-out infinite;
+}
+.dyad-person[data-state="hot"] .dyad-heart-path {
+  animation: organPulseFast 0.36s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(225, 95, 95, 0.58));
+}
+.dyad-person[data-state="hot"] .dyad-lung-path {
+  animation: organPulseFast 0.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(168, 58, 58, 0.32));
 }
 .dyad-meter {
   width: min(100%, 220px);
@@ -1992,6 +2051,20 @@ body[data-intro="body"] .ouch {
     letter-spacing: 0.08em;
   }
   .dyad-layer small { font-size: 8px; }
+  .dyad-vitals {
+    gap: 5px;
+  }
+  .dyad-vital {
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px 3px;
+    font-size: 9px;
+  }
+  .dyad-vital-icon {
+    width: 20px;
+    height: 20px;
+    flex-basis: 20px;
+  }
   .dyad-meter {
     grid-template-columns: 1fr;
     gap: 4px;

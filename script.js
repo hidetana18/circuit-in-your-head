@@ -1124,6 +1124,7 @@
       a: "calm", b: "calm",
       links: [],
       alarms: { a: "low", b: "low" },
+      vitals: { a: { bpm: 82, brpm: 15 }, b: { bpm: 82, brpm: 15 } },
       caption: "Two minds, two learning circuits.",
       mod: "",
       hold: 1600,
@@ -1133,6 +1134,7 @@
       a: "alert", b: "calm",
       links: ["a-hot"],
       alarms: { a: "rising", b: "low" },
+      vitals: { a: { bpm: 112, brpm: 22 }, b: { bpm: 82, brpm: 15 } },
       caption: "A's alarm changes the signal B sees.",
       mod: "",
       hold: 1700,
@@ -1142,6 +1144,7 @@
       a: "alert", b: "alert",
       links: ["a-hot"],
       alarms: { a: "rising", b: "rising" },
+      vitals: { a: { bpm: 118, brpm: 24 }, b: { bpm: 108, brpm: 21 } },
       caption: "B reads danger. B's own alarm rises.",
       mod: "",
       hold: 1700,
@@ -1151,6 +1154,7 @@
       a: "hot", b: "hot",
       links: ["a-hot", "b-hot"],
       alarms: { a: "high", b: "high" },
+      vitals: { a: { bpm: 152, brpm: 31 }, b: { bpm: 148, brpm: 30 } },
       caption: "Each alarm becomes the other's input. The loop escalates.",
       mod: "",
       hold: 2100,
@@ -1160,6 +1164,7 @@
       a: "settling", b: "alert",
       links: ["pause"],
       alarms: { a: "falling", b: "rising" },
+      vitals: { a: { bpm: 118, brpm: 22 }, b: { bpm: 132, brpm: 27 } },
       caption: "A pause gives both circuits new data: space, time, safety.",
       mod: "",
       hold: 1900,
@@ -1169,6 +1174,7 @@
       a: "calm", b: "calm",
       links: ["safe"],
       alarms: { a: "low", b: "low" },
+      vitals: { a: { bpm: 86, brpm: 16 }, b: { bpm: 86, brpm: 16 } },
       caption: "Both circuits settle. Now each mind can read the other more clearly.",
       mod: "settle",
       hold: 0,
@@ -1187,6 +1193,10 @@
   const dyadReplayBtn = document.getElementById("dyad-replay");
   const dyadAAlarm = document.getElementById("dyad-a-alarm");
   const dyadBAlarm = document.getElementById("dyad-b-alarm");
+  const dyadABpm = document.getElementById("dyad-a-bpm");
+  const dyadABrpm = document.getElementById("dyad-a-brpm");
+  const dyadBBpm = document.getElementById("dyad-b-bpm");
+  const dyadBBrpm = document.getElementById("dyad-b-brpm");
 
   let dyadIdx = 0;
   let dyadTimer = null;
@@ -1204,6 +1214,10 @@
     if (dyadB) dyadB.dataset.state = b.b;
     if (dyadAAlarm) dyadAAlarm.textContent = b.alarms.a;
     if (dyadBAlarm) dyadBAlarm.textContent = b.alarms.b;
+    if (dyadABpm) animateNumber(dyadABpm, parseInt(dyadABpm.textContent, 10), b.vitals.a.bpm, 600);
+    if (dyadABrpm) animateNumber(dyadABrpm, parseInt(dyadABrpm.textContent, 10), b.vitals.a.brpm, 600);
+    if (dyadBBpm) animateNumber(dyadBBpm, parseInt(dyadBBpm.textContent, 10), b.vitals.b.bpm, 600);
+    if (dyadBBrpm) animateNumber(dyadBBrpm, parseInt(dyadBBrpm.textContent, 10), b.vitals.b.brpm, 600);
 
     const linkEls = dyadStage.querySelectorAll(".dyad-link, .dyad-pause");
     linkEls.forEach((el) => el.classList.remove("shown"));
