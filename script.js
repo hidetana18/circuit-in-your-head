@@ -1125,12 +1125,12 @@
       links: [],
       alarms: { a: "low", b: "low" },
       vitals: { a: { bpm: 82, brpm: 15 }, b: { bpm: 82, brpm: 15 } },
-      event: "Maya and Leo build one tower together.",
+      event: "Nora and Jules share one little courtyard.",
       read: {
-        primary: "Both read: we are playing.",
-        secondary: "Bodies are calm, so attention can stay on the blocks.",
+        primary: "Both read: this space is shared.",
+        secondary: "Bodies are calm, so attention can stay wide.",
       },
-      caption: "A concrete loop: one tower, two bodies, two learning circuits.",
+      caption: "A concrete loop: one shared space, two bodies, two learning circuits.",
       mod: "",
       hold: 1600,
     },
@@ -1140,12 +1140,12 @@
       links: ["a-hot"],
       alarms: { a: "rising", b: "low" },
       vitals: { a: { bpm: 112, brpm: 22 }, b: { bpm: 82, brpm: 15 } },
-      event: "Maya's sleeve bumps the tower. Blocks fall.",
+      event: "A planter is moved while Nora is away.",
       read: {
-        primary: "Leo reads: \"Maya ruined it.\"",
-        secondary: "A fast body signal turns an accident into threat data.",
+        primary: "Nora reads: \"Jules pushed me out.\"",
+        secondary: "A fast body signal turns an ambiguous event into threat data.",
       },
-      caption: "The event is small: a bumped tower. Leo sees the fall and Maya's tense body.",
+      caption: "The event is small: one object moved. Nora's body reads a social meaning.",
       mod: "",
       hold: 1700,
     },
@@ -1155,12 +1155,12 @@
       links: ["a-hot"],
       alarms: { a: "rising", b: "rising" },
       vitals: { a: { bpm: 118, brpm: 24 }, b: { bpm: 108, brpm: 21 } },
-      event: "Leo gasps and grabs the blocks back.",
+      event: "Nora's sharp voice reaches Jules.",
       read: {
-        primary: "Maya reads: \"Leo is mad at me.\"",
-        secondary: "Leo's bracing body becomes threat data for Maya.",
+        primary: "Jules reads: \"Nora thinks I am selfish.\"",
+        secondary: "Nora's alarm becomes threat data for Jules.",
       },
-      caption: "Leo's alarm changes his face and hands. Maya now reads danger too.",
+      caption: "One alarm changes the next face, voice, and posture. Now both circuits are reading danger.",
       mod: "",
       hold: 1700,
     },
@@ -1170,12 +1170,12 @@
       links: ["a-hot", "b-hot"],
       alarms: { a: "high", b: "high" },
       vitals: { a: { bpm: 152, brpm: 31 }, b: { bpm: 148, brpm: 30 } },
-      event: "Both children pull at the same block.",
+      event: "Both defend their version of the story.",
       read: {
         primary: "Each mind reads blame.",
-        secondary: "The body makes the story louder.",
+        secondary: "The body makes its own story feel certain.",
       },
-      caption: "Now each alarm is feeding the other: face, voice, hands, and heartbeat.",
+      caption: "Now each alarm is feeding the other: face, voice, memory, and heartbeat.",
       mod: "",
       hold: 2100,
     },
@@ -1185,14 +1185,14 @@
       links: ["pause"],
       alarms: { a: "falling", b: "rising" },
       vitals: { a: { bpm: 118, brpm: 22 }, b: { bpm: 132, brpm: 27 } },
-      event: "Hands down. One breath. More space.",
+      event: "Mira sits with them and listens without deciding who is right.",
       read: {
-        primary: "New input: space + slower breath.",
-        secondary: "The circuit gets fresh data before either child has to be right.",
+        primary: "New input: time + being heard.",
+        secondary: "Listening slows the loop before either person has to win.",
       },
-      caption: "The pause does not solve the story yet. It changes the input each brain receives.",
+      caption: "The listener does not solve the argument. She changes the input each brain receives.",
       mod: "",
-      hold: 1900,
+      hold: 2100,
     },
     {
       phase: "settle",
@@ -1200,12 +1200,12 @@
       links: ["safe"],
       alarms: { a: "low", b: "low" },
       vitals: { a: { bpm: 86, brpm: 16 }, b: { bpm: 86, brpm: 16 } },
-      event: "Maya: \"I bumped it.\" Leo: \"Let's rebuild.\"",
+      event: "Nora hears hurt. Jules hears fear. The story gets wider.",
       read: {
-        primary: "\"It was an accident.\"",
+        primary: "\"There was more than one signal.\"",
         secondary: "A safer read lets both circuits update for next time.",
       },
-      caption: "Both circuits settle. The same event can now be learned as repair, not threat.",
+      caption: "Both circuits settle. The same conflict can now be learned as repair, not only threat.",
       mod: "settle",
       hold: 0,
     },
@@ -1261,6 +1261,13 @@
     linkEls.forEach((el) => {
       el.classList.toggle("shown", b.links.includes(el.dataset.link));
     });
+
+    const listeningEls = dyadStage.querySelectorAll(".toy-listener, .listen-ring");
+    listeningEls.forEach((el) => {
+      el.classList.toggle("shown", b.phase === "pause" || b.phase === "settle");
+    });
+    const toyPauseMark = dyadStage.querySelector(".toy-pause-mark");
+    if (toyPauseMark) toyPauseMark.classList.toggle("shown", b.phase === "pause");
 
     if (dyadCaption) {
       dyadCaption.classList.add("fade");

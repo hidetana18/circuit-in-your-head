@@ -16,9 +16,10 @@ Four beats:
    heart pounding. Tap three actions in order
    (**Notice → Breathe → Reframe**) to give his circuit a safe experience.
    One trap card (**Push it down**) never works.
-3. **The shared loop** — Maya bumps a block tower and Leo reads the accident
-   as threat. Their heart rate, breathing, actions, and interpretations become
-   each other's input until a pause gives both circuits safer data.
+3. **The shared loop** — Nora and Jules turn one ambiguous courtyard moment
+   into two threat stories. Their heart rate, breathing, actions, and
+   interpretations become each other's input until a listener gives both
+   circuits safer data.
 4. **A neural lens on literature** — Jane Austen's *Pride and Prejudice* shows the same
    loop at an adult scale: first impressions become predictions, then letters
    and actions provide new evidence that updates the model.
