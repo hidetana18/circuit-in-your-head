@@ -1,0 +1,737 @@
+/* Part 3 additive polish. Loaded after the base stylesheet. */
+
+#part-3 {
+  --dyad-safe: #3a8a8a;
+  --dyad-safe-soft: rgba(58, 138, 138, 0.18);
+  --dyad-hot: #a83a3a;
+  --dyad-hot-soft: rgba(168, 58, 58, 0.18);
+  --dyad-gold-soft: rgba(244, 194, 90, 0.22);
+}
+
+#dyad-stage {
+  overflow: hidden;
+}
+
+#dyad-stage .dyad-person {
+  position: relative;
+  overflow: hidden;
+  transform-origin: center bottom;
+  will-change: transform;
+  transition:
+    transform 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.55s ease,
+    border-color 0.55s ease,
+    box-shadow 0.55s ease;
+}
+
+#dyad-stage .dyad-person::before,
+#dyad-stage .dyad-person::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+#dyad-stage .dyad-person::before {
+  left: 50%;
+  top: 78px;
+  z-index: 0;
+  width: 106px;
+  height: 46px;
+  border-radius: 58% 58% 42% 42%;
+  background:
+    radial-gradient(ellipse at 28% 45%, rgba(168, 116, 90, 0.22), transparent 42%),
+    radial-gradient(ellipse at 72% 45%, rgba(168, 116, 90, 0.22), transparent 42%);
+  opacity: 0.48;
+  transform: translateX(-50%) translateY(0) scale(0.98);
+  transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#dyad-stage .dyad-person::after {
+  inset: 10px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  opacity: 0;
+  transition: opacity 0.45s ease, border-color 0.45s ease;
+}
+
+#dyad-stage .dyad-face,
+#dyad-stage .dyad-brain,
+#dyad-stage .dyad-vitals,
+#dyad-stage .dyad-meter,
+#dyad-stage .dyad-name {
+  position: relative;
+  z-index: 1;
+}
+
+#dyad-stage .dyad-face {
+  box-shadow:
+    inset 0 -8px 0 rgba(168, 116, 90, 0.1),
+    0 8px 14px rgba(74, 107, 102, 0.1);
+  transform-origin: center bottom;
+  will-change: transform;
+}
+
+#dyad-stage .dyad-face::before,
+#dyad-stage .dyad-face::after {
+  content: "";
+  position: absolute;
+  top: 22px;
+  width: 15px;
+  height: 4px;
+  border-top: 2px solid #5e463d;
+  border-radius: 50%;
+  opacity: 0.62;
+  transition: transform 0.35s ease, opacity 0.35s ease, top 0.35s ease;
+}
+
+#dyad-stage .dyad-face::before {
+  left: 17px;
+  transform: rotate(6deg);
+}
+
+#dyad-stage .dyad-face::after {
+  right: 17px;
+  transform: rotate(-6deg);
+}
+
+#dyad-stage .dyad-eye {
+  transform-origin: center;
+  will-change: transform;
+}
+
+#dyad-stage .dyad-mouth {
+  transform-origin: center;
+}
+
+#dyad-stage .dyad-person[data-state="calm"] .dyad-face {
+  animation: p3FaceBreathe 2.9s ease-in-out infinite;
+}
+
+#dyad-stage .dyad-person[data-state="calm"] .dyad-eye {
+  animation: p3SoftBlink 5.2s ease-in-out infinite;
+}
+
+#dyad-stage .dyad-person[data-state="alert"]::before {
+  opacity: 0.58;
+  transform: translateX(-50%) translateY(5px) scaleX(0.92);
+}
+
+#dyad-stage .dyad-person[data-state="alert"]::after {
+  opacity: 1;
+  border-color: rgba(244, 194, 90, 0.28);
+}
+
+#dyad-stage .dyad-person[data-state="alert"] .dyad-face {
+  transform: translateY(4px) rotate(-1.5deg) scale(0.98);
+}
+
+#dyad-stage .dyad-person[data-state="alert"] .dyad-face::before {
+  top: 21px;
+  opacity: 0.84;
+  transform: translateY(-1px) rotate(-16deg);
+}
+
+#dyad-stage .dyad-person[data-state="alert"] .dyad-face::after {
+  top: 21px;
+  opacity: 0.84;
+  transform: translateY(-1px) rotate(16deg);
+}
+
+#dyad-stage .dyad-person[data-state="alert"] .dyad-eye.left {
+  transform: translate(-2px, -1px) scaleY(1.18);
+}
+
+#dyad-stage .dyad-person[data-state="alert"] .dyad-eye.right {
+  transform: translate(-1px, -1px) scaleY(1.18);
+}
+
+#dyad-stage .dyad-person[data-state="hot"] {
+  animation: p3BodyTremble 0.48s ease-in-out infinite;
+}
+
+#dyad-stage .dyad-person[data-state="hot"]::before {
+  opacity: 0.7;
+  transform: translateX(-50%) translateY(8px) scaleX(0.86);
+  background:
+    radial-gradient(ellipse at 28% 46%, rgba(168, 58, 58, 0.24), transparent 44%),
+    radial-gradient(ellipse at 72% 46%, rgba(168, 58, 58, 0.24), transparent 44%);
+}
+
+#dyad-stage .dyad-person[data-state="hot"]::after {
+  opacity: 1;
+  border-color: rgba(168, 58, 58, 0.22);
+  animation: p3HotBorder 0.9s ease-in-out infinite;
+}
+
+#dyad-stage .dyad-person[data-state="hot"] .dyad-face::before {
+  top: 20px;
+  opacity: 0.95;
+  transform: translateY(-2px) rotate(-27deg);
+}
+
+#dyad-stage .dyad-person[data-state="hot"] .dyad-face::after {
+  top: 20px;
+  opacity: 0.95;
+  transform: translateY(-2px) rotate(27deg);
+}
+
+#dyad-stage .dyad-person[data-state="hot"] .dyad-eye {
+  animation: p3EyePin 0.42s steps(2, end) infinite;
+}
+
+#dyad-stage .dyad-person[data-state="settling"]::before {
+  opacity: 0.42;
+  transform: translateX(-50%) translateY(-2px) scaleX(1.04);
+  background:
+    radial-gradient(ellipse at 28% 45%, rgba(58, 138, 138, 0.16), transparent 43%),
+    radial-gradient(ellipse at 72% 45%, rgba(58, 138, 138, 0.16), transparent 43%);
+}
+
+#dyad-stage .dyad-person[data-state="settling"] .dyad-face {
+  animation: p3SettleSway 2.4s ease-in-out infinite;
+}
+
+#dyad-stage .dyad-person[data-state="settling"] .dyad-eye {
+  animation: p3SlowBlink 3.2s ease-in-out infinite;
+}
+
+#dyad-stage .dyad-person[data-state="settling"] .dyad-mouth {
+  top: 45px;
+  transform: scaleX(1.12) rotate(0deg);
+}
+
+#dyad-stage[data-phase="calm"] #dyad-a {
+  transform: translateX(4px);
+}
+
+#dyad-stage[data-phase="calm"] #dyad-b {
+  transform: translateX(-4px);
+}
+
+#dyad-stage[data-phase="a-signal"] #dyad-a {
+  transform: translateX(-6px) translateY(2px) rotate(-0.7deg);
+}
+
+#dyad-stage[data-phase="a-signal"] #dyad-b {
+  transform: translateX(3px) scale(0.99);
+}
+
+#dyad-stage[data-phase="b-reads"] #dyad-a {
+  transform: translateX(-11px) translateY(4px) rotate(-1.1deg);
+}
+
+#dyad-stage[data-phase="b-reads"] #dyad-b {
+  transform: translateX(10px) translateY(3px) rotate(1deg);
+}
+
+#dyad-stage[data-phase="escalate"] #dyad-a {
+  transform: translateX(-18px) translateY(6px) rotate(-1.8deg);
+}
+
+#dyad-stage[data-phase="escalate"] #dyad-b {
+  transform: translateX(18px) translateY(6px) rotate(1.8deg);
+}
+
+#dyad-stage[data-phase="pause"] #dyad-a {
+  transform: translateX(-8px) translateY(1px) rotate(-0.3deg);
+}
+
+#dyad-stage[data-phase="pause"] #dyad-b {
+  transform: translateX(6px) translateY(3px) rotate(0.6deg);
+}
+
+#dyad-stage[data-phase="settle"] #dyad-a,
+#dyad-stage[data-phase="settle"] #dyad-b {
+  transform: translateX(0) translateY(0) rotate(0deg);
+}
+
+#dyad-stage .dyad-scene {
+  isolation: isolate;
+}
+
+#dyad-stage .dyad-scene::before,
+#dyad-stage .dyad-scene::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  z-index: 0;
+  width: 72%;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(74, 107, 102, 0.12), transparent 68%);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+#dyad-stage .dyad-scene::after {
+  bottom: 36px;
+  width: 88%;
+  height: 36px;
+  border: 1px dashed rgba(168, 58, 58, 0.24);
+  background: transparent;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.72);
+  transition: opacity 0.4s ease, transform 0.5s ease;
+}
+
+#dyad-stage[data-phase="b-reads"] .dyad-scene::after,
+#dyad-stage[data-phase="escalate"] .dyad-scene::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+#dyad-stage .courtyard-pot,
+#dyad-stage .pot-leaves,
+#dyad-stage .quarrel-mark,
+#dyad-stage .toy-listener,
+#dyad-stage .listen-ring,
+#dyad-stage .toy-pause-mark {
+  will-change: transform, opacity;
+}
+
+#dyad-stage .courtyard-pot {
+  z-index: 2;
+}
+
+#dyad-stage .courtyard-pot::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: -4px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(92, 62, 48, 0.2);
+}
+
+#dyad-stage .courtyard-pot .pot-initial {
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(92, 62, 48, 0.68);
+  transform: translateX(-50%);
+}
+
+#dyad-stage[data-phase="a-signal"] .courtyard-pot.nora {
+  animation: p3PlanterScoot 0.72s cubic-bezier(0.18, 1.35, 0.36, 1) both;
+}
+
+#dyad-stage[data-phase="b-reads"] .courtyard-pot.nora,
+#dyad-stage[data-phase="escalate"] .courtyard-pot.nora {
+  animation: p3PlanterAgitated 0.62s ease-in-out infinite;
+}
+
+#dyad-stage[data-phase="pause"] .courtyard-pot,
+#dyad-stage[data-phase="settle"] .courtyard-pot {
+  animation: p3PlanterSettle 1.45s ease-out both;
+}
+
+#dyad-stage[data-phase="a-signal"] .pot-leaves,
+#dyad-stage[data-phase="b-reads"] .pot-leaves,
+#dyad-stage[data-phase="escalate"] .pot-leaves {
+  animation: p3LeafFlutter 0.5s ease-in-out infinite;
+}
+
+#dyad-stage .quarrel-mark {
+  box-shadow: 0 6px 10px rgba(168, 58, 58, 0.13);
+}
+
+#dyad-stage .quarrel-mark::before,
+#dyad-stage .quarrel-mark::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0;
+  transform-origin: center;
+}
+
+#dyad-stage .quarrel-mark::before {
+  left: -8px;
+  top: 3px;
+  transform: rotate(30deg);
+}
+
+#dyad-stage .quarrel-mark::after {
+  right: -8px;
+  bottom: 4px;
+  transform: rotate(30deg);
+}
+
+#dyad-stage[data-phase="b-reads"] .quarrel-mark.nora,
+#dyad-stage[data-phase="escalate"] .quarrel-mark {
+  animation: p3QuarrelPop 0.54s cubic-bezier(0.22, 1.5, 0.36, 1) both;
+}
+
+#dyad-stage[data-phase="escalate"] .quarrel-mark::before,
+#dyad-stage[data-phase="escalate"] .quarrel-mark::after {
+  opacity: 0.85;
+  animation: p3QuarrelSpark 0.52s ease-in-out infinite;
+}
+
+#dyad-stage .toy-listener {
+  box-shadow:
+    0 8px 14px rgba(74, 107, 102, 0.12),
+    0 18px 0 -8px #7aa59e;
+  transform-origin: center bottom;
+}
+
+#dyad-stage .toy-listener::before,
+#dyad-stage .toy-listener::after {
+  transition: transform 0.35s ease;
+}
+
+#dyad-stage .toy-listener .listener-ear,
+#dyad-stage .toy-listener .listener-body,
+#dyad-stage .toy-listener .listener-hand,
+#dyad-stage .toy-listener .listener-mouth {
+  position: absolute;
+  left: 50%;
+  pointer-events: none;
+}
+
+#dyad-stage .toy-listener .listener-ear {
+  top: -5px;
+  z-index: -1;
+  width: 8px;
+  height: 11px;
+  border: 2px solid #a8745a;
+  border-radius: 70% 70% 45% 45%;
+  background: #f2d5bf;
+}
+
+#dyad-stage .toy-listener .listener-ear.left {
+  transform: translateX(-20px) rotate(-24deg);
+}
+
+#dyad-stage .toy-listener .listener-ear.right {
+  transform: translateX(12px) rotate(24deg);
+}
+
+#dyad-stage .toy-listener .listener-body {
+  top: 22px;
+  z-index: -1;
+  width: 22px;
+  height: 18px;
+  border-radius: 12px 12px 8px 8px;
+  background: #7aa59e;
+  border: 2px solid #4f7c77;
+  transform: translateX(-50%);
+}
+
+#dyad-stage .toy-listener .listener-hand {
+  top: 25px;
+  z-index: 1;
+  width: 9px;
+  height: 9px;
+  border: 2px solid #4f7c77;
+  border-top: 0;
+  border-radius: 0 0 999px 999px;
+  opacity: 0.82;
+}
+
+#dyad-stage .toy-listener .listener-hand.left {
+  transform: translateX(-23px) rotate(28deg);
+}
+
+#dyad-stage .toy-listener .listener-hand.right {
+  transform: translateX(14px) rotate(-28deg);
+}
+
+#dyad-stage .toy-listener .listener-mouth {
+  top: 18px;
+  width: 10px;
+  height: 5px;
+  border-bottom: 1.6px solid #38353a;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+#dyad-stage[data-phase="pause"] .toy-listener,
+#dyad-stage[data-phase="settle"] .toy-listener,
+#dyad-stage .toy-listener.shown {
+  animation: p3ListenerNod 1.55s ease-in-out infinite;
+}
+
+#dyad-stage[data-phase="pause"] .listen-ring,
+#dyad-stage[data-phase="settle"] .listen-ring,
+#dyad-stage .listen-ring.shown {
+  transform-origin: center bottom;
+  animation: p3ListenWave 1.9s ease-out infinite;
+}
+
+#dyad-stage[data-phase="pause"] .listen-ring.two,
+#dyad-stage[data-phase="settle"] .listen-ring.two,
+#dyad-stage .listen-ring.two.shown {
+  animation-delay: 0.42s;
+}
+
+#dyad-stage[data-phase="pause"] .toy-pause-mark,
+#dyad-stage .toy-pause-mark.shown {
+  animation: p3PauseFloat 1.3s ease-in-out infinite;
+}
+
+#dyad-stage .co-reg-cue {
+  position: absolute;
+  left: 50%;
+  top: 64%;
+  z-index: 4;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--dyad-safe);
+  border-left: 0;
+  border-bottom: 0;
+  border-radius: 0 999px 0 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(45deg) scale(0.6);
+}
+
+#dyad-stage[data-phase="pause"] .co-reg-cue,
+#dyad-stage[data-phase="settle"] .co-reg-cue {
+  animation: p3CoRegArc 1.8s ease-in-out infinite;
+}
+
+#dyad-stage .co-reg-cue.two {
+  width: 18px;
+  height: 18px;
+  animation-delay: 0.34s;
+  border-color: rgba(58, 138, 138, 0.62);
+}
+
+#dyad-stage .co-reg-cue.three {
+  width: 24px;
+  height: 24px;
+  animation-delay: 0.68s;
+  border-color: rgba(58, 138, 138, 0.42);
+}
+
+#dyad-stage[data-phase="pause"] .dyad-link.safe,
+#dyad-stage[data-phase="settle"] .dyad-link.safe {
+  stroke-dasharray: 16 10;
+  animation: p3SafeLinkBreathe 1.8s ease-in-out infinite;
+}
+
+#dyad-stage[data-phase="settle"] .safe-word {
+  animation: p3WordRest 2s ease-in-out infinite;
+}
+
+#game-character.part3-polish-ready .peter-focus-dot {
+  position: absolute;
+  left: 50%;
+  top: 29%;
+  z-index: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 249, 240, 0.72);
+  box-shadow: 0 0 0 0 rgba(255, 249, 240, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+#game-character[data-peter="panic"] .peter-focus-dot,
+#game-character[data-peter="hyper"] .peter-focus-dot {
+  opacity: 1;
+  animation: p3PeterCanPing 0.72s ease-out infinite;
+}
+
+#game-character[data-peter="settling"] .peter-focus-dot,
+#game-character[data-peter="calm"] .peter-focus-dot {
+  opacity: 0.7;
+  animation: p3PeterCanPing 2.2s ease-out infinite;
+}
+
+#game-character[data-peter="panic"] .peter-mouth,
+#game-character[data-peter="hyper"] .peter-mouth {
+  animation: p3PeterMouthQuiver 0.52s ease-in-out infinite;
+}
+
+#game-character[data-peter="panic"] .peter-pupil,
+#game-character[data-peter="hyper"] .peter-pupil {
+  animation: p3PeterPupilWide 0.72s steps(2, end) infinite;
+}
+
+#game-character[data-peter="settling"] .peter-pupil,
+#game-character[data-peter="calm"] .peter-pupil {
+  animation: p3PeterPupilSoft 2.8s ease-in-out infinite;
+}
+
+#game-character[data-peter="panic"] .watering-can,
+#game-character[data-peter="hyper"] .watering-can {
+  filter: drop-shadow(0 2px 0 rgba(168, 58, 58, 0.1));
+}
+
+@keyframes p3FaceBreathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  48% { transform: translateY(-2px) scale(1.01); }
+}
+
+@keyframes p3SoftBlink {
+  0%, 88%, 100% { transform: scaleY(1); }
+  91%, 93% { transform: scaleY(0.18); }
+}
+
+@keyframes p3SlowBlink {
+  0%, 74%, 100% { transform: scaleY(1); }
+  80%, 84% { transform: scaleY(0.22); }
+}
+
+@keyframes p3EyePin {
+  0%, 100% { transform: translate(-1px, -1px) scale(0.92, 1.2); }
+  50% { transform: translate(1px, -1px) scale(0.82, 1.28); }
+}
+
+@keyframes p3SettleSway {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  45% { transform: translateY(-3px) rotate(-0.7deg); }
+  70% { transform: translateY(-1px) rotate(0.5deg); }
+}
+
+@keyframes p3BodyTremble {
+  0%, 100% { translate: 0 0; }
+  25% { translate: -1px 0; }
+  50% { translate: 1px -1px; }
+  75% { translate: -1px 1px; }
+}
+
+@keyframes p3HotBorder {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes p3PlanterScoot {
+  0% { transform: translateX(0) rotate(0deg); }
+  45% { transform: translateX(45px) rotate(-9deg); }
+  70% { transform: translateX(34px) rotate(4deg); }
+  100% { transform: translateX(38px) rotate(-5deg); }
+}
+
+@keyframes p3PlanterAgitated {
+  0%, 100% { transform: translateX(38px) rotate(-5deg); }
+  35% { transform: translateX(36px) rotate(-8deg); }
+  70% { transform: translateX(40px) rotate(-2deg); }
+}
+
+@keyframes p3PlanterSettle {
+  0% { transform: translateX(38px) rotate(-5deg); }
+  64% { transform: translateX(-3px) rotate(2deg); }
+  100% { transform: translateX(0) rotate(0deg); }
+}
+
+@keyframes p3LeafFlutter {
+  0%, 100% { transform: translateX(-50%) rotate(0deg); }
+  50% { transform: translateX(-50%) rotate(8deg); }
+}
+
+@keyframes p3QuarrelPop {
+  0% { transform: scale(0.55) translateY(6px); }
+  58% { transform: scale(1.14) translateY(-2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+@keyframes p3QuarrelSpark {
+  0%, 100% { opacity: 0.4; transform: translateX(0) rotate(30deg) scaleX(0.8); }
+  50% { opacity: 1; transform: translateX(1px) rotate(30deg) scaleX(1.15); }
+}
+
+@keyframes p3ListenerNod {
+  0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg) scale(1); }
+  38% { transform: translateX(-50%) translateY(2px) rotate(2.5deg) scale(1.02); }
+  58% { transform: translateX(-50%) translateY(0) rotate(-1deg) scale(1); }
+}
+
+@keyframes p3ListenWave {
+  0% { opacity: 0.68; transform: translateX(-50%) scale(0.8); }
+  58% { opacity: 0.28; transform: translateX(-50%) scale(1.12); }
+  100% { opacity: 0.05; transform: translateX(-50%) scale(1.24); }
+}
+
+@keyframes p3PauseFloat {
+  0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+  50% { transform: translateX(-50%) translateY(-3px) scale(1.04); }
+}
+
+@keyframes p3CoRegArc {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(45deg) scale(0.55); }
+  28% { opacity: 0.72; }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(45deg) scale(1.35); }
+}
+
+@keyframes p3SafeLinkBreathe {
+  0%, 100% { opacity: 0.62; stroke-width: 2.8; }
+  50% { opacity: 1; stroke-width: 4; }
+}
+
+@keyframes p3WordRest {
+  0%, 100% { opacity: 0.72; }
+  50% { opacity: 1; }
+}
+
+@keyframes p3PeterCanPing {
+  0% { box-shadow: 0 0 0 0 rgba(255, 249, 240, 0.5); transform: translate(-50%, -50%) scale(0.8); }
+  100% { box-shadow: 0 0 0 28px rgba(255, 249, 240, 0); transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes p3PeterMouthQuiver {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(1px); }
+}
+
+@keyframes p3PeterPupilWide {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.22); }
+}
+
+@keyframes p3PeterPupilSoft {
+  0%, 100% { transform: scale(1); }
+  48% { transform: scale(0.86); }
+}
+
+@media (max-width: 760px) {
+  #dyad-stage .dyad-person::before {
+    top: 57px;
+    width: 78px;
+    height: 34px;
+  }
+
+  #dyad-stage .dyad-face::before,
+  #dyad-stage .dyad-face::after {
+    top: 16px;
+    width: 12px;
+  }
+
+  #dyad-stage .dyad-face::before { left: 12px; }
+  #dyad-stage .dyad-face::after { right: 12px; }
+
+  #dyad-stage[data-phase="b-reads"] #dyad-a,
+  #dyad-stage[data-phase="escalate"] #dyad-a {
+    transform: translateX(-4px) translateY(4px) rotate(-1deg);
+  }
+
+  #dyad-stage[data-phase="b-reads"] #dyad-b,
+  #dyad-stage[data-phase="escalate"] #dyad-b {
+    transform: translateX(4px) translateY(4px) rotate(1deg);
+  }
+
+  #dyad-stage .co-reg-cue {
+    top: 70%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #part-3 *,
+  #game-character.part3-polish-ready * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
