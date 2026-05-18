@@ -131,6 +131,22 @@
     stem()    { tone(220, 0.20, { vol: 0.08, type: "triangle" }); },
     arrow()   { whoosh(700, 0.30, 0.05); },
     heart()   { tone(70, 0.08, { vol: 0.15, type: "sine" }); setTimeout(() => tone(60, 0.07, { vol: 0.08, type: "sine" }), 100); },
+    heartPound() {
+      [0, 300, 610].forEach((delay) => {
+        setTimeout(() => {
+          tone(74, 0.09, { vol: 0.16, type: "sine" });
+          setTimeout(() => tone(58, 0.08, { vol: 0.10, type: "sine" }), 92);
+        }, delay);
+      });
+    },
+    deepBreath() {
+      whoosh(260, 0.55, 0.035);
+      tone(165, 0.60, { vol: 0.035, type: "triangle", sweepTo: 105 });
+      setTimeout(() => {
+        whoosh(170, 0.70, 0.028);
+        tone(115, 0.58, { vol: 0.025, type: "sine", sweepTo: 76 });
+      }, 470);
+    },
     cortex()  {
       // soft rising arpeggio C5 E5 G5
       tone(523, 0.18, { vol: 0.06, type: "sine" });
@@ -786,6 +802,7 @@
       const slot   = this.state.picks.length;
       this.state.picks.push(cardId);
       const effect = this.applyCard(cardId);
+      this.playPeterSound(cardId, effect);
 
       // T+0: fire the intervention arrow and any character flourish
       this.fireInterventionArrow(effect.arrow);
@@ -815,6 +832,30 @@
           this.evaluate();
         }
       }, 1700);
+    },
+
+    playPeterSound(cardId, effect) {
+      if (cardId === "breathe") {
+        if (sounds.deepBreath) sounds.deepBreath();
+        setTimeout(() => { if (sounds.heart) sounds.heart(); }, 820);
+        return;
+      }
+      if (cardId === "notice") {
+        if (sounds.heartPound) sounds.heartPound();
+        setTimeout(() => { if (sounds.cortex) sounds.cortex(); }, 520);
+        return;
+      }
+      if (cardId === "suppress") {
+        if (sounds.wrong) sounds.wrong();
+        setTimeout(() => { if (sounds.heartPound) sounds.heartPound(); }, 120);
+        return;
+      }
+      if (effect && effect.isError) {
+        if (sounds.wrong) sounds.wrong();
+        setTimeout(() => { if (sounds.heartPound) sounds.heartPound(); }, 140);
+        return;
+      }
+      if (cardId === "reframe" && sounds.cortex) sounds.cortex();
     },
 
     /* ---------- Win / retry evaluation after the 3rd pick --------------- */
