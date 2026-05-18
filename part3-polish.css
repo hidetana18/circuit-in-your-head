@@ -523,53 +523,6 @@
   animation: p3WordRest 2s ease-in-out infinite;
 }
 
-#game-character.part3-polish-ready .peter-focus-dot {
-  position: absolute;
-  left: 50%;
-  top: 29%;
-  z-index: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 249, 240, 0.72);
-  box-shadow: 0 0 0 0 rgba(255, 249, 240, 0.5);
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-}
-
-#game-character[data-peter="panic"] .peter-focus-dot,
-#game-character[data-peter="hyper"] .peter-focus-dot {
-  opacity: 1;
-  animation: p3PeterCanPing 0.72s ease-out infinite;
-}
-
-#game-character[data-peter="settling"] .peter-focus-dot,
-#game-character[data-peter="calm"] .peter-focus-dot {
-  opacity: 0.7;
-  animation: p3PeterCanPing 2.2s ease-out infinite;
-}
-
-#game-character[data-peter="panic"] .peter-mouth,
-#game-character[data-peter="hyper"] .peter-mouth {
-  animation: p3PeterMouthQuiver 0.52s ease-in-out infinite;
-}
-
-#game-character[data-peter="panic"] .peter-pupil,
-#game-character[data-peter="hyper"] .peter-pupil {
-  animation: p3PeterPupilWide 0.72s steps(2, end) infinite;
-}
-
-#game-character[data-peter="settling"] .peter-pupil,
-#game-character[data-peter="calm"] .peter-pupil {
-  animation: p3PeterPupilSoft 2.8s ease-in-out infinite;
-}
-
-#game-character[data-peter="panic"] .watering-can,
-#game-character[data-peter="hyper"] .watering-can {
-  filter: drop-shadow(0 2px 0 rgba(168, 58, 58, 0.1));
-}
-
 @keyframes p3FaceBreathe {
   0%, 100% { transform: translateY(0) scale(1); }
   48% { transform: translateY(-2px) scale(1.01); }
@@ -676,26 +629,6 @@
   50% { opacity: 1; }
 }
 
-@keyframes p3PeterCanPing {
-  0% { box-shadow: 0 0 0 0 rgba(255, 249, 240, 0.5); transform: translate(-50%, -50%) scale(0.8); }
-  100% { box-shadow: 0 0 0 28px rgba(255, 249, 240, 0); transform: translate(-50%, -50%) scale(1); }
-}
-
-@keyframes p3PeterMouthQuiver {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(1px); }
-}
-
-@keyframes p3PeterPupilWide {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.22); }
-}
-
-@keyframes p3PeterPupilSoft {
-  0%, 100% { transform: scale(1); }
-  48% { transform: scale(0.86); }
-}
-
 @media (max-width: 760px) {
   #dyad-stage .dyad-person::before {
     top: 57px;
@@ -728,8 +661,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #part-3 *,
-  #game-character.part3-polish-ready * {
+  #part-3 * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;

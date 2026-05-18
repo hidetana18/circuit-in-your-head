@@ -72,18 +72,8 @@
     observer.observe(stage, { attributes: true, attributeFilter: ["data-phase"] });
   }
 
-  function setupPeterPolish() {
-    const peter = document.getElementById("game-character");
-    if (!peter || peter.dataset.part3PolishReady === "true") return;
-
-    peter.dataset.part3PolishReady = "true";
-    peter.classList.add("part3-polish-ready");
-    appendOnce(peter, "peter-focus-dot");
-  }
-
   function init() {
     setupDyadPolish();
-    setupPeterPolish();
   }
 
   if (document.readyState === "loading") {
