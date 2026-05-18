@@ -6,7 +6,7 @@ The core idea: a mind is a learning circuit, and experience tunes the path.
 
 ## What it teaches
 
-Two beats:
+Three beats:
 
 1. **The framework** — a neural window into the mind: body, alarm,
    attention, and action. A 4-step animation shows what happens when a kid
@@ -16,6 +16,9 @@ Two beats:
    heart pounding. Tap three actions in order
    (**Notice → Breathe → Reframe**) to give his circuit a safe experience.
    One trap card (**Push it down**) never works.
+3. **The shared loop** — two children each have a brain-body circuit.
+   Their alarms can become each other's input, escalating the loop until a
+   pause gives both circuits safer data.
 
 The page is intentionally one screen of words and one screen of game.
 Everything else is visual.

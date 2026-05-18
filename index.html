@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Circuit in Your Head — an interactive exhibit</title>
-  <meta name="description" content="A child psychology education demo: a neural window into the mind through body, alarm, attention, and action." />
+  <meta name="description" content="A child psychology education demo: a neural window into mind-body circuits, learning, and shared alarm loops." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=12" />
+  <link rel="stylesheet" href="styles.css?v=13" />
 </head>
 <body>
 
@@ -683,12 +683,111 @@
     </div>
   </section>
 
+  <!-- ====================== PART 3: TWO-CIRCUIT LOOP ====================== -->
+  <section id="part-3" class="part part-dyad">
+    <div class="part-head">
+      <span class="part-num">Part 3</span>
+      <h2>When Two <em>Alarms Meet</em></h2>
+      <p class="part-note">Two minds can form one loop. Each circuit reads the other's body and action.</p>
+    </div>
+
+    <div class="dyad-stage" id="dyad-stage" data-phase="calm">
+      <div class="dyad-person" id="dyad-a" data-state="calm">
+        <p class="dyad-name">Child A</p>
+        <div class="dyad-face" aria-hidden="true">
+          <span class="dyad-eye left"></span>
+          <span class="dyad-eye right"></span>
+          <span class="dyad-mouth"></span>
+        </div>
+        <div class="dyad-brain" role="img" aria-label="Child A brain-body circuit">
+          <div class="dyad-layer cortex">CORTEX <small>attention</small></div>
+          <div class="dyad-layer limbic">ALARM <small>expects</small></div>
+          <div class="dyad-layer stem">BODY <small>signals</small></div>
+        </div>
+        <div class="dyad-meter">
+          <span class="dyad-meter-label">alarm</span>
+          <span class="dyad-meter-track"><span class="dyad-meter-fill"></span></span>
+          <span class="dyad-meter-value" id="dyad-a-alarm">low</span>
+        </div>
+      </div>
+
+      <svg class="dyad-loop" viewBox="0 0 220 190" aria-label="Shared loop between two circuits">
+        <defs>
+          <marker id="arr-dyad-hot" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 9 5 L 0 9"
+                  fill="none" stroke="#a83a3a" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </marker>
+          <marker id="arr-dyad-safe" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 1 L 9 5 L 0 9"
+                  fill="none" stroke="#3a8a8a" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </marker>
+        </defs>
+        <path class="dyad-link hot" data-link="a-hot"
+              d="M 24 72 C 72 16, 148 16, 196 72"
+              fill="none" stroke="#a83a3a" stroke-width="3"
+              stroke-linecap="round" marker-end="url(#arr-dyad-hot)" />
+        <path class="dyad-link hot" data-link="b-hot"
+              d="M 196 118 C 148 174, 72 174, 24 118"
+              fill="none" stroke="#a83a3a" stroke-width="3"
+              stroke-linecap="round" marker-end="url(#arr-dyad-hot)" />
+        <path class="dyad-link safe" data-link="safe"
+              d="M 38 100 C 78 82, 142 82, 182 100"
+              fill="none" stroke="#3a8a8a" stroke-width="3"
+              stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
+        <g class="dyad-pause" data-link="pause" aria-hidden="true">
+          <circle cx="110" cy="95" r="29" fill="#fff9f0" stroke="#f4c25a" stroke-width="3" />
+          <rect x="100" y="82" width="7" height="26" rx="3" fill="#38353a" />
+          <rect x="114" y="82" width="7" height="26" rx="3" fill="#38353a" />
+        </g>
+        <text class="dyad-loop-word hot-word" x="110" y="42" text-anchor="middle">escalates</text>
+        <text class="dyad-loop-word safe-word" x="110" y="146" text-anchor="middle">new input</text>
+      </svg>
+
+      <div class="dyad-person" id="dyad-b" data-state="calm">
+        <p class="dyad-name">Child B</p>
+        <div class="dyad-face" aria-hidden="true">
+          <span class="dyad-eye left"></span>
+          <span class="dyad-eye right"></span>
+          <span class="dyad-mouth"></span>
+        </div>
+        <div class="dyad-brain" role="img" aria-label="Child B brain-body circuit">
+          <div class="dyad-layer cortex">CORTEX <small>attention</small></div>
+          <div class="dyad-layer limbic">ALARM <small>expects</small></div>
+          <div class="dyad-layer stem">BODY <small>signals</small></div>
+        </div>
+        <div class="dyad-meter">
+          <span class="dyad-meter-label">alarm</span>
+          <span class="dyad-meter-track"><span class="dyad-meter-fill"></span></span>
+          <span class="dyad-meter-value" id="dyad-b-alarm">low</span>
+        </div>
+      </div>
+
+      <p class="dyad-caption" id="dyad-caption" aria-live="polite" aria-atomic="true">
+        Two minds, two learning circuits.
+      </p>
+    </div>
+
+    <div class="intro-controls dyad-controls">
+      <button class="step-btn" id="dyad-prev" aria-label="Previous shared-loop step">◀ Prev</button>
+      <button class="step-btn primary" id="dyad-play" aria-label="Play / pause shared-loop animation">▶ Auto-play</button>
+      <button class="step-btn" id="dyad-next" aria-label="Next shared-loop step">Next ▶</button>
+      <div class="step-indicator" aria-live="polite">
+        Step <span id="dyad-step">1</span> / <span id="dyad-total">6</span>
+      </div>
+      <button class="ghost-btn" id="dyad-replay" aria-label="Restart shared-loop animation">↺ Restart</button>
+    </div>
+  </section>
+
   <!-- ====================== FOOTER ====================== -->
   <footer class="foot">
     <p>An interactive exhibit · 2026</p>
     <p class="micro">Camera estimates run locally in your browser and are not recorded.</p>
   </footer>
 
-  <script src="script.js?v=12"></script>
+  <script src="script.js?v=13"></script>
 </body>
 </html>

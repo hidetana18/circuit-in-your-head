@@ -1112,4 +1112,185 @@
   if (playAgainBtn) playAgainBtn.addEventListener("click", () => peterGame.init());
 
   peterGame.init();
+
+
+  /* ====================== PART 3: TWO-CIRCUIT LOOP ======================
+     Same interaction shape as Part 1, but the unit of analysis is a shared
+     loop: each person's body/action becomes data for the other's circuit. */
+
+  const dyadBeats = [
+    {
+      phase: "calm",
+      a: "calm", b: "calm",
+      links: [],
+      alarms: { a: "low", b: "low" },
+      caption: "Two minds, two learning circuits.",
+      mod: "",
+      hold: 1600,
+    },
+    {
+      phase: "a-signal",
+      a: "alert", b: "calm",
+      links: ["a-hot"],
+      alarms: { a: "rising", b: "low" },
+      caption: "A's alarm changes the signal B sees.",
+      mod: "",
+      hold: 1700,
+    },
+    {
+      phase: "b-reads",
+      a: "alert", b: "alert",
+      links: ["a-hot"],
+      alarms: { a: "rising", b: "rising" },
+      caption: "B reads danger. B's own alarm rises.",
+      mod: "",
+      hold: 1700,
+    },
+    {
+      phase: "escalate",
+      a: "hot", b: "hot",
+      links: ["a-hot", "b-hot"],
+      alarms: { a: "high", b: "high" },
+      caption: "Each alarm becomes the other's input. The loop escalates.",
+      mod: "",
+      hold: 2100,
+    },
+    {
+      phase: "pause",
+      a: "settling", b: "alert",
+      links: ["pause"],
+      alarms: { a: "falling", b: "rising" },
+      caption: "A pause gives both circuits new data: space, time, safety.",
+      mod: "",
+      hold: 1900,
+    },
+    {
+      phase: "settle",
+      a: "calm", b: "calm",
+      links: ["safe"],
+      alarms: { a: "low", b: "low" },
+      caption: "Both circuits settle. Now each mind can read the other more clearly.",
+      mod: "settle",
+      hold: 0,
+    },
+  ];
+
+  const dyadStage = document.getElementById("dyad-stage");
+  const dyadA = document.getElementById("dyad-a");
+  const dyadB = document.getElementById("dyad-b");
+  const dyadCaption = document.getElementById("dyad-caption");
+  const dyadStepEl = document.getElementById("dyad-step");
+  const dyadTotalEl = document.getElementById("dyad-total");
+  const dyadPrevBtn = document.getElementById("dyad-prev");
+  const dyadNextBtn = document.getElementById("dyad-next");
+  const dyadPlayBtn = document.getElementById("dyad-play");
+  const dyadReplayBtn = document.getElementById("dyad-replay");
+  const dyadAAlarm = document.getElementById("dyad-a-alarm");
+  const dyadBAlarm = document.getElementById("dyad-b-alarm");
+
+  let dyadIdx = 0;
+  let dyadTimer = null;
+  let dyadPlaying = false;
+  let dyadPlayed = false;
+
+  if (dyadTotalEl) dyadTotalEl.textContent = dyadBeats.length;
+
+  function applyDyadBeat(idx) {
+    const b = dyadBeats[idx];
+    if (!b || !dyadStage) return;
+
+    dyadStage.dataset.phase = b.phase;
+    if (dyadA) dyadA.dataset.state = b.a;
+    if (dyadB) dyadB.dataset.state = b.b;
+    if (dyadAAlarm) dyadAAlarm.textContent = b.alarms.a;
+    if (dyadBAlarm) dyadBAlarm.textContent = b.alarms.b;
+
+    const linkEls = dyadStage.querySelectorAll(".dyad-link, .dyad-pause");
+    linkEls.forEach((el) => el.classList.remove("shown"));
+    void dyadStage.offsetWidth;
+    linkEls.forEach((el) => {
+      el.classList.toggle("shown", b.links.includes(el.dataset.link));
+    });
+
+    if (dyadCaption) {
+      dyadCaption.classList.add("fade");
+      setTimeout(() => {
+        dyadCaption.textContent = b.caption;
+        dyadCaption.classList.remove("fade", "settle");
+        if (b.mod) dyadCaption.classList.add(b.mod);
+      }, 180);
+    }
+
+    if (dyadStepEl) dyadStepEl.textContent = idx + 1;
+    if (dyadPrevBtn) dyadPrevBtn.disabled = idx === 0;
+    if (dyadNextBtn) dyadNextBtn.disabled = idx === dyadBeats.length - 1;
+  }
+
+  function setDyadPlaying(v) {
+    dyadPlaying = v;
+    if (dyadPlayBtn) {
+      dyadPlayBtn.textContent = v ? "⏸ Pause" : (dyadIdx >= dyadBeats.length - 1 ? "↺ Replay" : "▶ Auto-play");
+    }
+    if (!v && dyadTimer) {
+      clearTimeout(dyadTimer);
+      dyadTimer = null;
+    }
+  }
+
+  function goToDyad(i, opts) {
+    opts = opts || {};
+    if (dyadTimer) {
+      clearTimeout(dyadTimer);
+      dyadTimer = null;
+    }
+    dyadIdx = Math.max(0, Math.min(dyadBeats.length - 1, i));
+    applyDyadBeat(dyadIdx);
+    if (opts.autoplay && dyadIdx < dyadBeats.length - 1) {
+      const hold = dyadBeats[dyadIdx].hold;
+      if (hold > 0) {
+        dyadTimer = setTimeout(() => goToDyad(dyadIdx + 1, { autoplay: true }), hold);
+      } else {
+        setDyadPlaying(false);
+      }
+    }
+    if (dyadIdx === dyadBeats.length - 1) setDyadPlaying(false);
+  }
+
+  function startDyadAutoplay() {
+    if (dyadIdx >= dyadBeats.length - 1) goToDyad(0, { autoplay: true });
+    else goToDyad(dyadIdx, { autoplay: true });
+    setDyadPlaying(true);
+  }
+
+  if (dyadPrevBtn) dyadPrevBtn.addEventListener("click", () => { setDyadPlaying(false); goToDyad(dyadIdx - 1); });
+  if (dyadNextBtn) dyadNextBtn.addEventListener("click", () => { setDyadPlaying(false); goToDyad(dyadIdx + 1); });
+  if (dyadPlayBtn) dyadPlayBtn.addEventListener("click", () => dyadPlaying ? setDyadPlaying(false) : startDyadAutoplay());
+  if (dyadReplayBtn) dyadReplayBtn.addEventListener("click", () => { setDyadPlaying(false); goToDyad(0); });
+
+  document.addEventListener("keydown", (e) => {
+    const part3 = document.getElementById("part-3");
+    if (!part3) return;
+    const rect = part3.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); setDyadPlaying(false); goToDyad(dyadIdx + 1); }
+    if (e.key === "ArrowLeft")  { e.preventDefault(); setDyadPlaying(false); goToDyad(dyadIdx - 1); }
+  });
+
+  goToDyad(0);
+
+  if ("IntersectionObserver" in window && dyadStage) {
+    const part3 = document.getElementById("part-3");
+    if (part3) {
+      const dyadObserver = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && !dyadPlayed) {
+            dyadPlayed = true;
+            startDyadAutoplay();
+            dyadObserver.disconnect();
+          }
+        });
+      }, { threshold: 0.35 });
+      dyadObserver.observe(part3);
+    }
+  }
 })();
