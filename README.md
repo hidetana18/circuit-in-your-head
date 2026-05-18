@@ -6,7 +6,7 @@ The core idea: a mind is a learning circuit, and experience tunes the path.
 
 ## What it teaches
 
-Three beats:
+Four beats:
 
 1. **The framework** — a neural window into the mind: body, alarm,
    attention, and action. A 4-step animation shows what happens when a kid
@@ -19,6 +19,9 @@ Three beats:
 3. **The shared loop** — Maya bumps a block tower and Leo reads the accident
    as threat. Their heart rate, breathing, actions, and interpretations become
    each other's input until a pause gives both circuits safer data.
+4. **The literary lens** — Jane Austen's *Pride and Prejudice* shows the same
+   loop at an adult scale: first impressions become predictions, then letters
+   and actions provide new evidence that updates the model.
 
 The page is intentionally one screen of words and one screen of game.
 Everything else is visual.

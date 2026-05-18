@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=16" />
+  <link rel="stylesheet" href="styles.css?v=17" />
 </head>
 <body>
 
@@ -849,12 +849,97 @@
     </div>
   </section>
 
+  <!-- ====================== PART 4: LITERARY LENS ====================== -->
+  <section id="part-4" class="part part-literary">
+    <div class="part-head">
+      <span class="part-num">Part 4</span>
+      <h2>Literary Lens: <em>Pride &amp; Prejudice</em></h2>
+      <p class="part-note">Jane Austen turns social signals into prediction errors.</p>
+    </div>
+
+    <div class="lit-stage" id="lit-stage" data-phase="assembly">
+      <div class="lit-scene-panel">
+        <p class="lit-bookline">Jane Austen · 1813</p>
+        <div class="lit-ballroom" aria-label="Regency ballroom scene">
+          <span class="lit-arch arch-left"></span>
+          <span class="lit-arch arch-right"></span>
+          <span class="lit-chandelier"></span>
+          <span class="lit-floor"></span>
+          <span class="lit-thread thread-pride"></span>
+          <span class="lit-thread thread-prejudice"></span>
+          <span class="regency-figure elizabeth" aria-hidden="true">
+            <span class="figure-head"></span>
+            <span class="figure-hair"></span>
+            <span class="figure-body"></span>
+            <span class="figure-skirt"></span>
+          </span>
+          <span class="regency-figure darcy" aria-hidden="true">
+            <span class="figure-head"></span>
+            <span class="figure-hair"></span>
+            <span class="figure-coat"></span>
+            <span class="figure-body"></span>
+          </span>
+          <span class="lit-letter" aria-hidden="true"></span>
+        </div>
+        <p class="lit-event" id="lit-event">At an assembly, Darcy refuses to dance with Elizabeth.</p>
+      </div>
+
+      <div class="lit-minds">
+        <article class="lit-mind elizabeth" id="lit-elizabeth" data-state="guarded">
+          <p class="lit-mind-kicker">Elizabeth reads</p>
+          <h3>Elizabeth Bennet</h3>
+          <p class="lit-read" id="lit-elizabeth-read">"He thinks I am beneath him."</p>
+          <p class="lit-body" id="lit-elizabeth-body">Social pain narrows attention toward pride.</p>
+        </article>
+
+        <article class="lit-mind darcy" id="lit-darcy" data-state="guarded">
+          <p class="lit-mind-kicker">Darcy reads</p>
+          <h3>Fitzwilliam Darcy</h3>
+          <p class="lit-read" id="lit-darcy-read">"This room is unsafe for me."</p>
+          <p class="lit-body" id="lit-darcy-body">His body chooses distance before curiosity.</p>
+        </article>
+      </div>
+
+      <div class="lit-learning">
+        <p class="lit-learning-kicker">learning circuit</p>
+        <div class="lit-path" aria-label="Learning path">
+          <span class="lit-node" data-node="prior">prior</span>
+          <span class="lit-path-line"></span>
+          <span class="lit-node" data-node="signal">signal</span>
+          <span class="lit-path-line"></span>
+          <span class="lit-node" data-node="story">story</span>
+          <span class="lit-path-line"></span>
+          <span class="lit-node" data-node="evidence">evidence</span>
+          <span class="lit-path-line"></span>
+          <span class="lit-node" data-node="update">update</span>
+        </div>
+        <p class="lit-learning-text" id="lit-learning-text">
+          A first social signal becomes a prediction: what kind of person is he?
+        </p>
+      </div>
+
+      <p class="lit-caption" id="lit-caption" aria-live="polite" aria-atomic="true">
+        The novel begins with two guarded circuits reading too much from too little data.
+      </p>
+    </div>
+
+    <div class="intro-controls lit-controls">
+      <button class="step-btn" id="lit-prev" aria-label="Previous literary-lens step">◀ Prev</button>
+      <button class="step-btn primary" id="lit-play" aria-label="Play / pause literary-lens animation">▶ Auto-play</button>
+      <button class="step-btn" id="lit-next" aria-label="Next literary-lens step">Next ▶</button>
+      <div class="step-indicator" aria-live="polite">
+        Step <span id="lit-step">1</span> / <span id="lit-total">5</span>
+      </div>
+      <button class="ghost-btn" id="lit-replay" aria-label="Restart literary-lens animation">↺ Restart</button>
+    </div>
+  </section>
+
   <!-- ====================== FOOTER ====================== -->
   <footer class="foot">
     <p>An interactive exhibit · 2026</p>
     <p class="micro">Camera estimates run locally in your browser and are not recorded.</p>
   </footer>
 
-  <script src="script.js?v=16"></script>
+  <script src="script.js?v=17"></script>
 </body>
 </html>

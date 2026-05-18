@@ -1344,3 +1344,226 @@
     }
   }
 })();
+
+/* =========================================================
+   Part 4: literary lens.
+   Pride and Prejudice is used as an adult-scale example of the same
+   prediction/update circuit from Part 3.
+   ========================================================= */
+(function () {
+  const litBeats = [
+    {
+      phase: "assembly",
+      event: "At an assembly, Darcy refuses to dance with Elizabeth.",
+      elizabeth: {
+        state: "wounded",
+        read: "\"He thinks I am beneath him.\"",
+        body: "Social pain narrows attention toward pride.",
+      },
+      darcy: {
+        state: "defensive",
+        read: "\"This room is unsafe for me.\"",
+        body: "His body chooses distance before curiosity.",
+      },
+      nodes: ["prior", "signal", "story"],
+      learning: "A first social signal becomes a prediction: what kind of person is he?",
+      caption: "The novel begins with two guarded circuits reading too much from too little data.",
+      mod: "",
+      hold: 2100,
+    },
+    {
+      phase: "prejudice",
+      event: "Wickham gives Elizabeth a story that confirms her first read.",
+      elizabeth: {
+        state: "wounded",
+        read: "\"Darcy is proud and cruel.\"",
+        body: "The old prediction now feels like evidence.",
+      },
+      darcy: {
+        state: "defensive",
+        read: "\"She has already judged me.\"",
+        body: "His guarded style becomes even harder to read.",
+      },
+      nodes: ["prior", "signal", "story"],
+      learning: "A mind often trusts data that fits the model it already built.",
+      caption: "Prejudice works like a strong prior: new input is pulled toward the old story.",
+      mod: "",
+      hold: 2300,
+    },
+    {
+      phase: "proposal",
+      event: "Darcy proposes, but his words carry pride as well as affection.",
+      elizabeth: {
+        state: "wounded",
+        read: "\"His love still looks like contempt.\"",
+        body: "Alarm rises; the old model becomes rigid.",
+      },
+      darcy: {
+        state: "defensive",
+        read: "\"My intention should be obvious.\"",
+        body: "He misses how his signal lands in her circuit.",
+      },
+      nodes: ["signal", "story"],
+      learning: "The same action can carry two signals: intention inside, impact outside.",
+      caption: "The loop peaks when each person reads the other's behavior through a narrowed lens.",
+      mod: "",
+      hold: 2400,
+    },
+    {
+      phase: "letter",
+      event: "Darcy's letter gives Elizabeth slower, more detailed evidence.",
+      elizabeth: {
+        state: "curious",
+        read: "\"My first read may be incomplete.\"",
+        body: "Attention widens; the model can revise.",
+      },
+      darcy: {
+        state: "curious",
+        read: "\"I must make my actions readable.\"",
+        body: "Distance begins to turn into repair.",
+      },
+      nodes: ["evidence"],
+      learning: "A letter slows the loop: more context creates prediction error.",
+      caption: "New evidence does not erase the first story. It makes revision possible.",
+      mod: "",
+      hold: 2300,
+    },
+    {
+      phase: "update",
+      event: "Later actions show a different pattern: respect, restraint, and repair.",
+      elizabeth: {
+        state: "changed",
+        read: "\"His character is larger than my first model.\"",
+        body: "A safer read lets affection and judgment coexist.",
+      },
+      darcy: {
+        state: "changed",
+        read: "\"Respect changes the signal.\"",
+        body: "His behavior becomes new data, not just explanation.",
+      },
+      nodes: ["evidence", "update"],
+      learning: "Learning is not instant insight. It is repeated evidence changing a model.",
+      caption: "Austen's romance is also a learning story: two minds update through better data.",
+      mod: "update",
+      hold: 0,
+    },
+  ];
+
+  const litStage = document.getElementById("lit-stage");
+  const litEvent = document.getElementById("lit-event");
+  const litElizabeth = document.getElementById("lit-elizabeth");
+  const litDarcy = document.getElementById("lit-darcy");
+  const litElizabethRead = document.getElementById("lit-elizabeth-read");
+  const litElizabethBody = document.getElementById("lit-elizabeth-body");
+  const litDarcyRead = document.getElementById("lit-darcy-read");
+  const litDarcyBody = document.getElementById("lit-darcy-body");
+  const litLearningText = document.getElementById("lit-learning-text");
+  const litCaption = document.getElementById("lit-caption");
+  const litStepEl = document.getElementById("lit-step");
+  const litTotalEl = document.getElementById("lit-total");
+  const litPrevBtn = document.getElementById("lit-prev");
+  const litNextBtn = document.getElementById("lit-next");
+  const litPlayBtn = document.getElementById("lit-play");
+  const litReplayBtn = document.getElementById("lit-replay");
+  const litNodes = litStage ? litStage.querySelectorAll(".lit-node") : [];
+
+  if (!litStage) return;
+
+  let litIdx = 0;
+  let litTimer = null;
+  let litPlaying = false;
+  let litPlayed = false;
+
+  if (litTotalEl) litTotalEl.textContent = litBeats.length;
+
+  function applyLitBeat(idx) {
+    const b = litBeats[idx];
+    if (!b) return;
+
+    litStage.dataset.phase = b.phase;
+    if (litEvent) litEvent.textContent = b.event;
+    if (litElizabeth) litElizabeth.dataset.state = b.elizabeth.state;
+    if (litDarcy) litDarcy.dataset.state = b.darcy.state;
+    if (litElizabethRead) litElizabethRead.textContent = b.elizabeth.read;
+    if (litElizabethBody) litElizabethBody.textContent = b.elizabeth.body;
+    if (litDarcyRead) litDarcyRead.textContent = b.darcy.read;
+    if (litDarcyBody) litDarcyBody.textContent = b.darcy.body;
+    if (litLearningText) litLearningText.textContent = b.learning;
+
+    litNodes.forEach((node) => {
+      node.classList.toggle("active", b.nodes.includes(node.dataset.node));
+    });
+
+    if (litCaption) {
+      litCaption.classList.add("fade");
+      setTimeout(() => {
+        litCaption.textContent = b.caption;
+        litCaption.classList.remove("fade", "update");
+        if (b.mod) litCaption.classList.add(b.mod);
+      }, 180);
+    }
+
+    if (litStepEl) litStepEl.textContent = idx + 1;
+    if (litPrevBtn) litPrevBtn.disabled = idx === 0;
+    if (litNextBtn) litNextBtn.disabled = idx === litBeats.length - 1;
+  }
+
+  function setLitPlaying(v) {
+    litPlaying = v;
+    if (litPlayBtn) {
+      litPlayBtn.textContent = v ? "⏸ Pause" : (litIdx >= litBeats.length - 1 ? "↺ Replay" : "▶ Auto-play");
+    }
+    if (!v && litTimer) {
+      clearTimeout(litTimer);
+      litTimer = null;
+    }
+  }
+
+  function goToLit(i, opts) {
+    opts = opts || {};
+    if (litTimer) {
+      clearTimeout(litTimer);
+      litTimer = null;
+    }
+    litIdx = Math.max(0, Math.min(litBeats.length - 1, i));
+    applyLitBeat(litIdx);
+    if (opts.autoplay && litIdx < litBeats.length - 1) {
+      const hold = litBeats[litIdx].hold;
+      if (hold > 0) {
+        litTimer = setTimeout(() => goToLit(litIdx + 1, { autoplay: true }), hold);
+      } else {
+        setLitPlaying(false);
+      }
+    }
+    if (litIdx === litBeats.length - 1) setLitPlaying(false);
+  }
+
+  function startLitAutoplay() {
+    if (litIdx >= litBeats.length - 1) goToLit(0, { autoplay: true });
+    else goToLit(litIdx, { autoplay: true });
+    setLitPlaying(true);
+  }
+
+  if (litPrevBtn) litPrevBtn.addEventListener("click", () => { setLitPlaying(false); goToLit(litIdx - 1); });
+  if (litNextBtn) litNextBtn.addEventListener("click", () => { setLitPlaying(false); goToLit(litIdx + 1); });
+  if (litPlayBtn) litPlayBtn.addEventListener("click", () => litPlaying ? setLitPlaying(false) : startLitAutoplay());
+  if (litReplayBtn) litReplayBtn.addEventListener("click", () => { setLitPlaying(false); goToLit(0); });
+
+  goToLit(0);
+
+  if ("IntersectionObserver" in window) {
+    const part4 = document.getElementById("part-4");
+    if (part4) {
+      const litObserver = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && !litPlayed) {
+            litPlayed = true;
+            startLitAutoplay();
+            litObserver.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      litObserver.observe(part4);
+    }
+  }
+})();
