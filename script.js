@@ -22,15 +22,15 @@
 
   /* ====================== SOUND SYSTEM ======================
      Web Audio API, fully synthesized — no audio files, no extra weight.
-     Default OFF. Click the speaker icon to enable. State persists in
+     Default ON. Click the speaker icon to mute. State persists in
      localStorage. Audio context must be created after a user gesture.
      ============================================================= */
 
   let audioCtx = null;
-  /* Default OFF for museum-floor politeness. localStorage remembers a visitor
-     who explicitly enables sound during a session. */
+  /* Default ON, while localStorage remembers a visitor who explicitly mutes
+     sound during a session. */
   const SOUND_PREF_KEY = "three-sound-v2";
-  let soundOn = false;
+  let soundOn = true;
   try {
     const stored = localStorage.getItem(SOUND_PREF_KEY);
     if (stored !== null) soundOn = (stored === "on");
