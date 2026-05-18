@@ -19,7 +19,7 @@ Four beats:
 3. **The shared loop** — Maya bumps a block tower and Leo reads the accident
    as threat. Their heart rate, breathing, actions, and interpretations become
    each other's input until a pause gives both circuits safer data.
-4. **The literary lens** — Jane Austen's *Pride and Prejudice* shows the same
+4. **A neural lens on literature** — Jane Austen's *Pride and Prejudice* shows the same
    loop at an adult scale: first impressions become predictions, then letters
    and actions provide new evidence that updates the model.
 
