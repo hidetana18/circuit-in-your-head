@@ -1125,11 +1125,12 @@
       links: [],
       alarms: { a: "low", b: "low" },
       vitals: { a: { bpm: 82, brpm: 15 }, b: { bpm: 82, brpm: 15 } },
+      event: "Maya and Leo build one tower together.",
       read: {
-        primary: "Both read: safe enough.",
-        secondary: "Bodies are calm, so attention stays wide.",
+        primary: "Both read: we are playing.",
+        secondary: "Bodies are calm, so attention can stay on the blocks.",
       },
-      caption: "Two minds, two learning circuits. Each one is reading the other.",
+      caption: "A concrete loop: one tower, two bodies, two learning circuits.",
       mod: "",
       hold: 1600,
     },
@@ -1139,11 +1140,12 @@
       links: ["a-hot"],
       alarms: { a: "rising", b: "low" },
       vitals: { a: { bpm: 112, brpm: 22 }, b: { bpm: 82, brpm: 15 } },
+      event: "Maya's sleeve bumps the tower. Blocks fall.",
       read: {
-        primary: "B reads: \"A is angry.\"",
-        secondary: "A's stiff body becomes data for B's alarm.",
+        primary: "Leo reads: \"Maya ruined it.\"",
+        secondary: "A fast body signal turns an accident into threat data.",
       },
-      caption: "A freezes. B does not see the alarm inside A, only the signal outside.",
+      caption: "The event is small: a bumped tower. Leo sees the fall and Maya's tense body.",
       mod: "",
       hold: 1700,
     },
@@ -1153,11 +1155,12 @@
       links: ["a-hot"],
       alarms: { a: "rising", b: "rising" },
       vitals: { a: { bpm: 118, brpm: 24 }, b: { bpm: 108, brpm: 21 } },
+      event: "Leo gasps and grabs the blocks back.",
       read: {
-        primary: "A reads: \"B is against me.\"",
-        secondary: "B's bracing body becomes data for A.",
+        primary: "Maya reads: \"Leo is mad at me.\"",
+        secondary: "Leo's bracing body becomes threat data for Maya.",
       },
-      caption: "B braces. Now A reads B's body as another threat.",
+      caption: "Leo's alarm changes his face and hands. Maya now reads danger too.",
       mod: "",
       hold: 1700,
     },
@@ -1167,11 +1170,12 @@
       links: ["a-hot", "b-hot"],
       alarms: { a: "high", b: "high" },
       vitals: { a: { bpm: 152, brpm: 31 }, b: { bpm: 148, brpm: 30 } },
+      event: "Both children pull at the same block.",
       read: {
-        primary: "Each mind guesses danger.",
-        secondary: "The body makes the guess louder.",
+        primary: "Each mind reads blame.",
+        secondary: "The body makes the story louder.",
       },
-      caption: "Both alarms are reading the other alarm. The shared loop escalates.",
+      caption: "Now each alarm is feeding the other: face, voice, hands, and heartbeat.",
       mod: "",
       hold: 2100,
     },
@@ -1181,11 +1185,12 @@
       links: ["pause"],
       alarms: { a: "falling", b: "rising" },
       vitals: { a: { bpm: 118, brpm: 22 }, b: { bpm: 132, brpm: 27 } },
+      event: "Hands down. One breath. More space.",
       read: {
-        primary: "New input: pause + space.",
-        secondary: "The loop slows before either mind has to be right.",
+        primary: "New input: space + slower breath.",
+        secondary: "The circuit gets fresh data before either child has to be right.",
       },
-      caption: "A pause changes the data in the loop: more space, slower body.",
+      caption: "The pause does not solve the story yet. It changes the input each brain receives.",
       mod: "",
       hold: 1900,
     },
@@ -1195,11 +1200,12 @@
       links: ["safe"],
       alarms: { a: "low", b: "low" },
       vitals: { a: { bpm: 86, brpm: 16 }, b: { bpm: 86, brpm: 16 } },
+      event: "Maya: \"I bumped it.\" Leo: \"Let's rebuild.\"",
       read: {
-        primary: "\"Maybe we were both scared.\"",
-        secondary: "A safer read lets both circuits update.",
+        primary: "\"It was an accident.\"",
+        secondary: "A safer read lets both circuits update for next time.",
       },
-      caption: "Both circuits settle. Now each mind can read the other more clearly.",
+      caption: "Both circuits settle. The same event can now be learned as repair, not threat.",
       mod: "settle",
       hold: 0,
     },
@@ -1217,6 +1223,7 @@
   const dyadReplayBtn = document.getElementById("dyad-replay");
   const dyadAAlarm = document.getElementById("dyad-a-alarm");
   const dyadBAlarm = document.getElementById("dyad-b-alarm");
+  const dyadEventText = document.getElementById("dyad-event-text");
   const dyadReadPrimary = document.getElementById("dyad-read-primary");
   const dyadReadSecondary = document.getElementById("dyad-read-secondary");
   const dyadABpm = document.getElementById("dyad-a-bpm");
@@ -1240,6 +1247,7 @@
     if (dyadB) dyadB.dataset.state = b.b;
     if (dyadAAlarm) dyadAAlarm.textContent = b.alarms.a;
     if (dyadBAlarm) dyadBAlarm.textContent = b.alarms.b;
+    if (dyadEventText) dyadEventText.textContent = b.event;
     if (dyadReadPrimary) dyadReadPrimary.textContent = b.read.primary;
     if (dyadReadSecondary) dyadReadSecondary.textContent = b.read.secondary;
     if (dyadABpm) animateNumber(dyadABpm, parseInt(dyadABpm.textContent, 10), b.vitals.a.bpm, 600);

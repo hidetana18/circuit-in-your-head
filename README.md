@@ -16,10 +16,9 @@ Three beats:
    heart pounding. Tap three actions in order
    (**Notice → Breathe → Reframe**) to give his circuit a safe experience.
    One trap card (**Push it down**) never works.
-3. **The shared loop** — two children each have a brain-body circuit.
-   Their heart rate, breathing, actions, and interpretations can become each
-   other's input, escalating the loop until a pause gives both circuits safer
-   data.
+3. **The shared loop** — Maya bumps a block tower and Leo reads the accident
+   as threat. Their heart rate, breathing, actions, and interpretations become
+   each other's input until a pause gives both circuits safer data.
 
 The page is intentionally one screen of words and one screen of game.
 Everything else is visual.
