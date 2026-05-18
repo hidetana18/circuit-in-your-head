@@ -2605,7 +2605,7 @@ body[data-intro="body"] .ouch {
 }
 .regency-figure {
   position: absolute;
-  bottom: 58px;
+  bottom: 28px;
   width: 86px;
   height: 182px;
   transition: transform 0.55s ease, filter 0.55s ease;
@@ -2719,32 +2719,32 @@ body[data-intro="body"] .ouch {
 .lit-speech {
   position: absolute;
   z-index: 5;
-  top: 58px;
-  width: min(43%, 150px);
-  min-height: 72px;
+  top: 16px;
+  width: min(39%, 132px);
+  min-height: 0;
   display: grid;
   align-content: center;
-  gap: 4px;
+  gap: 3px;
   margin: 0;
-  padding: 10px 12px;
+  padding: 7px 9px;
   border: 1.5px solid #e6e1d6;
-  border-radius: 16px;
+  border-radius: 14px;
   background: rgba(255, 253, 249, 0.95);
   box-shadow: 0 10px 22px rgba(56, 53, 58, 0.12);
   font-family: var(--serif);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   font-style: italic;
-  line-height: 1.12;
+  line-height: 1.05;
   color: var(--ink);
   transition: color 0.35s ease, background 0.35s ease, border-color 0.35s ease, transform 0.45s ease;
 }
 .lit-speech::after {
   content: "";
   position: absolute;
-  bottom: -11px;
-  width: 18px;
-  height: 18px;
+  bottom: -8px;
+  width: 14px;
+  height: 14px;
   background: inherit;
   border-right: 1.5px solid currentColor;
   border-bottom: 1.5px solid currentColor;
@@ -2768,7 +2768,7 @@ body[data-intro="body"] .ouch {
 .lit-speaker {
   display: block;
   font-family: var(--sans);
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 800;
   font-style: normal;
   letter-spacing: 0.16em;
@@ -2979,7 +2979,7 @@ body[data-intro="body"] .ouch {
     grid-row: 3;
   }
   .lit-ballroom {
-    min-height: 250px;
+    min-height: 300px;
   }
   .lit-caption {
     grid-column: 1;
@@ -3005,21 +3005,20 @@ body[data-intro="body"] .ouch {
     padding: 12px;
   }
   .lit-ballroom {
-    min-height: 190px;
+    min-height: 220px;
   }
   .regency-figure {
-    bottom: 38px;
-    transform: scale(0.72);
+    bottom: 8px;
+    transform: scale(0.6);
     transform-origin: bottom center;
   }
   .lit-speech {
-    top: 48px;
-    width: 46%;
-    min-height: 62px;
-    padding: 8px 9px;
-    border-radius: 13px;
-    font-size: 13px;
-    line-height: 1.08;
+    top: 10px;
+    width: 44%;
+    padding: 6px 7px;
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 1.03;
   }
   .lit-speech-elizabeth {
     left: 3%;
@@ -3028,26 +3027,26 @@ body[data-intro="body"] .ouch {
     right: 3%;
   }
   .lit-speaker {
-    font-size: 8px;
-    letter-spacing: 0.12em;
+    font-size: 7px;
+    letter-spacing: 0.1em;
   }
   .lit-stage[data-phase="proposal"] .regency-figure.elizabeth {
-    transform: scale(0.72) translateX(-10px) rotate(-1.5deg);
+    transform: scale(0.6) translateX(-10px) rotate(-1.5deg);
   }
   .lit-stage[data-phase="proposal"] .regency-figure.darcy {
-    transform: scale(0.72) translateX(10px) rotate(1.5deg);
+    transform: scale(0.6) translateX(10px) rotate(1.5deg);
   }
   .lit-stage[data-phase="letter"] .regency-figure.elizabeth {
-    transform: scale(0.72) translateX(18px);
+    transform: scale(0.6) translateX(18px);
   }
   .lit-stage[data-phase="letter"] .regency-figure.darcy {
-    transform: scale(0.72) translateX(-18px);
+    transform: scale(0.6) translateX(-18px);
   }
   .lit-stage[data-phase="update"] .regency-figure.elizabeth {
-    transform: scale(0.72) translateX(30px);
+    transform: scale(0.6) translateX(30px);
   }
   .lit-stage[data-phase="update"] .regency-figure.darcy {
-    transform: scale(0.72) translateX(-30px);
+    transform: scale(0.6) translateX(-30px);
   }
   .regency-figure.elizabeth { left: 13%; }
   .regency-figure.darcy { right: 13%; }
