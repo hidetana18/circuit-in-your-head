@@ -1448,6 +1448,8 @@
   const litEvent = document.getElementById("lit-event");
   const litElizabeth = document.getElementById("lit-elizabeth");
   const litDarcy = document.getElementById("lit-darcy");
+  const litElizabethSpeech = document.getElementById("lit-elizabeth-speech");
+  const litDarcySpeech = document.getElementById("lit-darcy-speech");
   const litElizabethRead = document.getElementById("lit-elizabeth-read");
   const litElizabethBody = document.getElementById("lit-elizabeth-body");
   const litDarcyRead = document.getElementById("lit-darcy-read");
@@ -1494,6 +1496,8 @@
     if (litEvent) litEvent.textContent = b.event;
     if (litElizabeth) litElizabeth.dataset.state = b.elizabeth.state;
     if (litDarcy) litDarcy.dataset.state = b.darcy.state;
+    if (litElizabethSpeech) litElizabethSpeech.dataset.state = b.elizabeth.state;
+    if (litDarcySpeech) litDarcySpeech.dataset.state = b.darcy.state;
     if (litElizabethRead) litElizabethRead.textContent = b.elizabeth.read;
     if (litElizabethBody) litElizabethBody.textContent = b.elizabeth.body;
     if (litDarcyRead) litDarcyRead.textContent = b.darcy.read;

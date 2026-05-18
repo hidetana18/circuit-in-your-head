@@ -2716,6 +2716,77 @@ body[data-intro="body"] .ouch {
   clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
   background: linear-gradient(180deg, transparent 0 48%, rgba(201, 181, 142, 0.4) 49% 52%, transparent 53%);
 }
+.lit-speech {
+  position: absolute;
+  z-index: 5;
+  top: 58px;
+  width: min(43%, 150px);
+  min-height: 72px;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1.5px solid #e6e1d6;
+  border-radius: 16px;
+  background: rgba(255, 253, 249, 0.95);
+  box-shadow: 0 10px 22px rgba(56, 53, 58, 0.12);
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.12;
+  color: var(--ink);
+  transition: color 0.35s ease, background 0.35s ease, border-color 0.35s ease, transform 0.45s ease;
+}
+.lit-speech::after {
+  content: "";
+  position: absolute;
+  bottom: -11px;
+  width: 18px;
+  height: 18px;
+  background: inherit;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  opacity: 0.32;
+}
+.lit-speech-elizabeth {
+  left: 6%;
+}
+.lit-speech-elizabeth::after {
+  left: 58%;
+  transform: rotate(45deg);
+}
+.lit-speech-darcy {
+  right: 6%;
+  text-align: right;
+}
+.lit-speech-darcy::after {
+  right: 58%;
+  transform: rotate(45deg);
+}
+.lit-speaker {
+  display: block;
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.lit-speech[data-state="wounded"],
+.lit-speech[data-state="defensive"] {
+  color: #8f3838;
+  border-color: #efc6ba;
+  background: rgba(255, 245, 239, 0.96);
+}
+.lit-speech[data-state="curious"],
+.lit-speech[data-state="changed"] {
+  color: var(--brainstem-deep);
+  border-color: #bddbd6;
+  background: rgba(244, 251, 251, 0.96);
+}
 .lit-event {
   min-height: 3.1em;
   margin: 0;
@@ -2786,16 +2857,6 @@ body[data-intro="body"] .ouch {
   height: 22px;
   flex: 0 0 22px;
 }
-.lit-read {
-  min-height: 2.3em;
-  margin: 0;
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 600;
-  font-style: italic;
-  line-height: 1.16;
-  color: var(--ink);
-}
 .lit-body {
   margin: 0;
   font-family: var(--sans);
@@ -2815,14 +2876,6 @@ body[data-intro="body"] .ouch {
   border-color: #bddbd6;
   background: #f4fbfb;
   box-shadow: 0 8px 24px rgba(58, 138, 138, 0.09);
-}
-.lit-mind[data-state="wounded"] .lit-read,
-.lit-mind[data-state="defensive"] .lit-read {
-  color: #8f3838;
-}
-.lit-mind[data-state="curious"] .lit-read,
-.lit-mind[data-state="changed"] .lit-read {
-  color: var(--brainstem-deep);
 }
 .lit-mind[data-state="wounded"] .brain-layer[data-region="limbic"] .layer-fill,
 .lit-mind[data-state="defensive"] .brain-layer[data-region="limbic"] .layer-fill,
@@ -2959,6 +3012,25 @@ body[data-intro="body"] .ouch {
     transform: scale(0.72);
     transform-origin: bottom center;
   }
+  .lit-speech {
+    top: 48px;
+    width: 46%;
+    min-height: 62px;
+    padding: 8px 9px;
+    border-radius: 13px;
+    font-size: 13px;
+    line-height: 1.08;
+  }
+  .lit-speech-elizabeth {
+    left: 3%;
+  }
+  .lit-speech-darcy {
+    right: 3%;
+  }
+  .lit-speaker {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
   .lit-stage[data-phase="proposal"] .regency-figure.elizabeth {
     transform: scale(0.72) translateX(-10px) rotate(-1.5deg);
   }
@@ -2995,10 +3067,6 @@ body[data-intro="body"] .ouch {
   }
   .lit-circuit .mini-brain-svg {
     width: min(100%, 152px);
-  }
-  .lit-read {
-    min-height: 0;
-    font-size: 20px;
   }
   .lit-caption {
     font-size: 17px;
