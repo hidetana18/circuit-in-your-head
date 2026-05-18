@@ -20,7 +20,7 @@
     update: { cue: "revised-model", update: true },
   };
 
-  let previousPhase = stage.dataset.phase || "assembly";
+  let previousPhase = `${stage.dataset.phase || "assembly"}:${stage.dataset.speaker || "both"}`;
   let pulseTimer = null;
 
   function addDecorativeElement(parent, className, selector) {
@@ -29,6 +29,18 @@
     node.className = className;
     node.setAttribute("aria-hidden", "true");
     parent.appendChild(node);
+  }
+
+  function addArm(figure, className) {
+    if (!figure || figure.querySelector(`.${className.replace(/\s+/g, ".")}`)) return;
+    const arm = document.createElement("span");
+    arm.className = className;
+    arm.setAttribute("aria-hidden", "true");
+
+    const hand = document.createElement("span");
+    hand.className = "figure-hand";
+    arm.appendChild(hand);
+    figure.appendChild(arm);
   }
 
   function ensureStagePolish() {
@@ -40,6 +52,11 @@
     addDecorativeElement(ballroom, "lit-model-spark spark-one", ".spark-one");
     addDecorativeElement(ballroom, "lit-model-spark spark-two", ".spark-two");
     addDecorativeElement(ballroom, "lit-model-spark spark-three", ".spark-three");
+
+    ballroom.querySelectorAll(".regency-figure").forEach((figure) => {
+      addArm(figure, "figure-arm arm-left");
+      addArm(figure, "figure-arm arm-right");
+    });
   }
 
   function restartClassAnimation(node, className) {
@@ -53,7 +70,12 @@
     const meta = phaseMeta[phase] || phaseMeta.assembly;
     stage.dataset.polishCue = meta.cue;
 
-    speechNodes.forEach((node) => restartClassAnimation(node, "is-speaking"));
+    speechNodes.forEach((node) => {
+      const isSpeaking = node.dataset.turn !== "listening";
+      node.classList.toggle("is-listening", !isSpeaking);
+      if (isSpeaking) restartClassAnimation(node, "is-speaking");
+      else node.classList.remove("is-speaking");
+    });
 
     mindNodes.forEach((node) => {
       node.classList.toggle("is-updating", meta.update);
@@ -72,13 +94,15 @@
 
   const observer = new MutationObserver((records) => {
     for (const record of records) {
-      if (record.attributeName !== "data-phase") continue;
+      if (record.attributeName !== "data-phase" && record.attributeName !== "data-speaker") continue;
       const phase = stage.dataset.phase || "assembly";
-      if (phase === previousPhase) continue;
-      previousPhase = phase;
+      const speaker = stage.dataset.speaker || "both";
+      const phaseKey = `${phase}:${speaker}`;
+      if (phaseKey === previousPhase) continue;
+      previousPhase = phaseKey;
       markPhase(phase);
     }
   });
 
-  observer.observe(stage, { attributes: true, attributeFilter: ["data-phase"] });
+  observer.observe(stage, { attributes: true, attributeFilter: ["data-phase", "data-speaker"] });
 })();

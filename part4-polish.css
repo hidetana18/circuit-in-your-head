@@ -120,6 +120,84 @@
   transform: rotate(-12deg);
 }
 
+.lit-polish-ready .elizabeth .figure-body::before,
+.lit-polish-ready .elizabeth .figure-body::after,
+.lit-polish-ready .darcy .figure-coat::before,
+.lit-polish-ready .darcy .figure-coat::after {
+  content: none;
+}
+
+.lit-polish-ready .regency-figure .figure-arm {
+  position: absolute;
+  top: 63px;
+  z-index: 2;
+  width: 10px;
+  height: 48px;
+  border: 2px solid currentColor;
+  border-top: 0;
+  border-radius: 0 0 999px 999px;
+  background: rgba(255, 253, 249, 0.18);
+  pointer-events: none;
+  transform-origin: top center;
+  transition:
+    transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.45s ease;
+}
+
+.lit-polish-ready .regency-figure .figure-arm::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  width: 2px;
+  height: 28px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.28;
+  transform: translateX(-50%);
+}
+
+.lit-polish-ready .regency-figure .figure-hand {
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 12px;
+  height: 10px;
+  border-radius: 58% 58% 50% 50%;
+  background: #f1d1bd;
+  border: 1.4px solid #a8745a;
+  box-shadow: inset 0 -1px 0 rgba(168, 116, 90, 0.2);
+  transform: translateX(-50%);
+}
+
+.lit-polish-ready .regency-figure.elizabeth .figure-arm {
+  color: #5a6fa0;
+}
+
+.lit-polish-ready .regency-figure.darcy .figure-arm {
+  color: #1c2233;
+}
+
+.lit-polish-ready .regency-figure.elizabeth .arm-left {
+  left: 22px;
+  transform: rotate(15deg);
+}
+
+.lit-polish-ready .regency-figure.elizabeth .arm-right {
+  left: 54px;
+  transform: rotate(-15deg);
+}
+
+.lit-polish-ready .regency-figure.darcy .arm-left {
+  left: 20px;
+  transform: rotate(12deg);
+}
+
+.lit-polish-ready .regency-figure.darcy .arm-right {
+  left: 60px;
+  transform: rotate(-12deg);
+}
+
 .lit-stage[data-phase="assembly"].lit-polish-ready {
   --lit-gaze-left: 22%;
   --lit-gaze-right: 78%;
@@ -298,9 +376,87 @@
   transform: rotate(-14deg);
 }
 
+.lit-stage[data-phase="assembly"].lit-polish-ready .regency-figure.darcy .arm-left {
+  transform: rotate(24deg) translateY(-1px);
+}
+
+.lit-stage[data-phase="prejudice"].lit-polish-ready .regency-figure.elizabeth .arm-right {
+  transform: rotate(-58deg) translateY(-3px);
+}
+
+.lit-stage[data-phase="prejudice"].lit-polish-ready .regency-figure.darcy .arm-left,
+.lit-stage[data-phase="prejudice"].lit-polish-ready .regency-figure.darcy .arm-right {
+  opacity: 0.62;
+}
+
+.lit-stage[data-phase="proposal"][data-speaker="darcy"].lit-polish-ready .regency-figure.darcy .arm-left {
+  transform: rotate(48deg) translateY(-5px);
+}
+
+.lit-stage[data-phase="proposal"][data-speaker="darcy"].lit-polish-ready .regency-figure.darcy .arm-right {
+  transform: rotate(-32deg) translateY(-2px);
+}
+
+.lit-stage[data-phase="proposal"][data-speaker="darcy"].lit-polish-ready .regency-figure.elizabeth .arm-left,
+.lit-stage[data-phase="proposal"][data-speaker="darcy"].lit-polish-ready .regency-figure.elizabeth .arm-right {
+  transform: rotate(0deg) translateY(-2px);
+}
+
+.lit-stage[data-phase="proposal"][data-speaker="elizabeth"].lit-polish-ready .regency-figure.elizabeth .arm-right {
+  transform: rotate(-62deg) translateY(-8px);
+}
+
+.lit-stage[data-phase="proposal"][data-speaker="elizabeth"].lit-polish-ready .regency-figure.elizabeth .arm-left {
+  transform: rotate(32deg) translateY(-3px);
+}
+
+.lit-stage[data-phase="proposal"][data-speaker="elizabeth"].lit-polish-ready .regency-figure.darcy .arm-left,
+.lit-stage[data-phase="proposal"][data-speaker="elizabeth"].lit-polish-ready .regency-figure.darcy .arm-right {
+  transform: rotate(0deg) translateY(2px);
+  opacity: 0.68;
+}
+
+.lit-stage[data-phase="letter"].lit-polish-ready .regency-figure.darcy .arm-left {
+  transform: rotate(56deg) translateY(-7px);
+}
+
+.lit-stage[data-phase="letter"].lit-polish-ready .regency-figure.elizabeth .arm-right {
+  transform: rotate(-38deg) translateY(-5px);
+}
+
+.lit-stage[data-phase="update"].lit-polish-ready .regency-figure.elizabeth .arm-right {
+  transform: rotate(-28deg) translateY(-2px);
+}
+
+.lit-stage[data-phase="update"].lit-polish-ready .regency-figure.darcy .arm-left {
+  transform: rotate(28deg) translateY(-2px);
+}
+
 .lit-polish-ready .lit-speech {
   transform-origin: bottom center;
   will-change: transform, opacity;
+}
+
+.lit-polish-ready .lit-speech[data-turn="speaking"] {
+  z-index: 7;
+  opacity: 1;
+  border-width: 2px;
+  filter: saturate(1.05);
+}
+
+.lit-polish-ready .lit-speech[data-turn="listening"] {
+  z-index: 5;
+  opacity: 0.58;
+  transform: translateY(5px) scale(0.94);
+  filter: saturate(0.78);
+}
+
+.lit-polish-ready .lit-speech[data-turn="listening"] .lit-speaker::after {
+  content: " listens";
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 0.68;
 }
 
 .lit-polish-ready .lit-speech.is-speaking {
@@ -321,9 +477,18 @@
   animation: litSpeechTension 0.72s ease-in-out infinite alternate;
 }
 
+.lit-stage[data-phase="proposal"].lit-polish-ready .lit-speech[data-turn="listening"] {
+  animation: none;
+}
+
 .lit-stage[data-phase="letter"].lit-polish-ready .lit-speech,
 .lit-stage[data-phase="update"].lit-polish-ready .lit-speech {
   animation: litSpeechBreathe 1.9s ease-in-out infinite;
+}
+
+.lit-stage[data-phase="letter"].lit-polish-ready .lit-speech[data-turn="listening"],
+.lit-stage[data-phase="update"].lit-polish-ready .lit-speech[data-turn="listening"] {
+  animation: none;
 }
 
 .lit-polish-ready .lit-letter {

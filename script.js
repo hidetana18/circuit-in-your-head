@@ -1361,46 +1361,49 @@
   const litBeats = [
     {
       phase: "assembly",
-      event: "At an assembly, Darcy refuses to dance with Elizabeth.",
+      speaker: "darcy",
+      event: "Darcy keeps his distance at the assembly.",
       elizabeth: {
         state: "wounded",
-        read: "\"He thinks I am beneath him.\"",
-        body: "Social pain narrows attention toward pride.",
+        read: "\"That sounded like contempt.\"",
+        body: "A sharp social signal narrows attention toward pride.",
       },
       darcy: {
         state: "defensive",
-        read: "\"This room is unsafe for me.\"",
-        body: "His body chooses distance before curiosity.",
+        read: "\"I will keep my distance.\"",
+        body: "His body chooses safety before curiosity.",
       },
       vitals: { e: { bpm: 96, brpm: 18 }, d: { bpm: 88, brpm: 16 } },
-      caption: "The novel begins with two guarded circuits reading too much from too little data.",
+      caption: "Turn 1: Darcy's distance becomes Elizabeth's first data point.",
       mod: "",
       hold: 2100,
     },
     {
       phase: "prejudice",
-      event: "Wickham gives Elizabeth a story that confirms her first read.",
+      speaker: "elizabeth",
+      event: "Elizabeth's first model hardens after Wickham's story.",
       elizabeth: {
         state: "wounded",
-        read: "\"Darcy is proud and cruel.\"",
+        read: "\"He thinks I am beneath him.\"",
         body: "The old prediction now feels like evidence.",
       },
       darcy: {
         state: "defensive",
-        read: "\"She has already judged me.\"",
-        body: "His guarded style becomes even harder to read.",
+        read: "\"She now reads me through one narrow signal.\"",
+        body: "His guarded style becomes harder to repair.",
       },
       vitals: { e: { bpm: 112, brpm: 22 }, d: { bpm: 104, brpm: 19 } },
-      caption: "Prejudice works like a strong prior: new input is pulled toward the old story.",
+      caption: "Turn 2: Elizabeth answers with a stronger prior: pride means threat.",
       mod: "",
       hold: 2300,
     },
     {
       phase: "proposal",
-      event: "Darcy proposes, but his words carry pride as well as affection.",
+      speaker: "darcy",
+      event: "Darcy speaks, but affection and pride arrive tangled.",
       elizabeth: {
         state: "wounded",
-        read: "\"His love still looks like contempt.\"",
+        read: "\"His love still sounds like contempt.\"",
         body: "Alarm rises; the old model becomes rigid.",
       },
       darcy: {
@@ -1409,13 +1412,33 @@
         body: "He misses how his signal lands in her circuit.",
       },
       vitals: { e: { bpm: 132, brpm: 26 }, d: { bpm: 124, brpm: 24 } },
-      caption: "The loop peaks when each person reads the other's behavior through a narrowed lens.",
+      caption: "Turn 3: Darcy sends a signal his own circuit expects to be clear.",
       mod: "",
       hold: 2400,
     },
     {
+      phase: "proposal",
+      speaker: "elizabeth",
+      event: "Elizabeth refuses; her alarm names the wound.",
+      elizabeth: {
+        state: "wounded",
+        read: "\"No: that signal hurt.\"",
+        body: "Her response becomes prediction error for Darcy.",
+      },
+      darcy: {
+        state: "defensive",
+        read: "\"I did not see how it landed.\"",
+        body: "A rigid self-model begins to loosen.",
+      },
+      vitals: { e: { bpm: 128, brpm: 25 }, d: { bpm: 118, brpm: 23 } },
+      caption: "Turn 4: Elizabeth's reply gives Darcy new data about impact.",
+      mod: "",
+      hold: 2300,
+    },
+    {
       phase: "letter",
-      event: "Darcy's letter gives Elizabeth slower, more detailed evidence.",
+      speaker: "darcy",
+      event: "Darcy's letter offers slower evidence.",
       elizabeth: {
         state: "curious",
         read: "\"My first read may be incomplete.\"",
@@ -1423,17 +1446,18 @@
       },
       darcy: {
         state: "curious",
-        read: "\"I must make my actions readable.\"",
-        body: "Distance begins to turn into repair.",
+        read: "\"Here is the missing context.\"",
+        body: "He changes channel from defense to evidence.",
       },
       vitals: { e: { bpm: 102, brpm: 20 }, d: { bpm: 94, brpm: 18 } },
-      caption: "New evidence does not erase the first story. It makes revision possible.",
+      caption: "Turn 5: Darcy makes his internal model more readable.",
       mod: "",
       hold: 2300,
     },
     {
       phase: "update",
-      event: "Later actions show a different pattern: respect, restraint, and repair.",
+      speaker: "elizabeth",
+      event: "Later actions let Elizabeth revise the model.",
       elizabeth: {
         state: "changed",
         read: "\"His character is larger than my first model.\"",
@@ -1445,7 +1469,7 @@
         body: "His behavior becomes new data, not just explanation.",
       },
       vitals: { e: { bpm: 82, brpm: 15 }, d: { bpm: 82, brpm: 15 } },
-      caption: "Austen's romance is also a learning story: two minds update through better data.",
+      caption: "Turn 6: Elizabeth updates without forgetting the earlier alarm.",
       mod: "update",
       hold: 0,
     },
@@ -1499,16 +1523,22 @@
     const b = litBeats[idx];
     if (!b) return;
 
-    litStage.dataset.phase = b.phase;
+    const speaker = b.speaker || "both";
+    litStage.dataset.speaker = speaker;
     if (litEvent) litEvent.textContent = b.event;
     if (litElizabeth) litElizabeth.dataset.state = b.elizabeth.state;
     if (litDarcy) litDarcy.dataset.state = b.darcy.state;
     if (litElizabethSpeech) litElizabethSpeech.dataset.state = b.elizabeth.state;
     if (litDarcySpeech) litDarcySpeech.dataset.state = b.darcy.state;
+    if (litElizabeth) litElizabeth.dataset.turn = speaker === "elizabeth" ? "speaking" : "listening";
+    if (litDarcy) litDarcy.dataset.turn = speaker === "darcy" ? "speaking" : "listening";
+    if (litElizabethSpeech) litElizabethSpeech.dataset.turn = speaker === "elizabeth" ? "speaking" : "listening";
+    if (litDarcySpeech) litDarcySpeech.dataset.turn = speaker === "darcy" ? "speaking" : "listening";
     if (litElizabethRead) litElizabethRead.textContent = b.elizabeth.read;
     if (litElizabethBody) litElizabethBody.textContent = b.elizabeth.body;
     if (litDarcyRead) litDarcyRead.textContent = b.darcy.read;
     if (litDarcyBody) litDarcyBody.textContent = b.darcy.body;
+    litStage.dataset.phase = b.phase;
     if (litEBpm) animateLitNumber(litEBpm, parseInt(litEBpm.textContent, 10), b.vitals.e.bpm, 600);
     if (litEBrpm) animateLitNumber(litEBrpm, parseInt(litEBrpm.textContent, 10), b.vitals.e.brpm, 600);
     if (litDBpm) animateLitNumber(litDBpm, parseInt(litDBpm.textContent, 10), b.vitals.d.bpm, 600);
