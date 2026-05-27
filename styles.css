@@ -405,30 +405,58 @@ body[data-intro="run"] .kid-head      { animation: torsoBob   0.5s linear infini
 }
 
 /* ============== STATE: TRIP / STUMBLE ==============
-   Kid catches a toe and teeters forward — "whoops!" — arms swing out to
-   balance, body leans about 12°. He does NOT go to the ground. The lurch
-   has a small wobble (forward → back → forward → settle) before holding. */
-body[data-intro="trip"] .kid-wrap     { animation: tripFall 0.65s cubic-bezier(0.32, 0, 0.58, 1) forwards; }
-body[data-intro="trip"] .kid-leg-front { transform: rotate(-18deg); }   /* mid-stride, foot caught */
-body[data-intro="trip"] .kid-leg-back  { transform: rotate(10deg); }    /* planted */
-body[data-intro="trip"] .kid-arm-front { transform: rotate(-55deg); }   /* arm out front for balance */
-body[data-intro="trip"] .kid-arm-back  { transform: rotate(42deg); }    /* arm out back for balance */
-body[data-intro="trip"] .kid-body      { transform: rotate(2deg); }     /* slight forward lean */
-body[data-intro="trip"] .kid-head      { transform: rotate(-3deg); }    /* eyes up, surprised */
+   Kid catches a toe on the banana and *dramatically* lurches — arms
+   windmill, slipped foot kicks up, briefly airborne — then wobbles
+   twice before settling into a shaky forward lean. He does NOT go to
+   the ground. Each limb gets its own keyframe animation so the flail
+   peaks bigger than the settled pose. */
+body[data-intro="trip"] .kid-wrap     { animation: tripFall      0.78s cubic-bezier(0.32, 0, 0.58, 1) forwards; }
+body[data-intro="trip"] .kid-arm-front { animation: armFlailFront 0.78s cubic-bezier(0.3,  0.5, 0.5, 1) forwards; }
+body[data-intro="trip"] .kid-arm-back  { animation: armFlailBack  0.78s cubic-bezier(0.3,  0.5, 0.5, 1) forwards; }
+body[data-intro="trip"] .kid-leg-front { animation: legKickUp     0.78s cubic-bezier(0.3,  0.5, 0.5, 1) forwards; }
+body[data-intro="trip"] .kid-leg-back  { transform: rotate(12deg); }    /* planted */
+body[data-intro="trip"] .kid-body      { transform: rotate(4deg); }     /* forward lean */
+body[data-intro="trip"] .kid-head      { transform: rotate(-8deg); }    /* head back, eyes wide */
 
 @keyframes tripFall {
   0%   { transform: translateX(0)    translateY(0)   rotate(0deg); }
-  16%  { transform: translateX(-1px) translateY(-3px) rotate(-3deg); }  /* anticipation: back */
-  38%  { transform: translateX(3px)  translateY(-1px) rotate(18deg); }  /* big forward lurch */
-  60%  { transform: translateX(1px)  translateY(0)   rotate(6deg); }    /* wobble back */
-  82%  { transform: translateX(3px)  translateY(0)   rotate(13deg); }   /* wobble forward */
-  100% { transform: translateX(2px)  translateY(0)   rotate(10deg); }   /* settled stumble */
+  10%  { transform: translateX(-2px) translateY(-3px) rotate(-8deg); }  /* anticipation: rock back */
+  28%  { transform: translateX(5px)  translateY(-10px) rotate(30deg); } /* PEAK lurch, briefly airborne */
+  46%  { transform: translateX(0)    translateY(-3px) rotate(4deg); }   /* hard wobble back */
+  64%  { transform: translateX(5px)  translateY(-1px) rotate(22deg); }  /* wobble forward again */
+  82%  { transform: translateX(2px)  translateY(0)   rotate(8deg); }    /* smaller back */
+  100% { transform: translateX(3px)  translateY(0)   rotate(13deg); }   /* settled shaky lean */
+}
+
+@keyframes armFlailFront {
+  0%   { transform: rotate(0deg); }
+  28%  { transform: rotate(-100deg); }   /* peak: arm flung way up */
+  55%  { transform: rotate(-30deg); }
+  78%  { transform: rotate(-72deg); }    /* second flail */
+  100% { transform: rotate(-58deg); }    /* settled out for balance */
+}
+
+@keyframes armFlailBack {
+  0%   { transform: rotate(0deg); }
+  28%  { transform: rotate(85deg); }     /* peak: arm flung way back */
+  55%  { transform: rotate(20deg); }
+  78%  { transform: rotate(60deg); }
+  100% { transform: rotate(48deg); }
+}
+
+@keyframes legKickUp {
+  0%   { transform: rotate(0deg); }
+  28%  { transform: rotate(-55deg); }    /* slipped foot kicked UP forward */
+  55%  { transform: rotate(-8deg); }
+  78%  { transform: rotate(-24deg); }
+  100% { transform: rotate(-20deg); }    /* settled, foot still off-center */
 }
 
 /* ============== STATE: THINK / RECOVER ==============
    Out of the stumble pose: body tilts back through neutral, limbs return
-   to standing. Mirrors the stumble's gentle overshoot. */
-body[data-intro="think"] .kid-wrap     { animation: standUp 0.55s cubic-bezier(0.3, 0, 0.2, 1) forwards; }
+   to standing via the .kid-limb transition. Mirrors the stumble's
+   gentle overshoot. */
+body[data-intro="think"] .kid-wrap     { animation: standUp 0.6s cubic-bezier(0.3, 0, 0.2, 1) forwards; }
 body[data-intro="think"] .kid-leg-front { transform: rotate(0deg); }
 body[data-intro="think"] .kid-leg-back  { transform: rotate(0deg); }
 body[data-intro="think"] .kid-arm-front { transform: rotate(0deg); }
@@ -437,15 +465,14 @@ body[data-intro="think"] .kid-body      { transform: rotate(0deg); }
 body[data-intro="think"] .kid-head      { transform: rotate(0deg); }
 
 @keyframes standUp {
-  0%   { transform: translateX(2px)  translateY(0)   rotate(10deg); }
-  55%  { transform: translateX(-1px) translateY(-2px) rotate(-4deg); }  /* slight overshoot back */
+  0%   { transform: translateX(3px)  translateY(0)   rotate(13deg); }
+  55%  { transform: translateX(-1px) translateY(-3px) rotate(-5deg); }  /* slight overshoot back */
   100% { transform: translateX(0)    translateY(0)   rotate(0deg); }
 }
 
 /* Banana peel — sits on the ground in front of the kid's path. When the
-   trip beat fires the peel slides backward and rotates flat, mimicking
-   the slip-out from under the foot. Stays in the slipped pose for all
-   later beats. */
+   trip beat fires the peel rockets backward, spinning a full half-turn,
+   and slides to a stop. Stays in the slipped pose for all later beats. */
 .banana {
   position: absolute;
   bottom: 22px;
@@ -458,30 +485,35 @@ body[data-intro="think"] .kid-head      { transform: rotate(0deg); }
   pointer-events: none;
   user-select: none;
   filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.18));
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.5s cubic-bezier(0.4, 0.9, 0.5, 1);
 }
 body[data-intro="trip"] .banana,
 body[data-intro="think"] .banana {
-  transform: translate(-32px, 4px) rotate(-95deg);
+  transform: translate(-58px, -2px) rotate(-220deg);
 }
 
 .ouch {
   position: absolute;
-  top: 30%;
+  top: 28%;
   left: 60%;
   font-family: var(--serif);
   font-weight: 700;
   font-style: italic;
-  font-size: 64px;
+  font-size: 72px;
   color: var(--heart-red);
   opacity: 0;
-  transform: scale(0.6);
-  transition: opacity 0.4s, transform 0.4s;
+  transform: scale(0.5) rotate(-30deg);
+  transition: opacity 0.35s ease;
 }
-body[data-intro="trip"] .ouch,
-body[data-intro="body"] .ouch {
+body[data-intro="trip"] .ouch {
   opacity: 1;
-  transform: scale(1) rotate(-12deg);
+  animation: ouchPop 0.55s cubic-bezier(0.34, 1.7, 0.5, 1) forwards;
+}
+@keyframes ouchPop {
+  0%   { transform: scale(0.5) rotate(-30deg); }
+  45%  { transform: scale(1.4) rotate(-6deg); }    /* big punch */
+  72%  { transform: scale(0.92) rotate(-14deg); }
+  100% { transform: scale(1.05) rotate(-12deg); }  /* settled, slightly oversized */
 }
 
 /* Thought bubble for the cortex beat — "Now I'm safe." */
