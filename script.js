@@ -647,14 +647,17 @@
 
   /* ====================== PART 2: PETER RABBIT GAME ======================
      Simulation, not a quiz. Each card is an intervention on the same circuit
-     the player just learned in Part 1. The circuit responds to picks based
-     on its current state — that's where the lesson lives:
-       • Notice first wakes the cortex; later notices add little.
-       • Breath always cools the body, but lands stronger after a notice.
+     the player just learned in Part 1. Multiple orderings can calm Peter —
+     this is regulation, not a single correct sequence:
+       • Notice wakes the cortex and makes breath more efficient — but isn't
+         required for the body to settle.
+       • Breath always cools the body. After enough breath the body alone can
+         be calm enough to win, even without explicit naming.
        • Reframe needs a quiet enough alarm to land — otherwise it bounces.
-       • Suppress pushes the alarm louder, not quieter.
+         Land it after the body is already settled and it deepens the calm.
+       • Suppress always backfires: the alarm gets louder, the cortex dims.
      Three picks per attempt; unlimited retries; no failure state — Peter
-     just stays panicked until a different combination works. */
+     just stays panicked until a working combination is found. */
 
   const PETER_LABELS = {
     notice:   "Notice",
@@ -704,14 +707,17 @@
     /* ---------- Card effects: state mutation + animation directives ----- */
     applyCard(cardId) {
       const s = this.state;
-      const wasPanicked = s.hr > 130;
+      const wasPanicked = s.hr > 140;   // raised from 130 — reframe is a bit
+                                        // more forgiving so Breathe-first
+                                        // paths can land reframe without
+                                        // a preceding Notice.
 
       if (cardId === "notice") {
         if (!s.hasNoticed) {
           s.hasNoticed = true;
           s.cortex = "active";
           if (s.limbic === "hot") s.limbic = "active";
-          s.hr   = clamp(s.hr   - 18, 55, 220);
+          s.hr   = clamp(s.hr   - 15, 55, 220);
           s.brpm = clamp(s.brpm - 4,  10, 50);
           return {
             arrow: "attn",
@@ -730,18 +736,25 @@
       if (cardId === "breathe") {
         s.breatheCount++;
         const noticed = s.hasNoticed;
-        const hrDrop  = noticed ? 35 : 22;
-        const brDrop  = noticed ? 8  : 5;
+        // Breathing alone works — slower, but real. Naming first makes
+        // each breath a bit more efficient.
+        const hrDrop  = noticed ? 38 : 28;
+        const brDrop  = noticed ? 8  : 6;
         s.hr   = clamp(s.hr   - hrDrop, 55, 220);
         s.brpm = clamp(s.brpm - brDrop, 10, 50);
         s.brainstem = "active";
         if (s.hr < 140 && s.limbic === "hot")    s.limbic = "active";
         if (s.hr < 100 && s.limbic === "active") s.limbic = "calm";
-        const cap = noticed
-          ? (s.breatheCount === 1
-              ? "Long exhale. Vagus nerve says: safe. Heart slows."
-              : "Another breath. Body settles further.")
-          : "Peter tries to breathe — shallow, but it helps a little.";
+        let cap;
+        if (noticed) {
+          cap = s.breatheCount === 1
+            ? "Long exhale. Vagus nerve says: safe. Heart slows."
+            : "Another breath. Body settles further.";
+        } else {
+          cap = s.breatheCount >= 2
+            ? "Slow breaths build on each other. Body keeps settling."
+            : "Peter breathes slowly. His body starts to settle.";
+        }
         return {
           arrow: "breath",
           caption: cap,
@@ -761,10 +774,14 @@
             isError: true,
           };
         }
+        // Lands stronger if cortex is already online (Notice came first, or
+        // an earlier Reframe). Lands cold but smaller if not.
+        const wasCortexActive = s.cortex === "active";
         s.cortex = "active";
         if (s.limbic === "active") s.limbic = "calm";
-        s.hr   = clamp(s.hr   - 30, 55, 220);
-        s.brpm = clamp(s.brpm - 3,  10, 50);
+        const drop = wasCortexActive ? 35 : 25;
+        s.hr   = clamp(s.hr   - drop, 55, 220);
+        s.brpm = clamp(s.brpm - 3,    10, 50);
         return {
           arrow: "attn",
           caption: "Cortex online. \"I am hidden right now.\" Limbic settles.",
@@ -774,7 +791,7 @@
       }
 
       if (cardId === "suppress") {
-        s.hr   = clamp(s.hr   + 14, 55, 220);
+        s.hr   = clamp(s.hr   + 12, 55, 220);
         s.brpm = clamp(s.brpm + 4,  10, 50);
         s.limbic = "hot";
         s.cortex = "dim";
@@ -858,10 +875,14 @@
       if (cardId === "reframe" && sounds.cortex) sounds.cortex();
     },
 
-    /* ---------- Win / retry evaluation after the 3rd pick --------------- */
+    /* ---------- Win / retry evaluation after the 3rd pick ---------------
+       Two ways to win, so multiple paths can succeed:
+         (a) Very calm body alone (HR ≤ 100), OR
+         (b) Moderately calm body PLUS cortex online (HR ≤ 120 + active).
+       Either passes — regulation isn't a single sequence. */
     evaluate() {
       const s = this.state;
-      const calmed = s.hr <= 100 && s.cortex === "active";
+      const calmed = s.hr <= 100 || (s.hr <= 120 && s.cortex === "active");
       if (calmed) {
         this.ended = true;
         this.setPeterState("calm");
@@ -884,21 +905,21 @@
       const s = this.state;
       if (s.picks.includes("suppress")) {
         return this.attempts >= 2
-          ? "Pushing it down keeps the alarm hot. Try noticing, then breathing."
+          ? "Pushing it down always backfires. Try a mix of Notice and Breathe."
           : "Pushing it down only makes the alarm louder. Try a different mix.";
       }
-      if (s.hr > 130 && s.cortex === "dim") {
-        return this.attempts >= 2
-          ? "Body's still racing. Try Notice first, then Breathe before Reframe."
-          : "Peter's still panicked. Try a different order.";
+      if (s.picks[0] === "reframe") {
+        return "Reframing came too soon — the body wasn't ready. Settle the body first.";
       }
       if (s.hr > 130) {
-        return "His body needs to calm before he can think. More breath, less thought.";
+        return this.attempts >= 2
+          ? "Peter's body is still racing. More breath helps it settle."
+          : "Peter's body is still racing. Try more breath in the mix.";
       }
       if (s.cortex === "dim") {
-        return "Body's calmer, but Peter's not aware yet. Try noticing too.";
+        return "Body's settling, but Peter's mind isn't on it yet. Try Notice or Reframe.";
       }
-      return "Almost. Try another order to fully settle him.";
+      return "Almost there. Try a different mix to fully settle him.";
     },
 
     peterRestState() {
@@ -1171,6 +1192,10 @@
      Same interaction shape as Part 1, but the unit of analysis is a shared
      loop: each person's body/action becomes data for the other's circuit. */
 
+  /* Seven beats. The shape of the loop matches Part 2:
+       set the scene → trigger → one alarm rises → the other reads it →
+       feedback loop escalates → climax → self-regulation by one →
+       calm signal becomes data for the other → settle. */
   const dyadBeats = [
     {
       phase: "calm",
@@ -1178,73 +1203,58 @@
       links: [],
       alarms: { a: "low", b: "low" },
       vitals: { a: { bpm: 82, brpm: 15 }, b: { bpm: 82, brpm: 15 } },
-      event: "Nora and Jules share one little courtyard.",
-      read: {
-        primary: "Both read: this space is shared.",
-        secondary: "Bodies are calm, so cortex has room to check.",
-      },
-      caption: "A calm social circuit: one shared space, two bodies, two checking lenses.",
-      mod: "",
+      event: "Nora and Jules build, side by side.",
+      read: { primary: "Both read: this is a shared space." },
       hold: 1600,
     },
     {
-      phase: "a-signal",
+      phase: "bump",
       a: "alert", b: "calm",
       links: ["a-hot"],
       alarms: { a: "rising", b: "low" },
-      vitals: { a: { bpm: 112, brpm: 22 }, b: { bpm: 82, brpm: 15 } },
-      event: "A planter is moved while Nora is away.",
-      read: {
-        primary: "Nora reads: \"Jules pushed me out.\"",
-        secondary: "A fast body signal turns an ambiguous event into threat data.",
-      },
-      caption: "The event is small, but Nora's alarm gives it a threatening meaning.",
-      mod: "",
-      hold: 1700,
+      vitals: { a: { bpm: 118, brpm: 23 }, b: { bpm: 84, brpm: 15 } },
+      event: "Jules turns. Nora's tower falls.",
+      read: { primary: "Nora reads: \"He knocked it down on purpose.\"" },
+      hold: 2000,
     },
     {
       phase: "b-reads",
       a: "alert", b: "alert",
       links: ["a-hot"],
       alarms: { a: "rising", b: "rising" },
-      vitals: { a: { bpm: 118, brpm: 24 }, b: { bpm: 108, brpm: 21 } },
-      event: "Nora's sharp voice reaches Jules.",
-      read: {
-        primary: "Jules reads: \"Nora thinks I am selfish.\"",
-        secondary: "Nora's alarm becomes threat data for Jules.",
-      },
-      caption: "One alarm becomes the next person's input. Now both circuits are reading danger.",
-      mod: "",
-      hold: 1700,
+      vitals: { a: { bpm: 126, brpm: 25 }, b: { bpm: 108, brpm: 21 } },
+      event: "Nora's face hardens. Jules sees it.",
+      read: { primary: "Jules reads: \"She thinks I'm mean.\"" },
+      hold: 1800,
     },
     {
       phase: "escalate",
       a: "hot", b: "hot",
       links: ["a-hot", "b-hot"],
       alarms: { a: "high", b: "high" },
-      vitals: { a: { bpm: 152, brpm: 31 }, b: { bpm: 148, brpm: 30 } },
-      event: "Both defend their version of the story.",
-      read: {
-        primary: "Cortex has less room to check.",
-        secondary: "Limbic and brain stem make one story feel certain.",
-      },
-      caption: "Panic loop: each alarm feeds the other through face, voice, memory, and heartbeat.",
-      mod: "",
+      vitals: { a: { bpm: 144, brpm: 29 }, b: { bpm: 138, brpm: 28 } },
+      event: "Voices rise. Both insist on their version.",
+      read: { primary: "Each cortex has less room to check." },
+      hold: 1800,
+    },
+    {
+      phase: "peak",
+      a: "hot", b: "hot",
+      links: ["a-hot", "b-hot"],
+      alarms: { a: "high", b: "high" },
+      vitals: { a: { bpm: 162, brpm: 33 }, b: { bpm: 156, brpm: 31 } },
+      event: "Anger peaks. Each defends harder.",
+      read: { primary: "The loop is loud. Both feel certain they're right." },
       hold: 2100,
     },
     {
-      phase: "pause",
+      phase: "breath",
       a: "settling", b: "alert",
-      links: ["pause"],
-      alarms: { a: "falling", b: "rising" },
-      vitals: { a: { bpm: 118, brpm: 22 }, b: { bpm: 132, brpm: 27 } },
-      event: "Mira sits with them and listens without deciding who is right.",
-      read: {
-        primary: "Intervention: pause + breath + listening.",
-        secondary: "A quieter body gives cortex room to check.",
-      },
-      caption: "The listener does not solve the argument. She brings a checking lens back into the loop.",
-      mod: "",
+      links: ["safe"],
+      alarms: { a: "falling", b: "high" },
+      vitals: { a: { bpm: 108, brpm: 18 }, b: { bpm: 140, brpm: 28 } },
+      event: "Nora takes a slow breath. Her body softens.",
+      read: { primary: "Nora's cortex returns: \"Maybe it was an accident.\"" },
       hold: 2100,
     },
     {
@@ -1252,14 +1262,9 @@
       a: "calm", b: "calm",
       links: ["safe"],
       alarms: { a: "low", b: "low" },
-      vitals: { a: { bpm: 86, brpm: 16 }, b: { bpm: 86, brpm: 16 } },
-      event: "Nora hears hurt. Jules hears fear. The story gets wider.",
-      read: {
-        primary: "Cortex returns: \"There was more than one signal.\"",
-        secondary: "A safe response becomes new data for both circuits.",
-      },
-      caption: "Alarm does not vanish at once; the circuit becomes less certain that danger is everywhere.",
-      mod: "settle",
+      vitals: { a: { bpm: 86, brpm: 16 }, b: { bpm: 90, brpm: 17 } },
+      event: "Jules reads the softer signal. Both can see again.",
+      read: { primary: "The story gets wider. There was more than one signal." },
       hold: 0,
     },
   ];
@@ -1314,22 +1319,6 @@
     linkEls.forEach((el) => {
       el.classList.toggle("shown", b.links.includes(el.dataset.link));
     });
-
-    const listeningEls = dyadStage.querySelectorAll(".toy-listener, .listen-ring");
-    listeningEls.forEach((el) => {
-      el.classList.toggle("shown", b.phase === "pause" || b.phase === "settle");
-    });
-    const toyPauseMark = dyadStage.querySelector(".toy-pause-mark");
-    if (toyPauseMark) toyPauseMark.classList.toggle("shown", b.phase === "pause");
-
-    if (dyadCaption) {
-      dyadCaption.classList.add("fade");
-      setTimeout(() => {
-        dyadCaption.textContent = b.caption;
-        dyadCaption.classList.remove("fade", "settle");
-        if (b.mod) dyadCaption.classList.add(b.mod);
-      }, 180);
-    }
 
     if (dyadStepEl) dyadStepEl.textContent = idx + 1;
     if (dyadPrevBtn) dyadPrevBtn.disabled = idx === 0;

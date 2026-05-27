@@ -208,12 +208,14 @@
   transform: translateX(-4px);
 }
 
-#dyad-stage[data-phase="a-signal"] #dyad-a {
+/* bump (was: a-signal) — Jules's panel nudges slightly toward Nora
+   to suggest the elbow that knocked the tower; Nora reels back. */
+#dyad-stage[data-phase="bump"] #dyad-a {
   transform: translateX(-6px) translateY(2px) rotate(-0.7deg);
 }
 
-#dyad-stage[data-phase="a-signal"] #dyad-b {
-  transform: translateX(3px) scale(0.99);
+#dyad-stage[data-phase="bump"] #dyad-b {
+  transform: translateX(-3px) scale(0.99);
 }
 
 #dyad-stage[data-phase="b-reads"] #dyad-a {
@@ -232,12 +234,24 @@
   transform: translateX(18px) translateY(6px) rotate(1.8deg);
 }
 
-#dyad-stage[data-phase="pause"] #dyad-a {
-  transform: translateX(-8px) translateY(1px) rotate(-0.3deg);
+/* peak — the climax. Both lean further in, more rotation, plus the
+   p3BodyTremble already running on data-state="hot" intensifies things. */
+#dyad-stage[data-phase="peak"] #dyad-a {
+  transform: translateX(-22px) translateY(7px) rotate(-2.4deg);
 }
 
-#dyad-stage[data-phase="pause"] #dyad-b {
-  transform: translateX(6px) translateY(3px) rotate(0.6deg);
+#dyad-stage[data-phase="peak"] #dyad-b {
+  transform: translateX(22px) translateY(7px) rotate(2.4deg);
+}
+
+/* breath (was: pause) — Nora's panel softens back toward neutral as her
+   own circuit settles; Jules still leaning in, hasn't read her yet. */
+#dyad-stage[data-phase="breath"] #dyad-a {
+  transform: translateX(-4px) translateY(0) rotate(-0.2deg);
+}
+
+#dyad-stage[data-phase="breath"] #dyad-b {
+  transform: translateX(8px) translateY(2px) rotate(0.8deg);
 }
 
 #dyad-stage[data-phase="settle"] #dyad-a,
@@ -276,18 +290,32 @@
 }
 
 #dyad-stage[data-phase="b-reads"] .dyad-scene::after,
-#dyad-stage[data-phase="escalate"] .dyad-scene::after {
+#dyad-stage[data-phase="escalate"] .dyad-scene::after,
+#dyad-stage[data-phase="peak"] .dyad-scene::after {
   opacity: 1;
   transform: translateX(-50%) scale(1);
 }
 
-#dyad-stage .courtyard-pot,
-#dyad-stage .pot-leaves,
+#dyad-stage .block-tower,
+#dyad-stage .block,
 #dyad-stage .quarrel-mark,
-#dyad-stage .toy-listener,
-#dyad-stage .listen-ring,
-#dyad-stage .toy-pause-mark {
+#dyad-stage .dyad-breath-puff {
   will-change: transform, opacity;
+}
+
+/* Tower-initial label — "N" or "J" sits on the top block so the visitor
+   can tell whose tower is whose at a glance. */
+#dyad-stage .tower-initial {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(92, 62, 48, 0.7);
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 #dyad-stage .courtyard-pot {
@@ -365,15 +393,23 @@
   transform: rotate(30deg);
 }
 
-#dyad-stage[data-phase="b-reads"] .quarrel-mark.nora,
-#dyad-stage[data-phase="escalate"] .quarrel-mark {
+#dyad-stage[data-phase="bump"] .quarrel-mark.nora,
+#dyad-stage[data-phase="b-reads"] .quarrel-mark.jules,
+#dyad-stage[data-phase="escalate"] .quarrel-mark,
+#dyad-stage[data-phase="peak"] .quarrel-mark {
   animation: p3QuarrelPop 0.54s cubic-bezier(0.22, 1.5, 0.36, 1) both;
 }
 
 #dyad-stage[data-phase="escalate"] .quarrel-mark::before,
-#dyad-stage[data-phase="escalate"] .quarrel-mark::after {
+#dyad-stage[data-phase="escalate"] .quarrel-mark::after,
+#dyad-stage[data-phase="peak"] .quarrel-mark::before,
+#dyad-stage[data-phase="peak"] .quarrel-mark::after {
   opacity: 0.85;
   animation: p3QuarrelSpark 0.52s ease-in-out infinite;
+}
+#dyad-stage[data-phase="peak"] .quarrel-mark::before,
+#dyad-stage[data-phase="peak"] .quarrel-mark::after {
+  animation-duration: 0.32s;
 }
 
 #dyad-stage .toy-listener {
@@ -494,7 +530,7 @@
   transform: translate(-50%, -50%) rotate(45deg) scale(0.6);
 }
 
-#dyad-stage[data-phase="pause"] .co-reg-cue,
+#dyad-stage[data-phase="breath"] .co-reg-cue,
 #dyad-stage[data-phase="settle"] .co-reg-cue {
   animation: p3CoRegArc 1.8s ease-in-out infinite;
 }
@@ -513,7 +549,7 @@
   border-color: rgba(58, 138, 138, 0.42);
 }
 
-#dyad-stage[data-phase="pause"] .dyad-link.safe,
+#dyad-stage[data-phase="breath"] .dyad-link.safe,
 #dyad-stage[data-phase="settle"] .dyad-link.safe {
   stroke-dasharray: 16 10;
   animation: p3SafeLinkBreathe 1.8s ease-in-out infinite;
@@ -645,13 +681,15 @@
   #dyad-stage .dyad-face::before { left: 12px; }
   #dyad-stage .dyad-face::after { right: 12px; }
 
-  #dyad-stage[data-phase="b-reads"] #dyad-a,
-  #dyad-stage[data-phase="escalate"] #dyad-a {
+  #dyad-stage[data-phase="b-reads"]  #dyad-a,
+  #dyad-stage[data-phase="escalate"] #dyad-a,
+  #dyad-stage[data-phase="peak"]     #dyad-a {
     transform: translateX(-4px) translateY(4px) rotate(-1deg);
   }
 
-  #dyad-stage[data-phase="b-reads"] #dyad-b,
-  #dyad-stage[data-phase="escalate"] #dyad-b {
+  #dyad-stage[data-phase="b-reads"]  #dyad-b,
+  #dyad-stage[data-phase="escalate"] #dyad-b,
+  #dyad-stage[data-phase="peak"]     #dyad-b {
     transform: translateX(4px) translateY(4px) rotate(1deg);
   }
 

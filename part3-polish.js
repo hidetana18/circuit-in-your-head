@@ -23,7 +23,7 @@
 
     stage.querySelectorAll(".phase-pop").forEach((el) => el.classList.remove("phase-pop"));
     const activeBits = stage.querySelectorAll(
-      ".courtyard-pot, .quarrel-mark, .toy-listener, .listen-ring, .toy-pause-mark"
+      ".block-tower, .quarrel-mark, .dyad-breath-puff"
     );
     activeBits.forEach((el) => {
       void el.offsetWidth;
@@ -36,27 +36,11 @@
     if (!stage || stage.dataset.part3PolishReady === "true") return;
     stage.dataset.part3PolishReady = "true";
 
-    const scene = stage.querySelector(".dyad-scene");
-    const listener = stage.querySelector(".toy-listener");
-
-    if (scene) {
-      appendOnce(scene, "co-reg-cue one");
-      appendOnce(scene, "co-reg-cue two");
-      appendOnce(scene, "co-reg-cue three");
-    }
-
-    if (listener) {
-      appendOnce(listener, "listener-ear left");
-      appendOnce(listener, "listener-ear right");
-      appendOnce(listener, "listener-body");
-      appendOnce(listener, "listener-hand left");
-      appendOnce(listener, "listener-hand right");
-      appendOnce(listener, "listener-mouth");
-    }
-
-    stage.querySelectorAll(".courtyard-pot").forEach((pot) => {
-      const label = appendOnce(pot, "pot-initial");
-      if (label) label.textContent = pot.classList.contains("nora") ? "N" : "J";
+    // Tag each tower's blocks with a label initial so visitors can see whose
+    // tower is whose at a glance (matches the dyad-name above each panel).
+    stage.querySelectorAll(".block-tower").forEach((tower) => {
+      const label = appendOnce(tower, "tower-initial");
+      if (label) label.textContent = tower.classList.contains("nora") ? "N" : "J";
     });
 
     setPhaseClass(stage, stage.dataset.phase || "calm");

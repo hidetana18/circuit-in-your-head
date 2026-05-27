@@ -1697,7 +1697,9 @@ body[data-intro="body"] .ouch {
 }
 .dyad-stage {
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(230px, 280px) minmax(220px, 1fr);
+  /* Slimmer side panels now that brain SVG + vitals are gone — center column
+     (scene + readout + loop) gets the visual weight it deserves. */
+  grid-template-columns: minmax(170px, 0.7fr) minmax(280px, 1.2fr) minmax(170px, 0.7fr);
   gap: 18px;
   align-items: stretch;
   background: rgba(255, 249, 240, 0.84);
@@ -1708,15 +1710,16 @@ body[data-intro="body"] .ouch {
 }
 .dyad-person {
   display: grid;
-  grid-template-rows: auto auto 1fr auto auto;
-  gap: 10px;
+  /* Three rows: name, face (flexes), meter. */
+  grid-template-rows: auto 1fr auto;
+  gap: 14px;
   align-items: center;
   justify-items: center;
-  min-height: 360px;
+  min-height: 220px;
   background: white;
   border: 1px solid #e6e1d6;
   border-radius: 16px;
-  padding: 18px;
+  padding: 20px 18px;
   text-align: center;
   transition: background 0.55s ease, border-color 0.55s ease, box-shadow 0.55s ease;
 }
@@ -2045,7 +2048,7 @@ body[data-intro="body"] .ouch {
 }
 .dyad-scene {
   position: relative;
-  height: 64px;
+  height: 84px;     /* taller — towers reach higher than the old pots */
   overflow: visible;
 }
 .courtyard-line {
@@ -2058,52 +2061,60 @@ body[data-intro="body"] .ouch {
   background: #9fbfb8;
   box-shadow: 0 5px 0 rgba(74, 107, 102, 0.16);
 }
-.courtyard-pot {
+
+/* Block towers — each is a vertical stack of three blocks. The whole
+   tower pivots around its base center. Nora's topples in the "bump" beat
+   and stays fallen for the rest. Jules's stays upright the entire time. */
+.block-tower {
   position: absolute;
   bottom: 13px;
-  width: 30px;
-  height: 20px;
-  border: 2px solid #a85e4e;
-  border-radius: 5px 5px 12px 12px;
-  background: #df8f70;
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.48);
-  transition: transform 0.55s cubic-bezier(0.22, 1.35, 0.36, 1), opacity 0.35s ease;
+  width: 22px;
+  height: 54px;
+  display: flex;
+  flex-direction: column;
+  transform-origin: 50% 100%;
+  transition: transform 0.65s cubic-bezier(0.22, 0.85, 0.42, 1);
+  z-index: 2;
 }
-.courtyard-pot.nora {
-  left: 18%;
+.block-tower.nora  { left:  calc(18% + 4px); }
+.block-tower.jules { right: calc(18% + 4px); }
+.block {
+  width: 22px;
+  height: 18px;
+  border: 2px solid #a07d50;
+  background: #d8b88a;
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: inset 0 2px 0 rgba(255, 248, 232, 0.4);
 }
-.courtyard-pot.jules {
-  right: 18%;
+.block.top  { background: #e7c89c; }
+.block.mid  { background: #d8b88a; }
+.block.base { background: #c2a374; }
+
+#dyad-stage[data-phase="bump"] .block-tower.nora {
+  animation: towerTopple 0.7s cubic-bezier(0.35, 0, 0.55, 1) 1 forwards;
 }
-.pot-leaves {
-  position: absolute;
-  left: 50%;
-  bottom: 16px;
-  width: 20px;
-  height: 14px;
-  transform: translateX(-50%);
+#dyad-stage[data-phase="b-reads"] .block-tower.nora,
+#dyad-stage[data-phase="escalate"] .block-tower.nora,
+#dyad-stage[data-phase="peak"] .block-tower.nora,
+#dyad-stage[data-phase="breath"] .block-tower.nora,
+#dyad-stage[data-phase="settle"] .block-tower.nora {
+  transform: translate(-14px, 18px) rotate(-78deg);
 }
-.pot-leaves::before,
-.pot-leaves::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  width: 13px;
-  height: 9px;
-  border-radius: 999px 999px 999px 0;
-  background: #5f8b64;
+@keyframes towerTopple {
+  0%   { transform: translate(0, 0)    rotate(0deg); }
+  18%  { transform: translate(-2px, 0) rotate(-4deg); }     /* nudged */
+  32%  { transform: translate(0, 0)    rotate(3deg); }      /* brief recovery */
+  60%  { transform: translate(-7px, 4px)  rotate(-38deg); } /* falling */
+  100% { transform: translate(-14px, 18px) rotate(-78deg); }/* fallen */
 }
-.pot-leaves::before {
-  left: 0;
-  transform: rotate(-36deg);
-}
-.pot-leaves::after {
-  right: 0;
-  transform: rotate(36deg) scaleX(-1);
-}
+
+/* Quarrel marks — alarm indicators above each tower. Nora's lights up
+   with the bump; Jules's lights up when he reads her face; both pulse
+   harder at peak; Nora's dims when she breathes; both fade on settle. */
 .quarrel-mark {
   position: absolute;
-  bottom: 39px;
+  bottom: 56px;
   width: 22px;
   height: 22px;
   display: grid;
@@ -2119,77 +2130,77 @@ body[data-intro="body"] .ouch {
   transform: scale(0.75);
   transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1.5, 0.36, 1);
 }
-.quarrel-mark.nora {
-  left: calc(18% + 19px);
+.quarrel-mark.nora  { left:  calc(18% + 4px); }
+.quarrel-mark.jules { right: calc(18% + 4px); }
+
+#dyad-stage[data-phase="bump"]     .quarrel-mark.nora,
+#dyad-stage[data-phase="b-reads"]  .quarrel-mark.nora,
+#dyad-stage[data-phase="escalate"] .quarrel-mark.nora,
+#dyad-stage[data-phase="peak"]     .quarrel-mark.nora,
+#dyad-stage[data-phase="b-reads"]  .quarrel-mark.jules,
+#dyad-stage[data-phase="escalate"] .quarrel-mark.jules,
+#dyad-stage[data-phase="peak"]     .quarrel-mark.jules {
+  opacity: 1;
+  transform: scale(1);
 }
-.quarrel-mark.jules {
-  right: calc(18% + 19px);
+#dyad-stage[data-phase="peak"] .quarrel-mark {
+  animation: quarrelShake 0.22s ease-in-out infinite;
 }
-.toy-listener {
-  position: absolute;
-  left: 50%;
-  bottom: 15px;
-  z-index: 3;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #f2d5bf;
-  border: 2px solid #a8745a;
-  box-shadow: 0 8px 14px rgba(74, 107, 102, 0.12);
+@keyframes quarrelShake {
+  0%, 100% { transform: scale(1) translateX(0); }
+  33%      { transform: scale(1.06) translateX(-1.5px); }
+  66%      { transform: scale(1.06) translateX(1.5px); }
+}
+#dyad-stage[data-phase="breath"] .quarrel-mark.nora {
+  opacity: 0.28;
+  transform: scale(0.82);
+}
+#dyad-stage[data-phase="breath"] .quarrel-mark.jules {
+  opacity: 0.85;
+  transform: scale(0.95);
+}
+#dyad-stage[data-phase="settle"] .quarrel-mark {
   opacity: 0;
-  transform: translateX(-50%) scale(0.78);
-  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1.5, 0.36, 1);
+  transform: scale(0.7);
 }
-.toy-listener::before,
-.toy-listener::after {
-  content: "";
+
+/* Scene tremble — slow under escalation, faster at peak. */
+#dyad-stage[data-phase="escalate"] .dyad-scene {
+  animation: blockSceneTremble 0.55s ease-in-out infinite;
+}
+#dyad-stage[data-phase="peak"] .dyad-scene {
+  animation: blockSceneTremble 0.32s ease-in-out infinite;
+}
+@keyframes blockSceneTremble {
+  0%, 100% { transform: translateX(0)    rotate(0deg); }
+  33%      { transform: translateX(-1px) rotate(-0.45deg); }
+  66%      { transform: translateX(1px)  rotate(0.45deg); }
+}
+
+/* Breath puff — drifts up from Nora's side during the breath beat. */
+.dyad-breath-puff {
   position: absolute;
-  top: 11px;
-  width: 4px;
-  height: 4px;
+  left: calc(18% + 16px);
+  bottom: 24px;
+  width: 26px;
+  height: 14px;
   border-radius: 50%;
-  background: #38353a;
-}
-.toy-listener::before { left: 8px; }
-.toy-listener::after { right: 8px; }
-.listen-ring {
-  position: absolute;
-  left: 50%;
-  bottom: 8px;
-  z-index: 2;
-  width: 54px;
-  height: 36px;
-  border: 2px solid rgba(58, 138, 138, 0.42);
-  border-bottom: 0;
-  border-radius: 50% 50% 0 0;
+  background: radial-gradient(ellipse, rgba(180, 220, 240, 0.9) 0%, rgba(180, 220, 240, 0) 70%);
   opacity: 0;
-  transform: translateX(-50%) scale(0.64);
-  transition: opacity 0.45s ease, transform 0.55s ease;
+  transform: scale(0.4);
+  pointer-events: none;
+  z-index: 4;
 }
-.listen-ring.two {
-  width: 76px;
-  height: 48px;
-  border-color: rgba(58, 138, 138, 0.24);
+#dyad-stage[data-phase="breath"] .dyad-breath-puff {
+  animation: dyadBreathPuff 2.4s ease-out 1;
 }
-.toy-pause-mark {
-  position: absolute;
-  left: 74%;
-  bottom: 18px;
-  transform: translateX(-50%) scale(0.8);
-  width: 34px;
-  height: 34px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  border: 2px solid #f4c25a;
-  background: rgba(255, 249, 240, 0.94);
-  color: #38353a;
-  font-family: var(--sans);
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  opacity: 0;
-  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1.5, 0.36, 1);
+@keyframes dyadBreathPuff {
+  0%   { opacity: 0;   transform: translate(0, 0)      scale(0.4); }
+  18%  { opacity: 0.9; transform: translate(2px, -6px) scale(1); }
+  100% { opacity: 0;   transform: translate(10px, -38px) scale(1.9); }
 }
+
+/* Event text below the scene. */
 .dyad-event-text {
   min-height: 2.35em;
   margin: 0;
@@ -2200,59 +2211,19 @@ body[data-intro="body"] .ouch {
   color: var(--ink);
   transition: color 0.35s ease;
 }
-.dyad-stage[data-phase="a-signal"] .courtyard-pot.nora,
-.dyad-stage[data-phase="b-reads"] .courtyard-pot.nora,
-.dyad-stage[data-phase="escalate"] .courtyard-pot.nora {
-  transform: translateX(38px) rotate(-5deg);
-}
-.dyad-stage[data-phase="b-reads"] .quarrel-mark.nora,
-.dyad-stage[data-phase="escalate"] .quarrel-mark.nora,
-.dyad-stage[data-phase="escalate"] .quarrel-mark.jules {
-  opacity: 1;
-  transform: scale(1);
-}
-.dyad-stage[data-phase="pause"] .courtyard-pot,
-.dyad-stage[data-phase="settle"] .courtyard-pot {
-  opacity: 0.42;
-}
-.dyad-stage[data-phase="escalate"] .dyad-scene {
-  animation: blockSceneTremble 0.52s ease-in-out infinite;
-}
-.dyad-stage[data-phase="pause"] .toy-pause-mark,
-.toy-pause-mark.shown {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-}
-.dyad-stage[data-phase="pause"] .toy-listener,
-.dyad-stage[data-phase="settle"] .toy-listener,
-.toy-listener.shown {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-}
-.dyad-stage[data-phase="pause"] .listen-ring,
-.dyad-stage[data-phase="settle"] .listen-ring,
-.listen-ring.shown {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-}
-.dyad-stage[data-phase="a-signal"] .dyad-event,
-.dyad-stage[data-phase="b-reads"] .dyad-event,
-.dyad-stage[data-phase="escalate"] .dyad-event {
+#dyad-stage[data-phase="peak"] .dyad-event-text { color: #8f3838; }
+
+#dyad-stage[data-phase="bump"]     .dyad-event,
+#dyad-stage[data-phase="b-reads"]  .dyad-event,
+#dyad-stage[data-phase="escalate"] .dyad-event,
+#dyad-stage[data-phase="peak"]     .dyad-event {
   border-color: #efc6ba;
   background: #fff8f2;
 }
-.dyad-stage[data-phase="pause"] .dyad-event,
-.dyad-stage[data-phase="settle"] .dyad-event {
+#dyad-stage[data-phase="breath"] .dyad-event,
+#dyad-stage[data-phase="settle"] .dyad-event {
   border-color: #bddbd6;
   background: #f8fcfc;
-}
-.dyad-stage[data-phase="escalate"] .dyad-event-text {
-  color: #8f3838;
-}
-@keyframes blockSceneTremble {
-  0%, 100% { transform: translateX(0) rotate(0deg); }
-  33%      { transform: translateX(-1px) rotate(-0.4deg); }
-  66%      { transform: translateX(1px) rotate(0.4deg); }
 }
 .dyad-readout {
   min-height: 108px;
@@ -2285,33 +2256,27 @@ body[data-intro="body"] .ouch {
   line-height: 1.08;
   color: var(--ink);
 }
-.dyad-read-secondary {
-  margin: 0;
-  font-family: var(--sans);
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--ink-soft);
-}
-.dyad-stage[data-phase="a-signal"] .dyad-readout,
-.dyad-stage[data-phase="b-reads"] .dyad-readout,
-.dyad-stage[data-phase="escalate"] .dyad-readout {
+.dyad-stage[data-phase="bump"]     .dyad-readout,
+.dyad-stage[data-phase="b-reads"]  .dyad-readout,
+.dyad-stage[data-phase="escalate"] .dyad-readout,
+.dyad-stage[data-phase="peak"]     .dyad-readout {
   border-color: #efc6ba;
   background: #fff5ef;
   box-shadow: 0 8px 24px rgba(168, 58, 58, 0.1);
 }
-.dyad-stage[data-phase="a-signal"] .dyad-read-primary,
-.dyad-stage[data-phase="b-reads"] .dyad-read-primary,
-.dyad-stage[data-phase="escalate"] .dyad-read-primary {
+.dyad-stage[data-phase="bump"]     .dyad-read-primary,
+.dyad-stage[data-phase="b-reads"]  .dyad-read-primary,
+.dyad-stage[data-phase="escalate"] .dyad-read-primary,
+.dyad-stage[data-phase="peak"]     .dyad-read-primary {
   color: #8f3838;
 }
-.dyad-stage[data-phase="pause"] .dyad-readout,
+.dyad-stage[data-phase="breath"] .dyad-readout,
 .dyad-stage[data-phase="settle"] .dyad-readout {
   border-color: #bddbd6;
   background: #f4fbfb;
   box-shadow: 0 8px 24px rgba(58, 138, 138, 0.1);
 }
-.dyad-stage[data-phase="pause"] .dyad-read-primary,
+.dyad-stage[data-phase="breath"] .dyad-read-primary,
 .dyad-stage[data-phase="settle"] .dyad-read-primary {
   color: var(--brainstem-deep);
 }
@@ -2336,6 +2301,11 @@ body[data-intro="body"] .ouch {
     dyadDrawLink 0.75s ease-out forwards,
     dyadLoopPulse 0.9s ease-in-out 0.75s infinite;
 }
+.dyad-stage[data-phase="peak"] .dyad-link.hot.shown {
+  animation:
+    dyadDrawLink 0.75s ease-out forwards,
+    dyadLoopPulse 0.55s ease-in-out 0.75s infinite;
+}
 .dyad-pause {
   opacity: 0;
   transform: scale(0.72);
@@ -2356,9 +2326,10 @@ body[data-intro="body"] .ouch {
   text-transform: uppercase;
   transition: opacity 0.35s ease;
 }
-.dyad-stage[data-phase="escalate"] .hot-word { opacity: 0.8; fill: #a83a3a; }
-.dyad-stage[data-phase="pause"] .safe-word,
-.dyad-stage[data-phase="settle"] .safe-word { opacity: 0.8; fill: #3a8a8a; }
+.dyad-stage[data-phase="escalate"] .hot-word,
+.dyad-stage[data-phase="peak"]     .hot-word { opacity: 0.8; fill: #a83a3a; }
+.dyad-stage[data-phase="breath"]   .safe-word,
+.dyad-stage[data-phase="settle"]   .safe-word { opacity: 0.8; fill: #3a8a8a; }
 @keyframes dyadDrawLink {
   to { stroke-dashoffset: 0; }
 }
@@ -2366,21 +2337,8 @@ body[data-intro="body"] .ouch {
   0%, 100% { opacity: 0.62; stroke-width: 3; }
   50%      { opacity: 1; stroke-width: 4.3; }
 }
-.dyad-caption {
-  grid-column: 1 / -1;
-  text-align: center;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(17px, 1.9vw, 22px);
-  color: var(--ink);
-  margin: 0;
-  padding: 14px 18px 0;
-  border-top: 1px dashed rgba(28, 28, 28, 0.12);
-  min-height: 1.5em;
-  transition: opacity 0.3s, color 0.3s;
-}
-.dyad-caption.fade { opacity: 0; }
-.dyad-caption.settle { color: var(--brainstem-deep); }
+/* (dyad-caption removed — narration now lives in event-text + read-primary
+   to keep the visitor focused on two text streams instead of four.) */
 @media (max-width: 760px) {
   .part-dyad > * {
     padding-left: 12px;
@@ -2393,8 +2351,8 @@ body[data-intro="body"] .ouch {
     padding: 12px;
   }
   .dyad-person {
-    min-height: 280px;
-    gap: 8px;
+    min-height: 168px;
+    gap: 10px;
     padding: 10px 8px;
   }
   .dyad-name {
@@ -2468,44 +2426,28 @@ body[data-intro="body"] .ouch {
     letter-spacing: 0.12em;
   }
   .dyad-scene {
-    height: 54px;
+    height: 70px;
   }
-  .courtyard-pot {
-    width: 24px;
-    height: 17px;
+  .block-tower {
+    width: 18px;
+    height: 46px;
     bottom: 12px;
+  }
+  .block {
+    width: 18px;
+    height: 15px;
     border-width: 1.5px;
   }
-  .pot-leaves {
-    bottom: 14px;
-    transform: translateX(-50%) scale(0.82);
-  }
   .quarrel-mark {
-    bottom: 34px;
+    bottom: 48px;
     width: 19px;
     height: 19px;
     font-size: 11px;
   }
-  .toy-listener {
-    bottom: 13px;
-    width: 25px;
-    height: 25px;
-  }
-  .toy-listener::before,
-  .toy-listener::after {
-    top: 10px;
-  }
-  .toy-listener::before { left: 7px; }
-  .toy-listener::after { right: 7px; }
-  .listen-ring {
-    bottom: 7px;
-    transform: translateX(-50%) scale(0.55);
-  }
-  .toy-pause-mark {
-    bottom: 14px;
-    width: 30px;
-    height: 30px;
-    font-size: 12px;
+  .dyad-breath-puff {
+    bottom: 18px;
+    width: 22px;
+    height: 12px;
   }
   .dyad-event-text {
     min-height: 2.4em;
@@ -2514,7 +2456,7 @@ body[data-intro="body"] .ouch {
   }
   .dyad-readout {
     grid-column: 1;
-    min-height: 106px;
+    min-height: 84px;
     padding: 10px;
     gap: 4px;
   }
@@ -2525,10 +2467,6 @@ body[data-intro="body"] .ouch {
   .dyad-read-primary {
     font-size: 17px;
   }
-  .dyad-read-secondary {
-    font-size: 10px;
-    line-height: 1.25;
-  }
   .dyad-loop {
     grid-column: 2;
     height: 106px;
@@ -2536,11 +2474,6 @@ body[data-intro="body"] .ouch {
   }
   .dyad-loop-word {
     display: none;
-  }
-  .dyad-caption {
-    font-size: 15px;
-    line-height: 1.28;
-    padding: 10px 4px 0;
   }
 }
 @media (max-width: 420px) {
@@ -2550,7 +2483,7 @@ body[data-intro="body"] .ouch {
     padding: 10px;
   }
   .dyad-person {
-    min-height: 258px;
+    min-height: 158px;
   }
   .dyad-loop {
     height: 104px;

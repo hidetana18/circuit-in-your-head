@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=24" />
-  <link rel="stylesheet" href="part3-polish.css?v=2" />
+  <link rel="stylesheet" href="styles.css?v=27" />
+  <link rel="stylesheet" href="part3-polish.css?v=3" />
   <link rel="stylesheet" href="part4-polish.css?v=2" />
 </head>
 <body>
@@ -450,7 +450,7 @@
       <h2>Help <em>Peter Rabbit</em></h2>
       <p class="part-sub">
         Peter snuck into Mr. McGregor's garden. McGregor saw him. Peter is hiding in a watering can — heart pounding.
-        <strong>Pick three actions. Each one gives Peter's circuit new data. Find an order that helps it settle.</strong>
+        <strong>Pick three actions. Each one shapes what happens next. There's no single right answer — many mixes can settle him.</strong>
       </p>
     </div>
 
@@ -689,8 +689,8 @@
   <section id="part-3" class="part part-dyad">
     <div class="part-head">
       <span class="part-num">Part 3</span>
-      <h2>When Two <em>Alarms Meet</em></h2>
-      <p class="part-note">First the panic loop grows; then a pause gives cortex room to check.</p>
+      <h2>Two Alarms, <em>One Loop</em></h2>
+      <p class="part-note">Peter calmed his own circuit. What happens when there are two circuits — and one feeds the other?</p>
     </div>
 
     <div class="dyad-stage" id="dyad-stage" data-phase="calm">
@@ -701,71 +701,6 @@
           <span class="dyad-eye right"></span>
           <span class="dyad-mouth"></span>
         </div>
-        <svg class="mini-brain-svg dyad-brain" viewBox="0 0 260 230" role="img" aria-label="Nora brain-body circuit">
-          <g class="brain-layer mini-brain-layer" data-region="cortex">
-            <path class="layer-fill"
-                  d="M 30 62
-                     C 22 34, 48 12, 86 10
-                     C 112 2, 154 0, 178 12
-                     C 220 10, 246 34, 238 66
-                     C 233 88, 216 102, 192 108
-                     C 152 116, 94 112, 58 104
-                     C 40 100, 30 84, 30 62 Z"
-                  fill="#9FB2D4" stroke="#5a6fa0" stroke-width="2" />
-            <path d="M 42 36 C 72 20, 98 44, 126 34 S 182 20, 220 42"
-                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
-            <path d="M 38 66 C 70 52, 100 78, 130 66 S 184 52, 218 72"
-                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
-            <text x="130" y="56" text-anchor="middle" class="layer-label" fill="#2c3a60">CORTEX</text>
-            <text x="130" y="76" text-anchor="middle" class="layer-sub" fill="#2c3a60">attention</text>
-          </g>
-          <g class="brain-layer mini-brain-layer" data-region="limbic">
-            <path class="layer-fill"
-                  d="M 56 101
-                     C 80 94, 108 95, 130 102
-                     C 156 94, 190 95, 212 106
-                     L 204 145
-                     C 196 158, 162 160, 132 153
-                     C 104 160, 74 158, 56 146
-                     C 48 132, 46 112, 56 101 Z"
-                  fill="#F4A6B5" stroke="#a85e6a" stroke-width="2" />
-            <text x="130" y="124" text-anchor="middle" class="layer-label" fill="#6a2f3a">LIMBIC</text>
-            <text x="130" y="142" text-anchor="middle" class="layer-sub" fill="#6a2f3a">alarm</text>
-          </g>
-          <g class="brain-layer mini-brain-layer" data-region="brainstem">
-            <path class="layer-fill"
-                  d="M 74 154
-                     C 100 148, 160 148, 186 154
-                     C 182 182, 170 206, 150 218
-                     C 138 225, 122 225, 110 218
-                     C 90 206, 78 182, 74 154 Z"
-                  fill="#9CC09A" stroke="#5a7a5a" stroke-width="2" />
-            <text x="130" y="184" text-anchor="middle" class="layer-label" fill="#2c4a2c">BRAIN STEM</text>
-            <text x="130" y="202" text-anchor="middle" class="layer-sub" fill="#2c4a2c">body</text>
-          </g>
-        </svg>
-        <div class="dyad-vitals signal-vitals" aria-label="Nora body signals">
-          <div class="dyad-vital signal-vital heart">
-            <svg viewBox="0 0 48 48" class="dyad-vital-icon signal-vital-icon" aria-hidden="true">
-              <path class="dyad-heart-path signal-heart-path"
-                    d="M 24 40 C 24 40, 8 30, 8 18 C 8 12, 12 8, 17 8 C 20 8, 22 10, 24 13 C 26 10, 28 8, 31 8 C 36 8, 40 12, 40 18 C 40 30, 24 40, 24 40 Z"
-                    fill="#E15F5F" stroke="#a83a3a" stroke-width="2" />
-            </svg>
-            <span><b id="dyad-a-bpm">82</b> bpm</span>
-          </div>
-          <div class="dyad-vital signal-vital lungs">
-            <svg viewBox="0 0 48 48" class="dyad-vital-icon signal-vital-icon" aria-hidden="true">
-              <rect x="22" y="8" width="4" height="14" rx="2" fill="#c89a82" stroke="#8a6450" stroke-width="1.4" />
-              <path class="dyad-lung-path signal-lung-path"
-                    d="M 20 20 Q 9 23, 9 34 Q 9 43, 17 43 Q 23 42, 23 34 L 23 21 Z"
-                    fill="#e8b5a4" stroke="#8a6450" stroke-width="2" />
-              <path class="dyad-lung-path signal-lung-path"
-                    d="M 28 20 Q 39 23, 39 34 Q 39 43, 31 43 Q 25 42, 25 34 L 25 21 Z"
-                    fill="#e8b5a4" stroke="#8a6450" stroke-width="2" />
-            </svg>
-            <span><b id="dyad-a-brpm">15</b> /min</span>
-          </div>
-        </div>
         <div class="dyad-meter">
           <span class="dyad-meter-label">alarm</span>
           <span class="dyad-meter-track"><span class="dyad-meter-fill"></span></span>
@@ -774,26 +709,31 @@
       </div>
 
       <div class="dyad-center">
-        <div class="dyad-event" aria-label="Listening pause scene">
-          <p class="dyad-event-kicker">the quarrel</p>
+        <div class="dyad-event" aria-label="Block tower scene">
           <div class="dyad-scene" aria-hidden="true">
             <span class="courtyard-line"></span>
-            <span class="courtyard-pot nora"><span class="pot-leaves"></span></span>
-            <span class="courtyard-pot jules"><span class="pot-leaves"></span></span>
+            <!-- Two block towers — Nora's on the left, Jules's on the right.
+                 Each tower is three stacked blocks; in beat 2 Nora's topples. -->
+            <span class="block-tower nora">
+              <span class="block top"></span>
+              <span class="block mid"></span>
+              <span class="block base"></span>
+            </span>
+            <span class="block-tower jules">
+              <span class="block top"></span>
+              <span class="block mid"></span>
+              <span class="block base"></span>
+            </span>
             <span class="quarrel-mark nora">!</span>
             <span class="quarrel-mark jules">!</span>
-            <span class="toy-listener"></span>
-            <span class="listen-ring one"></span>
-            <span class="listen-ring two"></span>
-            <span class="toy-pause-mark">||</span>
+            <!-- Breath puff — drifts up from Nora's side in the breath beat. -->
+            <span class="dyad-breath-puff" id="dyad-breath-puff" aria-hidden="true"></span>
           </div>
-          <p class="dyad-event-text" id="dyad-event-text">Nora and Jules share one little courtyard.</p>
+          <p class="dyad-event-text" id="dyad-event-text">Nora and Jules build, side by side.</p>
         </div>
 
         <div class="dyad-readout" id="dyad-readout" aria-live="polite" aria-atomic="true">
-          <p class="dyad-read-kicker">what the minds read</p>
           <p class="dyad-read-primary" id="dyad-read-primary">Both read: this space is shared.</p>
-          <p class="dyad-read-secondary" id="dyad-read-secondary">Bodies are calm, so attention can stay wide.</p>
         </div>
 
         <svg class="dyad-loop" viewBox="0 0 220 190" aria-label="Shared loop between two circuits">
@@ -823,13 +763,6 @@
                 d="M 38 100 C 78 82, 142 82, 182 100"
                 fill="none" stroke="#3a8a8a" stroke-width="3"
                 stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
-          <g class="dyad-pause" data-link="pause" aria-hidden="true">
-            <circle cx="110" cy="95" r="29" fill="#fff9f0" stroke="#f4c25a" stroke-width="3" />
-            <rect x="100" y="82" width="7" height="26" rx="3" fill="#38353a" />
-            <rect x="114" y="82" width="7" height="26" rx="3" fill="#38353a" />
-          </g>
-          <text class="dyad-loop-word hot-word" x="110" y="42" text-anchor="middle">misread</text>
-          <text class="dyad-loop-word safe-word" x="110" y="146" text-anchor="middle">listening</text>
         </svg>
       </div>
 
@@ -840,71 +773,6 @@
           <span class="dyad-eye right"></span>
           <span class="dyad-mouth"></span>
         </div>
-        <svg class="mini-brain-svg dyad-brain" viewBox="0 0 260 230" role="img" aria-label="Jules brain-body circuit">
-          <g class="brain-layer mini-brain-layer" data-region="cortex">
-            <path class="layer-fill"
-                  d="M 30 62
-                     C 22 34, 48 12, 86 10
-                     C 112 2, 154 0, 178 12
-                     C 220 10, 246 34, 238 66
-                     C 233 88, 216 102, 192 108
-                     C 152 116, 94 112, 58 104
-                     C 40 100, 30 84, 30 62 Z"
-                  fill="#9FB2D4" stroke="#5a6fa0" stroke-width="2" />
-            <path d="M 42 36 C 72 20, 98 44, 126 34 S 182 20, 220 42"
-                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
-            <path d="M 38 66 C 70 52, 100 78, 130 66 S 184 52, 218 72"
-                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
-            <text x="130" y="56" text-anchor="middle" class="layer-label" fill="#2c3a60">CORTEX</text>
-            <text x="130" y="76" text-anchor="middle" class="layer-sub" fill="#2c3a60">attention</text>
-          </g>
-          <g class="brain-layer mini-brain-layer" data-region="limbic">
-            <path class="layer-fill"
-                  d="M 56 101
-                     C 80 94, 108 95, 130 102
-                     C 156 94, 190 95, 212 106
-                     L 204 145
-                     C 196 158, 162 160, 132 153
-                     C 104 160, 74 158, 56 146
-                     C 48 132, 46 112, 56 101 Z"
-                  fill="#F4A6B5" stroke="#a85e6a" stroke-width="2" />
-            <text x="130" y="124" text-anchor="middle" class="layer-label" fill="#6a2f3a">LIMBIC</text>
-            <text x="130" y="142" text-anchor="middle" class="layer-sub" fill="#6a2f3a">alarm</text>
-          </g>
-          <g class="brain-layer mini-brain-layer" data-region="brainstem">
-            <path class="layer-fill"
-                  d="M 74 154
-                     C 100 148, 160 148, 186 154
-                     C 182 182, 170 206, 150 218
-                     C 138 225, 122 225, 110 218
-                     C 90 206, 78 182, 74 154 Z"
-                  fill="#9CC09A" stroke="#5a7a5a" stroke-width="2" />
-            <text x="130" y="184" text-anchor="middle" class="layer-label" fill="#2c4a2c">BRAIN STEM</text>
-            <text x="130" y="202" text-anchor="middle" class="layer-sub" fill="#2c4a2c">body</text>
-          </g>
-        </svg>
-        <div class="dyad-vitals signal-vitals" aria-label="Jules body signals">
-          <div class="dyad-vital signal-vital heart">
-            <svg viewBox="0 0 48 48" class="dyad-vital-icon signal-vital-icon" aria-hidden="true">
-              <path class="dyad-heart-path signal-heart-path"
-                    d="M 24 40 C 24 40, 8 30, 8 18 C 8 12, 12 8, 17 8 C 20 8, 22 10, 24 13 C 26 10, 28 8, 31 8 C 36 8, 40 12, 40 18 C 40 30, 24 40, 24 40 Z"
-                    fill="#E15F5F" stroke="#a83a3a" stroke-width="2" />
-            </svg>
-            <span><b id="dyad-b-bpm">82</b> bpm</span>
-          </div>
-          <div class="dyad-vital signal-vital lungs">
-            <svg viewBox="0 0 48 48" class="dyad-vital-icon signal-vital-icon" aria-hidden="true">
-              <rect x="22" y="8" width="4" height="14" rx="2" fill="#c89a82" stroke="#8a6450" stroke-width="1.4" />
-              <path class="dyad-lung-path signal-lung-path"
-                    d="M 20 20 Q 9 23, 9 34 Q 9 43, 17 43 Q 23 42, 23 34 L 23 21 Z"
-                    fill="#e8b5a4" stroke="#8a6450" stroke-width="2" />
-              <path class="dyad-lung-path signal-lung-path"
-                    d="M 28 20 Q 39 23, 39 34 Q 39 43, 31 43 Q 25 42, 25 34 L 25 21 Z"
-                    fill="#e8b5a4" stroke="#8a6450" stroke-width="2" />
-            </svg>
-            <span><b id="dyad-b-brpm">15</b> /min</span>
-          </div>
-        </div>
         <div class="dyad-meter">
           <span class="dyad-meter-label">alarm</span>
           <span class="dyad-meter-track"><span class="dyad-meter-fill"></span></span>
@@ -912,9 +780,6 @@
         </div>
       </div>
 
-      <p class="dyad-caption" id="dyad-caption" aria-live="polite" aria-atomic="true">
-        Nora and Jules begin with a shared space and calm bodies.
-      </p>
     </div>
 
     <div class="intro-controls dyad-controls">
@@ -928,8 +793,11 @@
     </div>
   </section>
 
-  <!-- ====================== PART 4: LITERARY LENS ====================== -->
-  <section id="part-4" class="part part-literary">
+  <!-- ====================== PART 4: LITERARY LENS ======================
+       Hidden for now — felt redundant with Part 3's dyad lesson. Remove the
+       `hidden` attribute (and bring back the part4-polish refs if needed) to
+       restore the Pride & Prejudice section. -->
+  <section id="part-4" class="part part-literary" hidden>
     <div class="part-head">
       <span class="part-num">Part 4</span>
       <h2>Revisiting a Classic Through a Neural Lens:<br><em>Pride &amp; Prejudice</em></h2>
@@ -1141,8 +1009,8 @@
     <p class="micro">Camera estimates run locally in your browser and are not recorded.</p>
   </footer>
 
-  <script src="script.js?v=28"></script>
-  <script src="part3-polish.js?v=2"></script>
+  <script src="script.js?v=30"></script>
+  <script src="part3-polish.js?v=3"></script>
   <script src="part4-polish.js?v=2"></script>
 </body>
 </html>
