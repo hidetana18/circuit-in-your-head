@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=29" />
+  <link rel="stylesheet" href="styles.css?v=30" />
   <link rel="stylesheet" href="part3-polish.css?v=3" />
   <link rel="stylesheet" href="part4-polish.css?v=2" />
 </head>
@@ -216,6 +216,10 @@
            Limbs are separately animatable. -->
       <div class="intro-scene">
         <div class="ground"></div>
+        <!-- Banana peel — visible on the ground during the run beat; slips
+             out from under the foot when the kid trips. Drawn before the
+             kid so it sits behind him in z-order until the slip. -->
+        <span class="banana" aria-hidden="true">🍌</span>
         <div class="kid-wrap" id="kid-wrap">
           <svg viewBox="0 0 140 200" class="kid-svg">
             <ellipse class="kid-shadow" cx="70" cy="194" rx="32" ry="3.5" fill="rgba(0,0,0,0.08)" />

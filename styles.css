@@ -442,6 +442,29 @@ body[data-intro="think"] .kid-head      { transform: rotate(0deg); }
   100% { transform: translateX(0)    translateY(0)   rotate(0deg); }
 }
 
+/* Banana peel — sits on the ground in front of the kid's path. When the
+   trip beat fires the peel slides backward and rotates flat, mimicking
+   the slip-out from under the foot. Stays in the slipped pose for all
+   later beats. */
+.banana {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  margin-left: -13px;
+  font-size: 28px;
+  line-height: 1;
+  transform: rotate(-22deg);
+  transform-origin: center;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.18));
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body[data-intro="trip"] .banana,
+body[data-intro="think"] .banana {
+  transform: translate(-32px, 4px) rotate(-95deg);
+}
+
 .ouch {
   position: absolute;
   top: 30%;
