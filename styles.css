@@ -404,37 +404,42 @@ body[data-intro="run"] .kid-head      { animation: torsoBob   0.5s linear infini
   25%, 75%      { transform: translateY(1px); }
 }
 
-/* ============== STATE: TRIP / FALLEN ==============
-   Wrap rotates forward (with brief anticipation up); limbs splay out. */
-body[data-intro="trip"] .kid-wrap     { animation: tripFall 0.55s cubic-bezier(0.4, -0.1, 0.7, 1.1) forwards; }
-body[data-intro="trip"] .kid-leg-front { transform: rotate(-45deg); }
-body[data-intro="trip"] .kid-leg-back  { transform: rotate(15deg); }
-body[data-intro="trip"] .kid-arm-front { transform: rotate(-65deg); }   /* hand out to brace */
-body[data-intro="trip"] .kid-arm-back  { transform: rotate(50deg); }
-body[data-intro="trip"] .kid-body      { transform: translateY(0); }
-body[data-intro="trip"] .kid-head      { transform: translateY(0); }
+/* ============== STATE: TRIP / STUMBLE ==============
+   Kid catches a toe and teeters forward — "whoops!" — arms swing out to
+   balance, body leans about 12°. He does NOT go to the ground. The lurch
+   has a small wobble (forward → back → forward → settle) before holding. */
+body[data-intro="trip"] .kid-wrap     { animation: tripFall 0.65s cubic-bezier(0.32, 0, 0.58, 1) forwards; }
+body[data-intro="trip"] .kid-leg-front { transform: rotate(-18deg); }   /* mid-stride, foot caught */
+body[data-intro="trip"] .kid-leg-back  { transform: rotate(10deg); }    /* planted */
+body[data-intro="trip"] .kid-arm-front { transform: rotate(-55deg); }   /* arm out front for balance */
+body[data-intro="trip"] .kid-arm-back  { transform: rotate(42deg); }    /* arm out back for balance */
+body[data-intro="trip"] .kid-body      { transform: rotate(2deg); }     /* slight forward lean */
+body[data-intro="trip"] .kid-head      { transform: rotate(-3deg); }    /* eyes up, surprised */
 
 @keyframes tripFall {
-  0%   { transform: translateX(0) translateY(0) rotate(0deg); }
-  18%  { transform: translateX(2px) translateY(-6px) rotate(-10deg); }   /* anticipation up + back tilt */
-  45%  { transform: translateX(8px) translateY(-2px) rotate(30deg); }    /* falling forward */
-  100% { transform: translateX(20px) translateY(-30px) rotate(80deg); }  /* landed */
+  0%   { transform: translateX(0)    translateY(0)   rotate(0deg); }
+  16%  { transform: translateX(-1px) translateY(-3px) rotate(-3deg); }  /* anticipation: back */
+  38%  { transform: translateX(3px)  translateY(-1px) rotate(18deg); }  /* big forward lurch */
+  60%  { transform: translateX(1px)  translateY(0)   rotate(6deg); }    /* wobble back */
+  82%  { transform: translateX(3px)  translateY(0)   rotate(13deg); }   /* wobble forward */
+  100% { transform: translateX(2px)  translateY(0)   rotate(10deg); }   /* settled stumble */
 }
 
-/* ============== STATE: THINK / STANDING AGAIN ==============
-   Rotates back up; limbs return to neutral pose. */
-body[data-intro="think"] .kid-wrap     { animation: standUp 0.6s cubic-bezier(0.3, 0, 0.2, 1) forwards; }
+/* ============== STATE: THINK / RECOVER ==============
+   Out of the stumble pose: body tilts back through neutral, limbs return
+   to standing. Mirrors the stumble's gentle overshoot. */
+body[data-intro="think"] .kid-wrap     { animation: standUp 0.55s cubic-bezier(0.3, 0, 0.2, 1) forwards; }
 body[data-intro="think"] .kid-leg-front { transform: rotate(0deg); }
 body[data-intro="think"] .kid-leg-back  { transform: rotate(0deg); }
 body[data-intro="think"] .kid-arm-front { transform: rotate(0deg); }
 body[data-intro="think"] .kid-arm-back  { transform: rotate(0deg); }
-body[data-intro="think"] .kid-body      { transform: translateY(0); }
-body[data-intro="think"] .kid-head      { transform: translateY(0); }
+body[data-intro="think"] .kid-body      { transform: rotate(0deg); }
+body[data-intro="think"] .kid-head      { transform: rotate(0deg); }
 
 @keyframes standUp {
-  0%   { transform: translateX(20px) translateY(-30px) rotate(80deg); }
-  60%  { transform: translateX(6px) translateY(-4px) rotate(-8deg); }   /* slight overshoot back */
-  100% { transform: translateX(0) translateY(0) rotate(0deg); }
+  0%   { transform: translateX(2px)  translateY(0)   rotate(10deg); }
+  55%  { transform: translateX(-1px) translateY(-2px) rotate(-4deg); }  /* slight overshoot back */
+  100% { transform: translateX(0)    translateY(0)   rotate(0deg); }
 }
 
 .ouch {
