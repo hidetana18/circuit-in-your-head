@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=32" />
+  <link rel="stylesheet" href="styles.css?v=33" />
   <link rel="stylesheet" href="part3-polish.css?v=3" />
   <link rel="stylesheet" href="part4-polish.css?v=2" />
 </head>
@@ -289,24 +289,25 @@
         </defs>
 
         <!-- ===== BRAIN (left half) =====
-             Three PNG layers (cortex / limbic / brain stem) drawn at the
-             same x/y/width/height so they stack pixel-perfectly into one
-             complete brain. Source images live in assets/. Each image
-             carries its own white label baked in. -->
+             Three PNG layers (cortex / limbic / brain stem). Each image
+             is now cropped to its region's bounding box, so we position
+             each one individually in SVG coordinates so they assemble
+             into one anatomical brain. Each image carries its own white
+             label baked in. -->
         <g class="wiring-brain">
           <g class="brain-layer" data-region="cortex">
             <image href="assets/brain-cortex.png"
-                   x="-86" y="-31" width="447" height="252"
+                   x="20" y="6" width="220" height="127"
                    preserveAspectRatio="xMidYMid meet" />
           </g>
           <g class="brain-layer" data-region="limbic">
             <image href="assets/brain-limbic.png"
-                   x="-86" y="-31" width="447" height="252"
+                   x="84" y="59" width="97" height="77"
                    preserveAspectRatio="xMidYMid meet" />
           </g>
           <g class="brain-layer" data-region="brainstem">
             <image href="assets/brain-brainstem.png"
-                   x="-86" y="-31" width="447" height="252"
+                   x="123" y="111" width="56" height="75"
                    preserveAspectRatio="xMidYMid meet" />
           </g>
         </g>
@@ -497,17 +498,17 @@
         <g class="wiring-brain">
           <g class="brain-layer" data-region="cortex">
             <image href="assets/brain-cortex.png"
-                   x="-86" y="-31" width="447" height="252"
+                   x="20" y="6" width="220" height="127"
                    preserveAspectRatio="xMidYMid meet" />
           </g>
           <g class="brain-layer" data-region="limbic">
             <image href="assets/brain-limbic.png"
-                   x="-86" y="-31" width="447" height="252"
+                   x="84" y="59" width="97" height="77"
                    preserveAspectRatio="xMidYMid meet" />
           </g>
           <g class="brain-layer" data-region="brainstem">
             <image href="assets/brain-brainstem.png"
-                   x="-86" y="-31" width="447" height="252"
+                   x="123" y="111" width="56" height="75"
                    preserveAspectRatio="xMidYMid meet" />
           </g>
         </g>
