@@ -58,6 +58,7 @@
 #dyad-stage .dyad-brain,
 #dyad-stage .dyad-vitals,
 #dyad-stage .dyad-meter,
+#dyad-stage .dyad-person-read,
 #dyad-stage .dyad-name {
   position: relative;
   z-index: 1;
@@ -75,7 +76,7 @@
 #dyad-stage .dyad-face::after {
   content: "";
   position: absolute;
-  top: 22px;
+  top: 25px;
   width: 15px;
   height: 4px;
   border-top: 2px solid #5e463d;
@@ -85,12 +86,12 @@
 }
 
 #dyad-stage .dyad-face::before {
-  left: 17px;
+  left: 20px;
   transform: rotate(6deg);
 }
 
 #dyad-stage .dyad-face::after {
-  right: 17px;
+  right: 20px;
   transform: rotate(-6deg);
 }
 
@@ -126,13 +127,13 @@
 }
 
 #dyad-stage .dyad-person[data-state="alert"] .dyad-face::before {
-  top: 21px;
+  top: 24px;
   opacity: 0.84;
   transform: translateY(-1px) rotate(-16deg);
 }
 
 #dyad-stage .dyad-person[data-state="alert"] .dyad-face::after {
-  top: 21px;
+  top: 24px;
   opacity: 0.84;
   transform: translateY(-1px) rotate(16deg);
 }
@@ -164,13 +165,13 @@
 }
 
 #dyad-stage .dyad-person[data-state="hot"] .dyad-face::before {
-  top: 20px;
+  top: 23px;
   opacity: 0.95;
   transform: translateY(-2px) rotate(-27deg);
 }
 
 #dyad-stage .dyad-person[data-state="hot"] .dyad-face::after {
-  top: 20px;
+  top: 23px;
   opacity: 0.95;
   transform: translateY(-2px) rotate(27deg);
 }
@@ -196,7 +197,7 @@
 }
 
 #dyad-stage .dyad-person[data-state="settling"] .dyad-mouth {
-  top: 45px;
+  top: 50px;
   transform: scaleX(1.12) rotate(0deg);
 }
 
@@ -680,6 +681,10 @@
 
   #dyad-stage .dyad-face::before { left: 12px; }
   #dyad-stage .dyad-face::after { right: 12px; }
+
+  #dyad-stage .dyad-person[data-state="settling"] .dyad-mouth {
+    top: 35px;
+  }
 
   #dyad-stage[data-phase="b-reads"]  #dyad-a,
   #dyad-stage[data-phase="escalate"] #dyad-a,

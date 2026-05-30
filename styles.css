@@ -1806,37 +1806,35 @@ body[data-intro="trip"] .ouch {
   max-width: none;
 }
 .part-dyad > * {
-  max-width: 1180px;
+  width: calc(100% - clamp(40px, 10vw, 112px));
+  max-width: 1068px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: clamp(20px, 5vw, 56px);
-  padding-right: clamp(20px, 5vw, 56px);
+  padding-left: 0;
+  padding-right: 0;
 }
 .dyad-stage {
   display: grid;
-  /* Slimmer side panels now that brain SVG + vitals are gone — center column
-     (scene + readout + loop) gets the visual weight it deserves. */
-  grid-template-columns: minmax(170px, 0.7fr) minmax(280px, 1.2fr) minmax(170px, 0.7fr);
-  gap: 18px;
+  grid-template-columns: minmax(190px, 0.76fr) minmax(320px, 1.22fr) minmax(190px, 0.76fr);
+  gap: 16px;
   align-items: stretch;
   background: rgba(255, 249, 240, 0.84);
   border: 1px solid #dce8dc;
-  border-radius: 22px;
-  padding: 24px;
+  border-radius: 20px;
+  padding: 20px;
   box-shadow: 0 14px 38px rgba(74, 107, 102, 0.08);
 }
 .dyad-person {
   display: grid;
-  /* Three rows: name, face (flexes), meter. */
-  grid-template-rows: auto 1fr auto;
-  gap: 14px;
+  grid-template-rows: auto auto minmax(64px, 1fr) auto;
+  gap: 12px;
   align-items: center;
   justify-items: center;
-  min-height: 220px;
+  min-height: 302px;
   background: white;
   border: 1px solid #e6e1d6;
   border-radius: 16px;
-  padding: 20px 18px;
+  padding: 18px 16px;
   text-align: center;
   transition: background 0.55s ease, border-color 0.55s ease, box-shadow 0.55s ease;
 }
@@ -1851,8 +1849,8 @@ body[data-intro="trip"] .ouch {
 }
 .dyad-face {
   position: relative;
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   background: #f2d5bf;
   border: 2px solid #a8745a;
@@ -1860,24 +1858,42 @@ body[data-intro="trip"] .ouch {
 }
 .dyad-eye {
   position: absolute;
-  top: 28px;
+  top: 31px;
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: #3a3a3a;
   transition: transform 0.35s ease;
 }
-.dyad-eye.left { left: 23px; }
-.dyad-eye.right { right: 23px; }
+.dyad-eye.left { left: 26px; }
+.dyad-eye.right { right: 26px; }
 .dyad-mouth {
   position: absolute;
-  left: 27px;
-  top: 47px;
-  width: 18px;
+  left: 30px;
+  top: 52px;
+  width: 20px;
   height: 8px;
   border-bottom: 2px solid #3a3a3a;
   border-radius: 50%;
   transition: transform 0.35s ease, top 0.35s ease;
+}
+.dyad-person-read {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 3.6em;
+  margin: 0;
+  padding: 9px 10px;
+  border: 1px solid rgba(230, 225, 214, 0.92);
+  border-radius: 12px;
+  background: rgba(255, 253, 249, 0.82);
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.08;
+  color: var(--ink);
+  transition: color 0.45s ease, background 0.45s ease, border-color 0.45s ease;
 }
 .dyad-brain {
   width: min(100%, 210px);
@@ -2050,6 +2066,11 @@ body[data-intro="trip"] .ouch {
   background: #fff7eb;
   border-color: #ead6bd;
 }
+.dyad-person[data-state="alert"] .dyad-person-read {
+  border-color: rgba(244, 194, 90, 0.42);
+  background: rgba(255, 248, 236, 0.9);
+  color: #8b5d21;
+}
 .dyad-person[data-state="alert"] .dyad-meter-fill {
   width: 56%;
   background: var(--gold);
@@ -2069,6 +2090,11 @@ body[data-intro="trip"] .ouch {
   border-color: #efc6ba;
   box-shadow: 0 10px 28px rgba(168, 58, 58, 0.1);
 }
+.dyad-person[data-state="hot"] .dyad-person-read {
+  border-color: rgba(168, 58, 58, 0.28);
+  background: rgba(255, 245, 239, 0.94);
+  color: #8f3838;
+}
 .dyad-person[data-state="hot"] .dyad-face {
   background: #f0c6b8;
   border-color: #a83a3a;
@@ -2077,7 +2103,7 @@ body[data-intro="trip"] .ouch {
 .dyad-person[data-state="hot"] .dyad-eye.left { transform: translate(-2px, -1px); }
 .dyad-person[data-state="hot"] .dyad-eye.right { transform: translate(2px, -1px); }
 .dyad-person[data-state="hot"] .dyad-mouth {
-  top: 50px;
+  top: 56px;
   transform: rotate(180deg);
 }
 .dyad-person[data-state="hot"] .dyad-layer.cortex {
@@ -2108,6 +2134,11 @@ body[data-intro="trip"] .ouch {
   background: #f4fbfb;
   border-color: #bddbd6;
 }
+.dyad-person[data-state="settling"] .dyad-person-read {
+  border-color: rgba(58, 138, 138, 0.32);
+  background: rgba(244, 251, 251, 0.96);
+  color: var(--brainstem-deep);
+}
 .dyad-person[data-state="settling"] .dyad-layer.cortex,
 .dyad-person[data-state="settling"] .dyad-layer.stem {
   filter: brightness(1.1) drop-shadow(0 0 8px rgba(58, 138, 138, 0.28));
@@ -2131,19 +2162,19 @@ body[data-intro="trip"] .ouch {
 }
 .dyad-loop {
   width: 100%;
-  height: 130px;
+  height: 98px;
   min-height: 0;
   align-self: center;
   overflow: visible;
 }
 .dyad-center {
   display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 12px;
+  grid-template-rows: auto auto auto;
+  gap: 10px;
   align-items: center;
 }
 .dyad-event {
-  min-height: 112px;
+  min-height: 104px;
   display: grid;
   align-content: center;
   gap: 5px;
@@ -2165,7 +2196,7 @@ body[data-intro="trip"] .ouch {
 }
 .dyad-scene {
   position: relative;
-  height: 84px;     /* taller — towers reach higher than the old pots */
+  height: 88px;
   overflow: visible;
 }
 .courtyard-line {
@@ -2184,20 +2215,20 @@ body[data-intro="trip"] .ouch {
    and stays fallen for the rest. Jules's stays upright the entire time. */
 .block-tower {
   position: absolute;
-  bottom: 13px;
-  width: 22px;
-  height: 54px;
+  bottom: 14px;
+  width: 26px;
+  height: 63px;
   display: flex;
   flex-direction: column;
   transform-origin: 50% 100%;
   transition: transform 0.65s cubic-bezier(0.22, 0.85, 0.42, 1);
   z-index: 2;
 }
-.block-tower.nora  { left:  calc(18% + 4px); }
-.block-tower.jules { right: calc(18% + 4px); }
+.block-tower.nora  { left:  calc(19% + 4px); }
+.block-tower.jules { right: calc(19% + 4px); }
 .block {
-  width: 22px;
-  height: 18px;
+  width: 26px;
+  height: 21px;
   border: 2px solid #a07d50;
   background: #d8b88a;
   border-radius: 3px;
@@ -2231,7 +2262,7 @@ body[data-intro="trip"] .ouch {
    harder at peak; Nora's dims when she breathes; both fade on settle. */
 .quarrel-mark {
   position: absolute;
-  bottom: 56px;
+  bottom: 66px;
   width: 22px;
   height: 22px;
   display: grid;
@@ -2247,8 +2278,8 @@ body[data-intro="trip"] .ouch {
   transform: scale(0.75);
   transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1.5, 0.36, 1);
 }
-.quarrel-mark.nora  { left:  calc(18% + 4px); }
-.quarrel-mark.jules { right: calc(18% + 4px); }
+.quarrel-mark.nora  { left:  calc(19% + 6px); }
+.quarrel-mark.jules { right: calc(19% + 6px); }
 
 #dyad-stage[data-phase="bump"]     .quarrel-mark.nora,
 #dyad-stage[data-phase="b-reads"]  .quarrel-mark.nora,
@@ -2297,8 +2328,8 @@ body[data-intro="trip"] .ouch {
 /* Breath puff — drifts up from Nora's side during the breath beat. */
 .dyad-breath-puff {
   position: absolute;
-  left: calc(18% + 16px);
-  bottom: 24px;
+  left: calc(19% + 18px);
+  bottom: 26px;
   width: 26px;
   height: 14px;
   border-radius: 50%;
@@ -2319,10 +2350,10 @@ body[data-intro="trip"] .ouch {
 
 /* Event text below the scene. */
 .dyad-event-text {
-  min-height: 2.35em;
+  min-height: 2.25em;
   margin: 0;
   font-family: var(--sans);
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 800;
   line-height: 1.25;
   color: var(--ink);
@@ -2343,7 +2374,7 @@ body[data-intro="trip"] .ouch {
   background: #f8fcfc;
 }
 .dyad-readout {
-  min-height: 108px;
+  min-height: 94px;
   display: grid;
   align-content: center;
   gap: 7px;
@@ -2367,7 +2398,7 @@ body[data-intro="trip"] .ouch {
 .dyad-read-primary {
   margin: 0;
   font-family: var(--serif);
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 600;
   font-style: italic;
   line-height: 1.08;
@@ -2458,8 +2489,9 @@ body[data-intro="trip"] .ouch {
    to keep the visitor focused on two text streams instead of four.) */
 @media (max-width: 760px) {
   .part-dyad > * {
-    padding-left: 12px;
-    padding-right: 12px;
+    width: calc(100% - 24px);
+    padding-left: 0;
+    padding-right: 0;
   }
   .dyad-stage {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -2484,6 +2516,15 @@ body[data-intro="trip"] .ouch {
   .dyad-eye.left { left: 17px; }
   .dyad-eye.right { right: 17px; }
   .dyad-mouth { left: 20px; top: 35px; width: 14px; }
+  .dyad-person[data-state="hot"] .dyad-mouth {
+    top: 38px;
+  }
+  .dyad-person-read {
+    min-height: 3.1em;
+    padding: 7px 8px;
+    font-size: 13px;
+    line-height: 1.08;
+  }
   .dyad-brain { gap: 4px; }
   .mini-brain-svg.dyad-brain {
     width: min(100%, 150px);
@@ -2534,16 +2575,16 @@ body[data-intro="trip"] .ouch {
   }
   .dyad-event {
     grid-column: 1 / -1;
-    min-height: 96px;
+    min-height: 128px;
     padding: 8px;
-    gap: 3px;
+    gap: 8px;
   }
   .dyad-event-kicker {
     font-size: 8px;
     letter-spacing: 0.12em;
   }
   .dyad-scene {
-    height: 70px;
+    height: 100px;
   }
   .block-tower {
     width: 18px;
@@ -2554,6 +2595,23 @@ body[data-intro="trip"] .ouch {
     width: 18px;
     height: 15px;
     border-width: 1.5px;
+  }
+  #dyad-stage[data-phase="bump"] .block-tower.nora {
+    animation-name: towerToppleMobile;
+  }
+  #dyad-stage[data-phase="b-reads"] .block-tower.nora,
+  #dyad-stage[data-phase="escalate"] .block-tower.nora,
+  #dyad-stage[data-phase="peak"] .block-tower.nora,
+  #dyad-stage[data-phase="breath"] .block-tower.nora,
+  #dyad-stage[data-phase="settle"] .block-tower.nora {
+    transform: translate(-10px, 4px) rotate(-78deg);
+  }
+  @keyframes towerToppleMobile {
+    0%   { transform: translate(0, 0)    rotate(0deg); }
+    18%  { transform: translate(-2px, 0) rotate(-4deg); }
+    32%  { transform: translate(0, 0)    rotate(3deg); }
+    60%  { transform: translate(-6px, 2px)  rotate(-38deg); }
+    100% { transform: translate(-10px, 4px) rotate(-78deg); }
   }
   .quarrel-mark {
     bottom: 48px;

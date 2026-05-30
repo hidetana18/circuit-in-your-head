@@ -1193,10 +1193,9 @@
      Same interaction shape as Part 1, but the unit of analysis is a shared
      loop: each person's body/action becomes data for the other's circuit. */
 
-  /* Seven beats. The shape of the loop matches Part 2:
-       set the scene → trigger → one alarm rises → the other reads it →
-       feedback loop escalates → climax → self-regulation by one →
-       calm signal becomes data for the other → settle. */
+  /* Six beats. The story mirrors Parts 1 and 2:
+       shared safety -> one alarm -> the other reads it -> feedback loop ->
+       one changed signal -> repair. */
   const dyadBeats = [
     {
       phase: "calm",
@@ -1204,18 +1203,26 @@
       links: [],
       alarms: { a: "low", b: "low" },
       vitals: { a: { bpm: 82, brpm: 15 }, b: { bpm: 82, brpm: 15 } },
-      event: "Nora and Jules build, side by side.",
-      read: { primary: "Both read: this is a shared space." },
+      event: "Nora and Jules are building together.",
+      read: {
+        primary: "Both circuits read: safe enough to play.",
+        a: "\"Safe enough to play.\"",
+        b: "\"Safe enough to play.\"",
+      },
       hold: 1600,
     },
     {
       phase: "bump",
       a: "alert", b: "calm",
-      links: ["a-hot"],
+      links: [],
       alarms: { a: "rising", b: "low" },
       vitals: { a: { bpm: 118, brpm: 23 }, b: { bpm: 84, brpm: 15 } },
-      event: "Jules turns. Nora's tower falls.",
-      read: { primary: "Nora reads: \"He knocked it down on purpose.\"" },
+      event: "Jules turns and bumps Nora's tower.",
+      read: {
+        primary: "Nora's alarm fills in the missing story: \"He did it on purpose.\"",
+        a: "\"He did it on purpose.\"",
+        b: "\"I just turned.\"",
+      },
       hold: 2000,
     },
     {
@@ -1224,8 +1231,12 @@
       links: ["a-hot"],
       alarms: { a: "rising", b: "rising" },
       vitals: { a: { bpm: 126, brpm: 25 }, b: { bpm: 108, brpm: 21 } },
-      event: "Nora's face hardens. Jules sees it.",
-      read: { primary: "Jules reads: \"She thinks I'm mean.\"" },
+      event: "Nora's face becomes Jules's input.",
+      read: {
+        primary: "Jules reads her alarm as danger: \"She thinks I'm bad.\"",
+        a: "\"He ruined it.\"",
+        b: "\"She thinks I'm bad.\"",
+      },
       hold: 1800,
     },
     {
@@ -1234,18 +1245,12 @@
       links: ["a-hot", "b-hot"],
       alarms: { a: "high", b: "high" },
       vitals: { a: { bpm: 144, brpm: 29 }, b: { bpm: 138, brpm: 28 } },
-      event: "Voices rise. Both insist on their version.",
-      read: { primary: "Each cortex has less room to check." },
-      hold: 1800,
-    },
-    {
-      phase: "peak",
-      a: "hot", b: "hot",
-      links: ["a-hot", "b-hot"],
-      alarms: { a: "high", b: "high" },
-      vitals: { a: { bpm: 162, brpm: 33 }, b: { bpm: 156, brpm: 31 } },
-      event: "Anger peaks. Each defends harder.",
-      read: { primary: "The loop is loud. Both feel certain they're right." },
+      event: "Each alarm now becomes the other's input.",
+      read: {
+        primary: "The loop gets louder. Each child feels certain their story is right.",
+        a: "\"He won't listen.\"",
+        b: "\"I'm in trouble.\"",
+      },
       hold: 2100,
     },
     {
@@ -1254,8 +1259,12 @@
       links: ["safe"],
       alarms: { a: "falling", b: "high" },
       vitals: { a: { bpm: 108, brpm: 18 }, b: { bpm: 140, brpm: 28 } },
-      event: "Nora takes a slow breath. Her body softens.",
-      read: { primary: "Nora's cortex returns: \"Maybe it was an accident.\"" },
+      event: "Nora takes one slow breath and asks.",
+      read: {
+        primary: "One changed signal gives cortex time to check: \"Was it an accident?\"",
+        a: "\"Maybe it was an accident.\"",
+        b: "\"She is softer now.\"",
+      },
       hold: 2100,
     },
     {
@@ -1264,8 +1273,12 @@
       links: ["safe"],
       alarms: { a: "low", b: "low" },
       vitals: { a: { bpm: 86, brpm: 16 }, b: { bpm: 90, brpm: 17 } },
-      event: "Jules reads the softer signal. Both can see again.",
-      read: { primary: "The story gets wider. There was more than one signal." },
+      event: "Jules can answer. Both update the story.",
+      read: {
+        primary: "\"It fell. We can rebuild.\" Repair becomes possible.",
+        a: "\"We can rebuild.\"",
+        b: "\"I can help fix it.\"",
+      },
       hold: 0,
     },
   ];
@@ -1285,6 +1298,8 @@
   const dyadEventText = document.getElementById("dyad-event-text");
   const dyadReadPrimary = document.getElementById("dyad-read-primary");
   const dyadReadSecondary = document.getElementById("dyad-read-secondary");
+  const dyadARead = document.getElementById("dyad-a-read");
+  const dyadBRead = document.getElementById("dyad-b-read");
   const dyadABpm = document.getElementById("dyad-a-bpm");
   const dyadABrpm = document.getElementById("dyad-a-brpm");
   const dyadBBpm = document.getElementById("dyad-b-bpm");
@@ -1309,6 +1324,8 @@
     if (dyadEventText) dyadEventText.textContent = b.event;
     if (dyadReadPrimary) dyadReadPrimary.textContent = b.read.primary;
     if (dyadReadSecondary) dyadReadSecondary.textContent = b.read.secondary;
+    if (dyadARead) dyadARead.textContent = b.read.a;
+    if (dyadBRead) dyadBRead.textContent = b.read.b;
     if (dyadABpm) animateNumber(dyadABpm, parseInt(dyadABpm.textContent, 10), b.vitals.a.bpm, 600);
     if (dyadABrpm) animateNumber(dyadABrpm, parseInt(dyadABrpm.textContent, 10), b.vitals.a.brpm, 600);
     if (dyadBBpm) animateNumber(dyadBBpm, parseInt(dyadBBpm.textContent, 10), b.vitals.b.bpm, 600);

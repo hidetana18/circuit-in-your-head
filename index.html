@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=38" />
-  <link rel="stylesheet" href="part3-polish.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=41" />
+  <link rel="stylesheet" href="part3-polish.css?v=4" />
   <link rel="stylesheet" href="part4-polish.css?v=2" />
   <link rel="stylesheet" href="motion-polish.css?v=8" />
 </head>
@@ -807,8 +807,8 @@
   <section id="part-3" class="part part-dyad">
     <div class="part-head">
       <span class="part-num">Part 3</span>
-      <h2>Two Alarms, <em>One Loop</em></h2>
-      <p class="part-note">Peter calmed his own circuit. What happens when there are two circuits — and one feeds the other?</p>
+      <h2>When Two Alarms <em>Feed Each Other</em></h2>
+      <p class="part-note">Peter settled one circuit. Now watch how one child's alarm can become another child's input.</p>
     </div>
 
     <div class="dyad-stage" id="dyad-stage" data-phase="calm">
@@ -819,6 +819,7 @@
           <span class="dyad-eye right"></span>
           <span class="dyad-mouth"></span>
         </div>
+        <p class="dyad-person-read" id="dyad-a-read">"Safe enough to play."</p>
         <div class="dyad-meter">
           <span class="dyad-meter-label">alarm</span>
           <span class="dyad-meter-track"><span class="dyad-meter-fill"></span></span>
@@ -881,6 +882,8 @@
                 d="M 38 100 C 78 82, 142 82, 182 100"
                 fill="none" stroke="#3a8a8a" stroke-width="3"
                 stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
+          <text class="dyad-loop-word hot-word" x="110" y="92" text-anchor="middle">alarm feeds alarm</text>
+          <text class="dyad-loop-word safe-word" x="110" y="126" text-anchor="middle">new signal</text>
         </svg>
       </div>
 
@@ -891,6 +894,7 @@
           <span class="dyad-eye right"></span>
           <span class="dyad-mouth"></span>
         </div>
+        <p class="dyad-person-read" id="dyad-b-read">"Safe enough to play."</p>
         <div class="dyad-meter">
           <span class="dyad-meter-label">alarm</span>
           <span class="dyad-meter-track"><span class="dyad-meter-fill"></span></span>
@@ -1127,7 +1131,7 @@
     <p class="micro">Camera estimates run locally in your browser and are not recorded.</p>
   </footer>
 
-  <script src="script.js?v=33"></script>
+  <script src="script.js?v=34"></script>
   <script src="part3-polish.js?v=3"></script>
   <script src="part4-polish.js?v=2"></script>
   <script src="motion-polish.js?v=2"></script>
