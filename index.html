@@ -139,8 +139,25 @@
           </g>
           <!-- mouth -->
           <path class="peter-mouth" d="M 104 118 Q 110 121 116 118" stroke="#3a3a3a" stroke-width="1.6" fill="none" stroke-linecap="round" />
-          <!-- blue jacket collar peeking above the can rim -->
-          <path d="M 84 128 L 110 138 L 136 128 L 136 132 L 110 142 L 84 132 Z" fill="#4a6fa8" stroke="#2c4570" stroke-width="1.5" />
+          <!-- jacket body — shoulders + chest, leaning out of the can.
+               Drawn here (after the can group) so it sits in front of the
+               watering can, like Peter is peeking forward over the rim. -->
+          <path d="M 82 128
+                   Q 76 137, 78 150
+                   Q 82 165, 96 168
+                   L 124 168
+                   Q 138 165, 142 150
+                   Q 144 137, 138 128
+                   Z"
+                fill="#4a6fa8" stroke="#2c4570" stroke-width="1.8" stroke-linejoin="round" />
+          <!-- white shirt / undershirt collar peeking inside the V -->
+          <path d="M 100 128 L 110 142 L 120 128 Z"
+                fill="#f8e4cd" stroke="#a89070" stroke-width="0.8" />
+          <!-- jacket V-collar overlaying the shirt -->
+          <path d="M 94 128 L 110 144 L 126 128"
+                fill="none" stroke="#2c4570" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          <!-- small brass button on the jacket -->
+          <circle cx="110" cy="158" r="2.2" fill="#d9b061" stroke="#7a5a30" stroke-width="0.6" />
         </g>
       </symbol>
 
