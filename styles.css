@@ -361,20 +361,16 @@ body[data-intro="run"] .ground {
 }
 
 /* ============== STATE: RUNNING ==============
-   Legs alternate, arms counter-swing, body subtly bobs, the wrap
-   translates forward across the scene. */
-body[data-intro="run"] .kid-wrap     { animation: walkAcross 1.8s linear forwards; }
+   Kid runs in place — legs cycle, arms counter-swing, body bobs.
+   The ground texture scrolls leftward (groundScroll) to suggest forward
+   motion. The banana slides in from off-screen right at the same pace,
+   so it reads as a stationary object the kid is approaching. */
 body[data-intro="run"] .kid-leg-front { animation: legCycleA 0.5s linear infinite; }
 body[data-intro="run"] .kid-leg-back  { animation: legCycleB 0.5s linear infinite; }
 body[data-intro="run"] .kid-arm-front { animation: armCycleB 0.5s linear infinite; }
 body[data-intro="run"] .kid-arm-back  { animation: armCycleA 0.5s linear infinite; }
 body[data-intro="run"] .kid-body      { animation: torsoBob   0.5s linear infinite; }
 body[data-intro="run"] .kid-head      { animation: torsoBob   0.5s linear infinite; }
-
-@keyframes walkAcross {
-  from { transform: translateX(-60px); }
-  to   { transform: translateX(0); }
-}
 @keyframes legCycleA {
   0%   { transform: rotate(22deg); }                    /* foot forward */
   25%  { transform: rotate(8deg)  translateY(-1px); }   /* foot lifting (mid-stride) */
@@ -470,9 +466,10 @@ body[data-intro="think"] .kid-head      { transform: rotate(0deg); }
   100% { transform: translateX(0)    translateY(0)   rotate(0deg); }
 }
 
-/* Banana peel — sits on the ground in front of the kid's path. When the
-   trip beat fires the peel rockets backward, spinning a full half-turn,
-   and slides to a stop. Stays in the slipped pose for all later beats. */
+/* Banana peel — a stationary object on the ground that the kid walks
+   into. During run it slides in from off-screen right at the ground's
+   pace, then sits at the kid's foot. The trip beat sends it spinning
+   backward. */
 .banana {
   position: absolute;
   bottom: 22px;
@@ -480,12 +477,21 @@ body[data-intro="think"] .kid-head      { transform: rotate(0deg); }
   margin-left: -13px;
   font-size: 28px;
   line-height: 1;
-  transform: rotate(-22deg);
+  transform: translateX(280px) rotate(-22deg);  /* off-screen right by default */
   transform-origin: center;
   pointer-events: none;
   user-select: none;
   filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.18));
   transition: transform 0.5s cubic-bezier(0.4, 0.9, 0.5, 1);
+}
+/* Slide in linearly during the run beat — matches the ground's scroll
+   speed so the banana looks pinned to the moving ground. */
+body[data-intro="run"] .banana {
+  animation: bananaArrive 1.8s linear forwards;
+}
+@keyframes bananaArrive {
+  from { transform: translateX(280px) rotate(-22deg); }  /* off-screen right */
+  to   { transform: translateX(0)     rotate(-22deg); }  /* at the kid's foot */
 }
 body[data-intro="trip"] .banana,
 body[data-intro="think"] .banana {
