@@ -58,75 +58,37 @@
         <!-- watering can shadow -->
         <ellipse class="watering-can-shadow" cx="110" cy="232" rx="76" ry="5" fill="rgba(0,0,0,0.1)" />
 
-        <!-- Peter's jacket — drawn BEFORE the watering can so the can
-             hides the lower portion. Only the shoulders + V-collar peek
-             above the rim, so Peter clearly reads as INSIDE the can. -->
+        <!-- ===== OPENING (behind Peter) =====
+             The lip ring (solid ellipse) + a dark interior ellipse. Peter
+             emerges from this hole, so these are drawn first. -->
+        <ellipse cx="115" cy="130" rx="78" ry="11" fill="#5e8a83" stroke="#4a6b66" stroke-width="2" />
+        <ellipse cx="115" cy="129" rx="69" ry="8" fill="#3f5f5a" />
+
+        <!-- ===== PETER'S JACKET TORSO =====
+             Emerges UP out of the opening. Drawn after the dark hole (so
+             it's in front of the can interior) but before the can's front
+             wall (so the wall hides his lower body → he reads as INSIDE). -->
         <g class="peter-torso">
-          <path d="M 78 104
-                   Q 68 113, 68 124
-                   L 68 200
-                   Q 68 220, 110 220
-                   Q 152 220, 152 200
-                   L 152 124
-                   Q 152 113, 142 104
+          <path d="M 86 100
+                   Q 70 104, 70 120
+                   Q 70 134, 86 142
+                   L 134 142
+                   Q 150 134, 150 120
+                   Q 150 104, 134 100
                    Z"
                 fill="#4a6fa8" stroke="#2c4570" stroke-width="2" stroke-linejoin="round" />
           <!-- white shirt V showing through the open neckline -->
-          <path d="M 96 104 L 110 124 L 124 104 Z"
+          <path d="M 96 100 L 110 122 L 124 100 Z"
                 fill="#f8e4cd" stroke="#a89070" stroke-width="0.8" />
           <!-- darker jacket V-lapel on top of the shirt -->
-          <path d="M 90 104 L 110 128 L 130 104"
+          <path d="M 92 100 L 110 126 L 128 100"
                 fill="none" stroke="#2c4570" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" />
+          <!-- small brass button -->
+          <circle cx="110" cy="118" r="2.2" fill="#d9b061" stroke="#7a5a30" stroke-width="0.6" />
         </g>
 
-        <g class="watering-can">
-          <!-- watering can body -->
-          <path d="M 38 130
-                   L 38 220
-                   Q 38 230, 50 230
-                   L 180 230
-                   Q 192 230, 192 220
-                   L 192 130
-                   Z"
-                fill="#7da7a0" stroke="#4a6b66" stroke-width="2.5" />
-          <!-- watering can top rim -->
-          <ellipse cx="115" cy="130" rx="78" ry="10" fill="#5e8a83" stroke="#4a6b66" stroke-width="2" />
-          <!-- spout (left side) -->
-          <path d="M 38 160 Q 14 158, 8 178 Q 4 188, 14 192 L 38 188 Z"
-                fill="#7da7a0" stroke="#4a6b66" stroke-width="2" />
-          <!-- handle -->
-          <path d="M 188 140 Q 208 150, 208 180 Q 208 210, 188 218"
-                fill="none" stroke="#4a6b66" stroke-width="6" stroke-linecap="round" />
-        </g>
-
-        <!-- Peter's front paws gripping the rim. Drawn AFTER the can so
-             they sit on top of the rim. Positioned outside the head's
-             silhouette so they read as separate body parts. -->
-        <g class="peter-paws">
-          <g class="peter-paw peter-paw-left">
-            <!-- blue jacket sleeve cuff (curves under the paw pad) -->
-            <path d="M 49 124 Q 49 134, 58 134 L 70 134 Q 79 134, 79 124 Q 79 119, 71 118 L 56 118 Q 49 119, 49 124 Z"
-                  fill="#4a6fa8" stroke="#2c4570" stroke-width="1.4" stroke-linejoin="round" />
-            <!-- paw pad sitting on top of the rim -->
-            <ellipse cx="64" cy="120" rx="11" ry="6" fill="#e8d4b8" stroke="#a89070" stroke-width="1.5" />
-            <!-- tiny finger lines hint at fingers curling over the rim -->
-            <line x1="58" y1="118" x2="56" y2="122" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
-            <line x1="64" y1="115" x2="64" y2="120" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
-            <line x1="70" y1="118" x2="72" y2="122" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
-          </g>
-          <g class="peter-paw peter-paw-right">
-            <path d="M 171 124 Q 171 134, 162 134 L 150 134 Q 141 134, 141 124 Q 141 119, 149 118 L 164 118 Q 171 119, 171 124 Z"
-                  fill="#4a6fa8" stroke="#2c4570" stroke-width="1.4" stroke-linejoin="round" />
-            <ellipse cx="156" cy="120" rx="11" ry="6" fill="#e8d4b8" stroke="#a89070" stroke-width="1.5" />
-            <line x1="150" y1="118" x2="148" y2="122" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
-            <line x1="156" y1="115" x2="156" y2="120" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
-            <line x1="162" y1="118" x2="164" y2="122" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
-          </g>
-        </g>
-
-        <!-- Peter peeking out — all features shifted up by 24 units so
-             the chin lands at y=104 (just above the rim) and the jacket
-             (above) can show shoulders + collar between head and can. -->
+        <!-- Peter peeking out — head drawn after the torso so the neck
+             junction is natural. Features sit above the rim. -->
         <g class="peter-body">
           <g class="peter-ear peter-ear-left">
             <path d="M 90 34 Q 80 0, 94 -10 Q 108 0, 104 34 Z" fill="#e8d4b8" stroke="#a89070" stroke-width="2" stroke-linejoin="round" />
@@ -160,6 +122,46 @@
           </g>
           <!-- mouth -->
           <path class="peter-mouth" d="M 104 94 Q 110 97 116 94" stroke="#3a3a3a" stroke-width="1.6" fill="none" stroke-linecap="round" />
+        </g>
+
+        <!-- ===== WATERING CAN FRONT WALL (in front of Peter) =====
+             Drawn AFTER Peter so it occludes his lower body — he tucks
+             down INTO the can. The top edge follows the front arc of the
+             opening, giving a rounded rim. -->
+        <g class="watering-can">
+          <!-- spout (left) — drawn first so the body overlaps its base -->
+          <path d="M 38 162 Q 14 160, 8 180 Q 4 190, 14 194 L 38 190 Z"
+                fill="#7da7a0" stroke="#4a6b66" stroke-width="2" />
+          <!-- handle (right) -->
+          <path d="M 188 142 Q 208 152, 208 182 Q 208 212, 188 220"
+                fill="none" stroke="#4a6b66" stroke-width="6" stroke-linecap="round" />
+          <!-- front wall: top edge = front arc of the opening -->
+          <path d="M 38 130
+                   Q 115 141, 192 130
+                   L 192 220
+                   Q 192 230, 180 230
+                   L 50 230
+                   Q 38 230, 38 220
+                   Z"
+                fill="#7da7a0" stroke="#4a6b66" stroke-width="2.5" stroke-linejoin="round" />
+        </g>
+
+        <!-- ===== PAWS gripping the front rim =====
+             Drawn last (frontmost). Cream pads resting on the front edge
+             with finger lines curling over toward the viewer. -->
+        <g class="peter-paws">
+          <g class="peter-paw peter-paw-left">
+            <ellipse cx="74" cy="133" rx="11" ry="6" fill="#e8d4b8" stroke="#a89070" stroke-width="1.5" />
+            <line x1="68" y1="133" x2="66" y2="139" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
+            <line x1="74" y1="131" x2="74" y2="138" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
+            <line x1="80" y1="133" x2="82" y2="139" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
+          </g>
+          <g class="peter-paw peter-paw-right">
+            <ellipse cx="146" cy="133" rx="11" ry="6" fill="#e8d4b8" stroke="#a89070" stroke-width="1.5" />
+            <line x1="140" y1="133" x2="138" y2="139" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
+            <line x1="146" y1="131" x2="146" y2="138" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
+            <line x1="152" y1="133" x2="154" y2="139" stroke="#a89070" stroke-width="0.9" stroke-linecap="round" />
+          </g>
         </g>
       </symbol>
 
