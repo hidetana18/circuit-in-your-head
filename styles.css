@@ -500,12 +500,12 @@ body[data-intro="think"] .banana {
 
 .ouch {
   position: absolute;
-  top: 28%;
-  left: 60%;
+  top: 32px;
+  left: 30px;
   font-family: var(--serif);
   font-weight: 700;
   font-style: italic;
-  font-size: 72px;
+  font-size: 58px;
   color: var(--heart-red);
   opacity: 0;
   transform: scale(0.5) rotate(-30deg);
