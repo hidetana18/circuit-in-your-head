@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=41" />
-  <link rel="stylesheet" href="part3-polish.css?v=4" />
+  <link rel="stylesheet" href="styles.css?v=43" />
+  <link rel="stylesheet" href="part3-polish.css?v=5" />
   <link rel="stylesheet" href="part4-polish.css?v=2" />
   <link rel="stylesheet" href="motion-polish.css?v=8" />
 </head>
@@ -855,7 +855,7 @@
           <p class="dyad-read-primary" id="dyad-read-primary">Both read: this space is shared.</p>
         </div>
 
-        <svg class="dyad-loop" viewBox="0 0 220 190" aria-label="Shared loop between two circuits">
+        <svg class="dyad-loop dyad-brain-loop" viewBox="0 0 430 155" aria-label="Shared loop between Nora and Jules's brain-body circuits">
           <defs>
             <marker id="arr-dyad-hot" viewBox="0 0 10 10" refX="9" refY="5"
                     markerWidth="6" markerHeight="6" orient="auto">
@@ -870,20 +870,134 @@
                     stroke-linecap="round" stroke-linejoin="round" />
             </marker>
           </defs>
+          <g class="dyad-brain-map nora-brain" transform="translate(2 10)" aria-hidden="true">
+            <text class="dyad-brain-name" x="88" y="12" text-anchor="middle">NORA CIRCUIT</text>
+            <g class="wiring-brain" transform="translate(0 20)">
+              <g class="brain-layer" data-region="cortex">
+                <image href="assets/brain-cortex.png?v=2"
+                       x="0" y="0" width="118" height="68"
+                       preserveAspectRatio="xMidYMid meet" />
+              </g>
+              <g class="brain-layer" data-region="limbic">
+                <image href="assets/brain-limbic.png?v=2"
+                       x="34" y="29" width="52" height="42"
+                       preserveAspectRatio="xMidYMid meet" />
+              </g>
+              <g class="brain-layer" data-region="brainstem">
+                <image href="assets/brain-brainstem.png?v=2"
+                       x="55" y="58" width="30" height="40"
+                       preserveAspectRatio="xMidYMid meet" />
+              </g>
+            </g>
+            <g class="dyad-body-icons" transform="translate(124 26)">
+              <text class="dyad-organ-name dyad-organ-heart" x="32" y="-7" text-anchor="middle">HEART</text>
+              <path class="dyad-body-arrow"
+                    d="M -40 57 C -18 48, -7 34, 13 22"
+                    fill="none" stroke="#5a7a5a" stroke-width="2"
+                    stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
+              <path class="dyad-body-arrow"
+                    d="M -39 70 C -18 78, -2 84, 18 91"
+                    fill="none" stroke="#5a7a5a" stroke-width="2"
+                    stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
+              <path class="dyad-heart-path"
+                    d="M 32 35
+                       C 32 35, 12 23, 12 10
+                       C 12 2, 17 -3, 24 -3
+                       C 28 -3, 30 0, 32 4
+                       C 34 0, 37 -3, 41 -3
+                       C 48 -3, 53 2, 53 10
+                       C 53 23, 32 35, 32 35 Z"
+                    fill="#E15F5F" stroke="#a83a3a" stroke-width="1.8" />
+              <text class="dyad-organ-value dyad-organ-heart-value" x="32" y="51" text-anchor="middle">
+                <tspan id="dyad-a-bpm">82</tspan><tspan class="unit" dx="2">bpm</tspan>
+              </text>
+              <text class="dyad-organ-name dyad-organ-breath" x="33" y="66" text-anchor="middle">BREATH</text>
+              <g class="dyad-lungs-icon" transform="translate(33 76)">
+                <rect x="-3" y="-17" width="6" height="20" rx="3"
+                      fill="#c89a82" stroke="#8a6450" stroke-width="1.3" />
+                <path class="dyad-lung-path"
+                      d="M -4 0 Q -18 5, -18 23 Q -18 38, -8 41 Q 1 41, 2 29 L 2 3 Z"
+                      fill="#e8b5a4" stroke="#8a6450" stroke-width="1.6" />
+                <path class="dyad-lung-path"
+                      d="M 4 0 Q 18 5, 18 23 Q 18 38, 8 41 Q -1 41, -2 29 L -2 3 Z"
+                      fill="#e8b5a4" stroke="#8a6450" stroke-width="1.6" />
+              </g>
+              <text class="dyad-organ-value dyad-organ-breath-value" x="33" y="126" text-anchor="middle">
+                <tspan id="dyad-a-brpm">15</tspan><tspan class="unit" dx="1">/min</tspan>
+              </text>
+            </g>
+          </g>
+          <g class="dyad-brain-map jules-brain" transform="translate(246 10)" aria-hidden="true">
+            <text class="dyad-brain-name" x="88" y="12" text-anchor="middle">JULES CIRCUIT</text>
+            <g class="wiring-brain" transform="translate(0 20)">
+              <g class="brain-layer" data-region="cortex">
+                <image href="assets/brain-cortex.png?v=2"
+                       x="0" y="0" width="118" height="68"
+                       preserveAspectRatio="xMidYMid meet" />
+              </g>
+              <g class="brain-layer" data-region="limbic">
+                <image href="assets/brain-limbic.png?v=2"
+                       x="34" y="29" width="52" height="42"
+                       preserveAspectRatio="xMidYMid meet" />
+              </g>
+              <g class="brain-layer" data-region="brainstem">
+                <image href="assets/brain-brainstem.png?v=2"
+                       x="55" y="58" width="30" height="40"
+                       preserveAspectRatio="xMidYMid meet" />
+              </g>
+            </g>
+            <g class="dyad-body-icons" transform="translate(124 26)">
+              <text class="dyad-organ-name dyad-organ-heart" x="32" y="-7" text-anchor="middle">HEART</text>
+              <path class="dyad-body-arrow"
+                    d="M -40 57 C -18 48, -7 34, 13 22"
+                    fill="none" stroke="#5a7a5a" stroke-width="2"
+                    stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
+              <path class="dyad-body-arrow"
+                    d="M -39 70 C -18 78, -2 84, 18 91"
+                    fill="none" stroke="#5a7a5a" stroke-width="2"
+                    stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
+              <path class="dyad-heart-path"
+                    d="M 32 35
+                       C 32 35, 12 23, 12 10
+                       C 12 2, 17 -3, 24 -3
+                       C 28 -3, 30 0, 32 4
+                       C 34 0, 37 -3, 41 -3
+                       C 48 -3, 53 2, 53 10
+                       C 53 23, 32 35, 32 35 Z"
+                    fill="#E15F5F" stroke="#a83a3a" stroke-width="1.8" />
+              <text class="dyad-organ-value dyad-organ-heart-value" x="32" y="51" text-anchor="middle">
+                <tspan id="dyad-b-bpm">82</tspan><tspan class="unit" dx="2">bpm</tspan>
+              </text>
+              <text class="dyad-organ-name dyad-organ-breath" x="33" y="66" text-anchor="middle">BREATH</text>
+              <g class="dyad-lungs-icon" transform="translate(33 76)">
+                <rect x="-3" y="-17" width="6" height="20" rx="3"
+                      fill="#c89a82" stroke="#8a6450" stroke-width="1.3" />
+                <path class="dyad-lung-path"
+                      d="M -4 0 Q -18 5, -18 23 Q -18 38, -8 41 Q 1 41, 2 29 L 2 3 Z"
+                      fill="#e8b5a4" stroke="#8a6450" stroke-width="1.6" />
+                <path class="dyad-lung-path"
+                      d="M 4 0 Q 18 5, 18 23 Q 18 38, 8 41 Q -1 41, -2 29 L -2 3 Z"
+                      fill="#e8b5a4" stroke="#8a6450" stroke-width="1.6" />
+              </g>
+              <text class="dyad-organ-value dyad-organ-breath-value" x="33" y="126" text-anchor="middle">
+                <tspan id="dyad-b-brpm">15</tspan><tspan class="unit" dx="1">/min</tspan>
+              </text>
+            </g>
+          </g>
           <path class="dyad-link hot" data-link="a-hot"
-                d="M 24 72 C 72 16, 148 16, 196 72"
+                d="M 194 48 C 224 14, 206 14, 236 48"
                 fill="none" stroke="#a83a3a" stroke-width="3"
                 stroke-linecap="round" marker-end="url(#arr-dyad-hot)" />
           <path class="dyad-link hot" data-link="b-hot"
-                d="M 196 118 C 148 174, 72 174, 24 118"
+                d="M 236 108 C 206 142, 224 142, 194 108"
                 fill="none" stroke="#a83a3a" stroke-width="3"
                 stroke-linecap="round" marker-end="url(#arr-dyad-hot)" />
           <path class="dyad-link safe" data-link="safe"
-                d="M 38 100 C 78 82, 142 82, 182 100"
+                d="M 196 78 C 210 68, 220 68, 234 78"
                 fill="none" stroke="#3a8a8a" stroke-width="3"
                 stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
-          <text class="dyad-loop-word hot-word" x="110" y="92" text-anchor="middle">alarm feeds alarm</text>
-          <text class="dyad-loop-word safe-word" x="110" y="126" text-anchor="middle">new signal</text>
+          <text class="dyad-loop-word hot-word" x="215" y="87" text-anchor="middle">alarm loop</text>
+          <text class="dyad-loop-word safe-word" x="215" y="103" text-anchor="middle">new signal</text>
         </svg>
       </div>
 

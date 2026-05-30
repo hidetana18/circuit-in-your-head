@@ -1804,6 +1804,10 @@ body[data-intro="trip"] .ouch {
 .part-dyad {
   background: linear-gradient(180deg, #F5FBF7 0%, #FFF9F0 100%);
   max-width: none;
+  padding-top: clamp(36px, 5vw, 72px);
+  padding-bottom: clamp(42px, 6vw, 78px);
+  padding-left: 0;
+  padding-right: 0;
 }
 .part-dyad > * {
   width: calc(100% - clamp(40px, 10vw, 112px));
@@ -1813,9 +1817,12 @@ body[data-intro="trip"] .ouch {
   padding-left: 0;
   padding-right: 0;
 }
+.part-dyad .part-head {
+  margin-bottom: 22px;
+}
 .dyad-stage {
   display: grid;
-  grid-template-columns: minmax(190px, 0.76fr) minmax(320px, 1.22fr) minmax(190px, 0.76fr);
+  grid-template-columns: minmax(145px, 0.62fr) minmax(340px, 1.76fr) minmax(145px, 0.62fr);
   gap: 16px;
   align-items: stretch;
   background: rgba(255, 249, 240, 0.84);
@@ -2162,10 +2169,155 @@ body[data-intro="trip"] .ouch {
 }
 .dyad-loop {
   width: 100%;
-  height: 98px;
+  height: clamp(156px, 13vw, 188px);
   min-height: 0;
   align-self: center;
   overflow: visible;
+}
+.dyad-brain-loop {
+  display: block;
+}
+.dyad-brain-map .brain-layer {
+  opacity: 0.86;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.dyad-brain-map .brain-layer image,
+.dyad-brain-map .brain-layer .layer-fill {
+  filter: brightness(0.98) saturate(0.92);
+}
+.dyad-brain-map .wiring-brain {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.dyad-body-arrow {
+  opacity: 0.48;
+  transition: opacity 0.45s ease, filter 0.45s ease;
+}
+.dyad-heart-path,
+.dyad-lung-path {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: filter 0.45s ease;
+}
+.dyad-organ-name,
+.dyad-organ-value {
+  font-family: var(--sans);
+  pointer-events: none;
+  user-select: none;
+}
+.dyad-organ-name {
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  fill: rgba(143, 79, 68, 0.78);
+}
+.dyad-organ-breath {
+  fill: rgba(113, 82, 67, 0.78);
+}
+.dyad-organ-value {
+  font-size: 10px;
+  font-weight: 900;
+  fill: #a83a3a;
+}
+.dyad-organ-breath-value {
+  fill: #8a6450;
+}
+.dyad-organ-value .unit {
+  font-size: 7px;
+  font-weight: 800;
+}
+.dyad-brain-name {
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  fill: var(--ink-soft);
+}
+.dyad-region-label {
+  font-family: var(--sans);
+  font-size: 8.5px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  fill: rgba(45, 42, 49, 0.78);
+  pointer-events: none;
+  user-select: none;
+}
+#dyad-stage[data-phase="bump"] .nora-brain .brain-layer[data-region="limbic"] .layer-fill,
+#dyad-stage[data-phase="bump"] .nora-brain .brain-layer[data-region="limbic"] image,
+#dyad-stage[data-phase="bump"] .nora-brain .brain-layer[data-region="brainstem"] .layer-fill,
+#dyad-stage[data-phase="bump"] .nora-brain .brain-layer[data-region="brainstem"] image,
+#dyad-stage[data-phase="b-reads"] .nora-brain .brain-layer[data-region="limbic"] .layer-fill,
+#dyad-stage[data-phase="b-reads"] .nora-brain .brain-layer[data-region="limbic"] image,
+#dyad-stage[data-phase="b-reads"] .nora-brain .brain-layer[data-region="brainstem"] .layer-fill,
+#dyad-stage[data-phase="b-reads"] .nora-brain .brain-layer[data-region="brainstem"] image,
+#dyad-stage[data-phase="b-reads"] .jules-brain .brain-layer[data-region="limbic"] .layer-fill,
+#dyad-stage[data-phase="b-reads"] .jules-brain .brain-layer[data-region="limbic"] image,
+#dyad-stage[data-phase="b-reads"] .jules-brain .brain-layer[data-region="brainstem"] .layer-fill,
+#dyad-stage[data-phase="b-reads"] .jules-brain .brain-layer[data-region="brainstem"] image {
+  filter: brightness(1.12) saturate(1.08) drop-shadow(0 0 8px rgba(244, 194, 90, 0.58));
+  animation: layerPulse 0.88s ease-in-out infinite;
+}
+#dyad-stage[data-phase="escalate"] .dyad-brain-map .brain-layer[data-region="limbic"] .layer-fill,
+#dyad-stage[data-phase="escalate"] .dyad-brain-map .brain-layer[data-region="limbic"] image,
+#dyad-stage[data-phase="escalate"] .dyad-brain-map .brain-layer[data-region="brainstem"] .layer-fill,
+#dyad-stage[data-phase="escalate"] .dyad-brain-map .brain-layer[data-region="brainstem"] image,
+#dyad-stage[data-phase="peak"] .dyad-brain-map .brain-layer[data-region="limbic"] .layer-fill,
+#dyad-stage[data-phase="peak"] .dyad-brain-map .brain-layer[data-region="limbic"] image,
+#dyad-stage[data-phase="peak"] .dyad-brain-map .brain-layer[data-region="brainstem"] .layer-fill,
+#dyad-stage[data-phase="peak"] .dyad-brain-map .brain-layer[data-region="brainstem"] image {
+  filter: brightness(1.18) saturate(1.2) drop-shadow(0 0 11px rgba(168, 58, 58, 0.62));
+  animation: layerPulse 0.58s ease-in-out infinite;
+}
+#dyad-stage[data-phase="escalate"] .dyad-brain-map .brain-layer[data-region="cortex"] .layer-fill,
+#dyad-stage[data-phase="escalate"] .dyad-brain-map .brain-layer[data-region="cortex"] image,
+#dyad-stage[data-phase="peak"] .dyad-brain-map .brain-layer[data-region="cortex"] .layer-fill,
+#dyad-stage[data-phase="peak"] .dyad-brain-map .brain-layer[data-region="cortex"] image {
+  filter: brightness(0.72) saturate(0.45);
+}
+#dyad-stage[data-phase="breath"] .nora-brain .brain-layer[data-region="cortex"] .layer-fill,
+#dyad-stage[data-phase="breath"] .nora-brain .brain-layer[data-region="cortex"] image,
+#dyad-stage[data-phase="breath"] .nora-brain .brain-layer[data-region="brainstem"] .layer-fill,
+#dyad-stage[data-phase="breath"] .nora-brain .brain-layer[data-region="brainstem"] image,
+#dyad-stage[data-phase="settle"] .dyad-brain-map .brain-layer[data-region="cortex"] .layer-fill,
+#dyad-stage[data-phase="settle"] .dyad-brain-map .brain-layer[data-region="cortex"] image,
+#dyad-stage[data-phase="settle"] .dyad-brain-map .brain-layer[data-region="brainstem"] .layer-fill,
+#dyad-stage[data-phase="settle"] .dyad-brain-map .brain-layer[data-region="brainstem"] image {
+  filter: brightness(1.12) saturate(1.04) drop-shadow(0 0 8px rgba(58, 138, 138, 0.48));
+  animation: layerPulse 1.1s ease-in-out infinite;
+}
+#dyad-stage[data-phase="breath"] .jules-brain .brain-layer[data-region="limbic"] .layer-fill,
+#dyad-stage[data-phase="breath"] .jules-brain .brain-layer[data-region="limbic"] image,
+#dyad-stage[data-phase="breath"] .jules-brain .brain-layer[data-region="brainstem"] .layer-fill,
+#dyad-stage[data-phase="breath"] .jules-brain .brain-layer[data-region="brainstem"] image {
+  filter: brightness(1.1) saturate(1.05) drop-shadow(0 0 7px rgba(244, 194, 90, 0.5));
+}
+#dyad-stage[data-phase="bump"] .nora-brain .dyad-heart-path,
+#dyad-stage[data-phase="bump"] .nora-brain .dyad-lung-path,
+#dyad-stage[data-phase="b-reads"] .dyad-brain-map .dyad-heart-path,
+#dyad-stage[data-phase="b-reads"] .dyad-brain-map .dyad-lung-path,
+#dyad-stage[data-phase="escalate"] .dyad-brain-map .dyad-heart-path,
+#dyad-stage[data-phase="escalate"] .dyad-brain-map .dyad-lung-path,
+#dyad-stage[data-phase="peak"] .dyad-brain-map .dyad-heart-path,
+#dyad-stage[data-phase="peak"] .dyad-brain-map .dyad-lung-path {
+  animation: organPulseFast 0.48s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(168, 58, 58, 0.34));
+}
+#dyad-stage[data-phase="breath"] .nora-brain .dyad-heart-path,
+#dyad-stage[data-phase="breath"] .nora-brain .dyad-lung-path,
+#dyad-stage[data-phase="settle"] .dyad-brain-map .dyad-heart-path,
+#dyad-stage[data-phase="settle"] .dyad-brain-map .dyad-lung-path {
+  animation: organPulseSlow 1.35s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(58, 138, 138, 0.28));
+}
+#dyad-stage[data-phase="bump"] .nora-brain .dyad-body-arrow,
+#dyad-stage[data-phase="b-reads"] .dyad-brain-map .dyad-body-arrow,
+#dyad-stage[data-phase="escalate"] .dyad-brain-map .dyad-body-arrow,
+#dyad-stage[data-phase="peak"] .dyad-brain-map .dyad-body-arrow,
+#dyad-stage[data-phase="breath"] .nora-brain .dyad-body-arrow,
+#dyad-stage[data-phase="settle"] .dyad-brain-map .dyad-body-arrow {
+  opacity: 0.82;
+  filter: drop-shadow(0 0 5px rgba(90, 122, 90, 0.4));
 }
 .dyad-center {
   display: grid;
@@ -2561,8 +2713,8 @@ body[data-intro="trip"] .ouch {
   .dyad-center {
     grid-column: 1 / -1;
     grid-row: 2;
-    grid-template-columns: minmax(0, 1fr) 72px;
-    grid-template-rows: auto auto;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
     gap: 8px;
   }
   #dyad-a {
@@ -2643,9 +2795,15 @@ body[data-intro="trip"] .ouch {
     font-size: 17px;
   }
   .dyad-loop {
-    grid-column: 2;
-    height: 106px;
+    grid-column: 1;
+    height: 138px;
     min-height: 0;
+  }
+  .dyad-brain-name {
+    font-size: 8.4px;
+  }
+  .dyad-region-label {
+    font-size: 8px;
   }
   .dyad-loop-word {
     display: none;
@@ -2661,7 +2819,7 @@ body[data-intro="trip"] .ouch {
     min-height: 158px;
   }
   .dyad-loop {
-    height: 104px;
+    height: 126px;
   }
 }
 

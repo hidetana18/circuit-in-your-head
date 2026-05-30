@@ -667,6 +667,11 @@
 }
 
 @media (max-width: 760px) {
+  #dyad-stage[data-phase="calm"] #dyad-a,
+  #dyad-stage[data-phase="calm"] #dyad-b {
+    transform: none;
+  }
+
   #dyad-stage .dyad-person::before {
     top: 57px;
     width: 78px;
