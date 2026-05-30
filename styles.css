@@ -1833,11 +1833,11 @@ body[data-intro="trip"] .ouch {
 }
 .dyad-person {
   display: grid;
-  grid-template-rows: auto auto auto minmax(58px, 1fr) auto;
-  gap: 10px;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: 12px;
   align-items: center;
   justify-items: center;
-  min-height: 420px;
+  min-height: 370px;
   background: white;
   border: 1px solid #e6e1d6;
   border-radius: 16px;
@@ -1853,36 +1853,6 @@ body[data-intro="trip"] .ouch {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ink-soft);
-}
-.dyad-face {
-  position: relative;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: #f2d5bf;
-  border: 2px solid #a8745a;
-  transition: transform 0.45s ease, background 0.45s ease, border-color 0.45s ease;
-}
-.dyad-eye {
-  position: absolute;
-  top: 31px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #3a3a3a;
-  transition: transform 0.35s ease;
-}
-.dyad-eye.left { left: 26px; }
-.dyad-eye.right { right: 26px; }
-.dyad-mouth {
-  position: absolute;
-  left: 30px;
-  top: 52px;
-  width: 20px;
-  height: 8px;
-  border-bottom: 2px solid #3a3a3a;
-  border-radius: 50%;
-  transition: transform 0.35s ease, top 0.35s ease;
 }
 .dyad-person-read {
   display: grid;
@@ -1903,23 +1873,23 @@ body[data-intro="trip"] .ouch {
   transition: color 0.45s ease, background 0.45s ease, border-color 0.45s ease;
 }
 .dyad-card-circuit {
-  width: min(100%, 238px);
+  width: min(100%, 276px);
   height: auto;
   display: block;
   overflow: visible;
 }
 .dyad-card-circuit .dyad-brain-name {
-  font-size: 7.5px;
+  font-size: 7.8px;
   letter-spacing: 0.14em;
 }
 .dyad-card-circuit .dyad-organ-name {
-  font-size: 6.6px;
+  font-size: 6.8px;
 }
 .dyad-card-circuit .dyad-organ-value {
-  font-size: 9.4px;
+  font-size: 9.8px;
 }
 .dyad-card-circuit .dyad-organ-value .unit {
-  font-size: 6.5px;
+  font-size: 6.8px;
 }
 .dyad-brain {
   width: min(100%, 210px);
@@ -2121,17 +2091,6 @@ body[data-intro="trip"] .ouch {
   background: rgba(255, 245, 239, 0.94);
   color: #8f3838;
 }
-.dyad-person[data-state="hot"] .dyad-face {
-  background: #f0c6b8;
-  border-color: #a83a3a;
-  animation: dyadFaceTremble 0.42s ease-in-out infinite;
-}
-.dyad-person[data-state="hot"] .dyad-eye.left { transform: translate(-2px, -1px); }
-.dyad-person[data-state="hot"] .dyad-eye.right { transform: translate(2px, -1px); }
-.dyad-person[data-state="hot"] .dyad-mouth {
-  top: 56px;
-  transform: rotate(180deg);
-}
 .dyad-person[data-state="hot"] .dyad-layer.cortex {
   opacity: 0.55;
   filter: saturate(0.45);
@@ -2176,11 +2135,6 @@ body[data-intro="trip"] .ouch {
 .dyad-person[data-state="settling"] .dyad-meter-fill {
   width: 38%;
   background: #3a8a8a;
-}
-@keyframes dyadFaceTremble {
-  0%, 100% { transform: translateX(0) rotate(0deg); }
-  33%      { transform: translateX(-1px) rotate(-0.7deg); }
-  66%      { transform: translateX(1px) rotate(0.7deg); }
 }
 @keyframes dyadLayerPulse {
   0%, 100% { transform: scale(1); }
@@ -2871,24 +2825,13 @@ body[data-intro="trip"] .ouch {
     padding: 12px;
   }
   .dyad-person {
-    min-height: 318px;
+    min-height: 258px;
     gap: 7px;
     padding: 10px 8px;
   }
   .dyad-name {
     font-size: 10px;
     letter-spacing: 0.12em;
-  }
-  .dyad-face {
-    width: 54px;
-    height: 54px;
-  }
-  .dyad-eye { top: 21px; width: 6px; height: 6px; }
-  .dyad-eye.left { left: 17px; }
-  .dyad-eye.right { right: 17px; }
-  .dyad-mouth { left: 20px; top: 35px; width: 14px; }
-  .dyad-person[data-state="hot"] .dyad-mouth {
-    top: 38px;
   }
   .dyad-person-read {
     min-height: 3.1em;
@@ -2897,7 +2840,7 @@ body[data-intro="trip"] .ouch {
     line-height: 1.08;
   }
   .dyad-card-circuit {
-    width: min(100%, 168px);
+    width: min(100%, 176px);
   }
   .dyad-card-circuit .dyad-brain-name {
     font-size: 7.2px;
@@ -3057,7 +3000,7 @@ body[data-intro="trip"] .ouch {
     padding: 10px;
   }
   .dyad-person {
-    min-height: 306px;
+    min-height: 250px;
   }
   .dyad-loop {
     height: 126px;

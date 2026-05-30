@@ -46,6 +46,10 @@
   transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+#dyad-stage .dyad-person::before {
+  content: none;
+}
+
 #dyad-stage .dyad-person::after {
   inset: 10px;
   border-radius: 14px;
@@ -54,7 +58,6 @@
   transition: opacity 0.45s ease, border-color 0.45s ease;
 }
 
-#dyad-stage .dyad-face,
 #dyad-stage .dyad-brain,
 #dyad-stage .dyad-card-circuit,
 #dyad-stage .dyad-vitals,
@@ -65,54 +68,6 @@
   z-index: 1;
 }
 
-#dyad-stage .dyad-face {
-  box-shadow:
-    inset 0 -8px 0 rgba(168, 116, 90, 0.1),
-    0 8px 14px rgba(74, 107, 102, 0.1);
-  transform-origin: center bottom;
-  will-change: transform;
-}
-
-#dyad-stage .dyad-face::before,
-#dyad-stage .dyad-face::after {
-  content: "";
-  position: absolute;
-  top: 25px;
-  width: 15px;
-  height: 4px;
-  border-top: 2px solid #5e463d;
-  border-radius: 50%;
-  opacity: 0.62;
-  transition: transform 0.35s ease, opacity 0.35s ease, top 0.35s ease;
-}
-
-#dyad-stage .dyad-face::before {
-  left: 20px;
-  transform: rotate(6deg);
-}
-
-#dyad-stage .dyad-face::after {
-  right: 20px;
-  transform: rotate(-6deg);
-}
-
-#dyad-stage .dyad-eye {
-  transform-origin: center;
-  will-change: transform;
-}
-
-#dyad-stage .dyad-mouth {
-  transform-origin: center;
-}
-
-#dyad-stage .dyad-person[data-state="calm"] .dyad-face {
-  animation: p3FaceBreathe 2.9s ease-in-out infinite;
-}
-
-#dyad-stage .dyad-person[data-state="calm"] .dyad-eye {
-  animation: p3SoftBlink 5.2s ease-in-out infinite;
-}
-
 #dyad-stage .dyad-person[data-state="alert"]::before {
   opacity: 0.58;
   transform: translateX(-50%) translateY(5px) scaleX(0.92);
@@ -121,30 +76,6 @@
 #dyad-stage .dyad-person[data-state="alert"]::after {
   opacity: 1;
   border-color: rgba(244, 194, 90, 0.28);
-}
-
-#dyad-stage .dyad-person[data-state="alert"] .dyad-face {
-  transform: translateY(4px) rotate(-1.5deg) scale(0.98);
-}
-
-#dyad-stage .dyad-person[data-state="alert"] .dyad-face::before {
-  top: 24px;
-  opacity: 0.84;
-  transform: translateY(-1px) rotate(-16deg);
-}
-
-#dyad-stage .dyad-person[data-state="alert"] .dyad-face::after {
-  top: 24px;
-  opacity: 0.84;
-  transform: translateY(-1px) rotate(16deg);
-}
-
-#dyad-stage .dyad-person[data-state="alert"] .dyad-eye.left {
-  transform: translate(-2px, -1px) scaleY(1.18);
-}
-
-#dyad-stage .dyad-person[data-state="alert"] .dyad-eye.right {
-  transform: translate(-1px, -1px) scaleY(1.18);
 }
 
 #dyad-stage .dyad-person[data-state="hot"] {
@@ -165,41 +96,12 @@
   animation: p3HotBorder 0.9s ease-in-out infinite;
 }
 
-#dyad-stage .dyad-person[data-state="hot"] .dyad-face::before {
-  top: 23px;
-  opacity: 0.95;
-  transform: translateY(-2px) rotate(-27deg);
-}
-
-#dyad-stage .dyad-person[data-state="hot"] .dyad-face::after {
-  top: 23px;
-  opacity: 0.95;
-  transform: translateY(-2px) rotate(27deg);
-}
-
-#dyad-stage .dyad-person[data-state="hot"] .dyad-eye {
-  animation: p3EyePin 0.42s steps(2, end) infinite;
-}
-
 #dyad-stage .dyad-person[data-state="settling"]::before {
   opacity: 0.42;
   transform: translateX(-50%) translateY(-2px) scaleX(1.04);
   background:
     radial-gradient(ellipse at 28% 45%, rgba(58, 138, 138, 0.16), transparent 43%),
     radial-gradient(ellipse at 72% 45%, rgba(58, 138, 138, 0.16), transparent 43%);
-}
-
-#dyad-stage .dyad-person[data-state="settling"] .dyad-face {
-  animation: p3SettleSway 2.4s ease-in-out infinite;
-}
-
-#dyad-stage .dyad-person[data-state="settling"] .dyad-eye {
-  animation: p3SlowBlink 3.2s ease-in-out infinite;
-}
-
-#dyad-stage .dyad-person[data-state="settling"] .dyad-mouth {
-  top: 50px;
-  transform: scaleX(1.12) rotate(0deg);
 }
 
 #dyad-stage[data-phase="calm"] #dyad-a {
@@ -562,32 +464,6 @@
   animation: p3WordRest 2s ease-in-out infinite;
 }
 
-@keyframes p3FaceBreathe {
-  0%, 100% { transform: translateY(0) scale(1); }
-  48% { transform: translateY(-2px) scale(1.01); }
-}
-
-@keyframes p3SoftBlink {
-  0%, 88%, 100% { transform: scaleY(1); }
-  91%, 93% { transform: scaleY(0.18); }
-}
-
-@keyframes p3SlowBlink {
-  0%, 74%, 100% { transform: scaleY(1); }
-  80%, 84% { transform: scaleY(0.22); }
-}
-
-@keyframes p3EyePin {
-  0%, 100% { transform: translate(-1px, -1px) scale(0.92, 1.2); }
-  50% { transform: translate(1px, -1px) scale(0.82, 1.28); }
-}
-
-@keyframes p3SettleSway {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  45% { transform: translateY(-3px) rotate(-0.7deg); }
-  70% { transform: translateY(-1px) rotate(0.5deg); }
-}
-
 @keyframes p3BodyTremble {
   0%, 100% { translate: 0 0; }
   25% { translate: -1px 0; }
@@ -678,19 +554,6 @@
     top: 57px;
     width: 78px;
     height: 34px;
-  }
-
-  #dyad-stage .dyad-face::before,
-  #dyad-stage .dyad-face::after {
-    top: 16px;
-    width: 12px;
-  }
-
-  #dyad-stage .dyad-face::before { left: 12px; }
-  #dyad-stage .dyad-face::after { right: 12px; }
-
-  #dyad-stage .dyad-person[data-state="settling"] .dyad-mouth {
-    top: 35px;
   }
 
   #dyad-stage[data-phase="b-reads"]  #dyad-a,
