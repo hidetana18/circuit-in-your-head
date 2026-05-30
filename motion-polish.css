@@ -1,0 +1,953 @@
+/* Production motion layer.
+   This file is deliberately additive: the existing exhibit state model
+   remains the source of truth, while these rules make the motion language
+   feel calmer, more cinematic, and more internally consistent. */
+
+:root {
+  --motion-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --motion-soft-spring: cubic-bezier(0.18, 0.9, 0.22, 1);
+  --motion-alert: cubic-bezier(0.32, 0, 0.67, 0);
+  --motion-breath: cubic-bezier(0.45, 0, 0.55, 1);
+  --motion-shadow: 0 18px 48px rgba(66, 57, 45, 0.12);
+  --motion-stage-glow: rgba(244, 194, 90, 0.18);
+}
+
+html.motion-ready {
+  scroll-padding-top: 24px;
+}
+
+html.motion-ready .hero,
+html.motion-ready .intro-stage,
+html.motion-ready .game-stage,
+html.motion-ready .dyad-stage,
+html.motion-ready .lit-stage {
+  isolation: isolate;
+}
+
+html.motion-ready .hero {
+  position: relative;
+  overflow: hidden;
+}
+
+html.motion-ready .hero::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at calc(50% + var(--hero-drift-x, 0px)) 18%, rgba(255, 255, 255, 0.68), transparent 46%),
+    radial-gradient(ellipse at 18% 64%, rgba(244, 166, 181, 0.18), transparent 42%),
+    radial-gradient(ellipse at 84% 74%, rgba(58, 138, 138, 0.13), transparent 44%);
+  transform: translateY(var(--hero-drift-y, 0px));
+  transition: transform 0.35s ease-out;
+}
+
+html.motion-ready .hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(56, 53, 58, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 53, 58, 0.014) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(180deg, transparent 0%, black 20%, black 76%, transparent 100%);
+  opacity: 0.7;
+}
+
+html.motion-ready .hero .kicker,
+html.motion-ready .hero h1,
+html.motion-ready .hero .hero-sub,
+html.motion-ready .hero .hero-cta {
+  animation: motionHeroIn 0.92s var(--motion-ease-out) both;
+}
+
+html.motion-ready .hero h1 { animation-delay: 0.08s; }
+html.motion-ready .hero .hero-sub { animation-delay: 0.18s; }
+html.motion-ready .hero .hero-cta { animation-delay: 0.3s; }
+
+@keyframes motionHeroIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+html.motion-ready .motion-observed {
+  transition:
+    opacity 0.85s var(--motion-ease-out),
+    transform 0.85s var(--motion-ease-out),
+    filter 0.85s var(--motion-ease-out);
+}
+
+html.motion-ready .part-head {
+  transition:
+    opacity 0.85s var(--motion-ease-out),
+    transform 0.85s var(--motion-ease-out),
+    filter 0.85s var(--motion-ease-out);
+}
+
+html.motion-ready .part.motion-observed:not(.motion-visible) .part-head,
+html.motion-ready .intro-stage.motion-observed:not(.motion-visible),
+html.motion-ready .game-stage.motion-observed:not(.motion-visible),
+html.motion-ready .dyad-stage.motion-observed:not(.motion-visible),
+html.motion-ready .lit-stage.motion-observed:not(.motion-visible) {
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(8px);
+}
+
+html.motion-ready .part.motion-visible .part-head,
+html.motion-ready .intro-stage.motion-visible,
+html.motion-ready .game-stage.motion-visible,
+html.motion-ready .dyad-stage.motion-visible,
+html.motion-ready .lit-stage.motion-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+html.motion-ready .intro-stage,
+html.motion-ready .game-stage,
+html.motion-ready .dyad-stage,
+html.motion-ready .lit-stage {
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--motion-shadow);
+  transform: translateZ(0);
+}
+
+html.motion-ready .intro-stage > *,
+html.motion-ready .game-stage > *,
+html.motion-ready .dyad-stage > *,
+html.motion-ready .lit-stage > * {
+  position: relative;
+  z-index: 1;
+}
+
+html.motion-ready .intro-stage::before,
+html.motion-ready .game-stage::before,
+html.motion-ready .dyad-stage::before,
+html.motion-ready .lit-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 24% 18%, var(--motion-stage-glow), transparent 42%),
+    radial-gradient(ellipse at 82% 82%, rgba(255, 255, 255, 0.42), transparent 48%);
+  opacity: var(--motion-glow-opacity, 0.42);
+  transition: opacity 0.55s ease, background 0.65s ease;
+}
+
+html.motion-ready .intro-stage::after,
+html.motion-ready .game-stage::after,
+html.motion-ready .dyad-stage::after,
+html.motion-ready .lit-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse at var(--motion-focus-x, 50%) var(--motion-focus-y, 46%),
+      rgba(255, 255, 255, 0.58),
+      transparent 28%),
+    radial-gradient(ellipse at var(--motion-focus-x, 50%) var(--motion-focus-y, 46%),
+      var(--motion-stage-glow),
+      transparent 58%);
+}
+
+html.motion-ready .motion-pulse::after {
+  animation: motionStagePulse 0.82s var(--motion-ease-out) both;
+}
+
+@keyframes motionStagePulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  18% {
+    opacity: var(--motion-pulse-opacity, 0.28);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.025);
+  }
+}
+
+body[data-intro="trip"] #intro-stage,
+body[data-intro-beat="trip"] #intro-stage,
+body[data-intro-beat="panic"] #intro-stage,
+.game-stage[data-regulation="alarm"],
+.dyad-stage[data-phase="peak"],
+.lit-stage[data-phase="proposal"] {
+  --motion-stage-glow: rgba(225, 95, 95, 0.2);
+}
+
+body[data-intro="breath"] #intro-stage,
+body[data-intro="think"] #intro-stage,
+body[data-intro-beat="breath"] #intro-stage,
+body[data-intro-beat="cortex"] #intro-stage,
+body[data-intro-beat="settle"] #intro-stage,
+.game-stage[data-regulation="settling"],
+.game-stage[data-regulation="calm"],
+.dyad-stage[data-phase="breath"],
+.dyad-stage[data-phase="settle"],
+.lit-stage[data-phase="letter"],
+.lit-stage[data-phase="update"] {
+  --motion-stage-glow: rgba(58, 138, 138, 0.18);
+}
+
+html.motion-ready .kid-arm-back {
+  transform-origin: 88% 24%;
+}
+
+html.motion-ready .kid-arm-front {
+  transform-origin: 12% 24%;
+}
+
+html.motion-ready .kid-shoe {
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.12));
+}
+
+html.motion-ready .kid-face {
+  filter: drop-shadow(0 2px 2px rgba(94, 62, 42, 0.08));
+}
+
+html.motion-ready .kid-brow,
+html.motion-ready .kid-eye,
+html.motion-ready .kid-eye-white,
+html.motion-ready .kid-pupil,
+html.motion-ready .kid-nose,
+html.motion-ready .kid-mouth,
+html.motion-ready .kid-cheek,
+html.motion-ready .kid-sweat,
+html.motion-ready .kid-sweat-drop {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.32s ease,
+    transform 0.42s var(--motion-ease-out),
+    rx 0.32s ease,
+    ry 0.32s ease;
+}
+
+html.motion-ready .kid-brow {
+  opacity: 0.24;
+  stroke: #7a5545;
+  stroke-width: 1.15px;
+}
+
+html.motion-ready .kid-eye-white {
+  filter: drop-shadow(0 0.8px 0 rgba(92, 58, 42, 0.08));
+}
+
+html.motion-ready .kid-pupil {
+  filter: drop-shadow(0 0.5px 0 rgba(0, 0, 0, 0.08));
+}
+
+html.motion-ready .kid-eye {
+  animation: motionKidSoftBlink 4.8s ease-in-out infinite;
+}
+
+html.motion-ready .kid-mouth-open,
+html.motion-ready .kid-mouth-worry,
+html.motion-ready .kid-mouth-breathe,
+html.motion-ready .kid-sweat {
+  opacity: 0;
+}
+
+body[data-intro-beat="run"] .kid-mouth-smile,
+body[data-intro-beat="settle"] .kid-mouth-smile {
+  opacity: 1;
+}
+
+body[data-intro-beat="run"] .kid-brow {
+  opacity: 0.18;
+  transform: translateY(0.8px);
+}
+
+body[data-intro-beat="run"] .kid-pupil {
+  transform: translate(0, 0);
+}
+
+body[data-intro-beat="trip"] .kid-brow-left {
+  opacity: 0.72;
+  transform: translateY(-1.5px) rotate(-8deg);
+}
+
+body[data-intro-beat="trip"] .kid-brow-right {
+  opacity: 0.72;
+  transform: translateY(-1.5px) rotate(8deg);
+}
+
+body[data-intro-beat="trip"] .kid-eye {
+  animation: none;
+  transform: scale(1.13);
+}
+
+body[data-intro-beat="trip"] .kid-pupil {
+  transform: translate(1.5px, -1.2px);
+}
+
+body[data-intro-beat="trip"] .kid-mouth-smile,
+body[data-intro-beat="panic"] .kid-mouth-smile,
+body[data-intro-beat="breath"] .kid-mouth-smile,
+body[data-intro-beat="cortex"] .kid-mouth-smile {
+  opacity: 0;
+}
+
+body[data-intro-beat="trip"] .kid-mouth-open {
+  opacity: 1;
+  transform: translateY(0.5px) scale(0.9);
+}
+
+body[data-intro-beat="trip"] .kid-sweat,
+body[data-intro-beat="panic"] .kid-sweat {
+  opacity: 1;
+}
+
+body[data-intro-beat="panic"] .kid-brow-left {
+  opacity: 0.82;
+  transform: translate(0.6px, -0.6px) rotate(12deg);
+}
+
+body[data-intro-beat="panic"] .kid-brow-right {
+  opacity: 0.82;
+  transform: translate(-0.6px, -0.6px) rotate(-12deg);
+}
+
+body[data-intro-beat="panic"] .kid-eye {
+  animation: none;
+  transform: scale(1.2);
+}
+
+body[data-intro-beat="panic"] .kid-pupil {
+  animation: motionKidPupilDart 0.64s steps(1, end) infinite;
+}
+
+body[data-intro-beat="panic"] .kid-mouth-open {
+  opacity: 1;
+  transform: translateY(0.8px) scale(1.16);
+}
+
+body[data-intro-beat="panic"] .kid-cheek {
+  opacity: 0.18;
+}
+
+body[data-intro-beat="breath"] .kid-brow-left {
+  opacity: 0.28;
+  transform: translateY(1.2px) rotate(-3deg);
+}
+
+body[data-intro-beat="breath"] .kid-brow-right {
+  opacity: 0.28;
+  transform: translateY(1.2px) rotate(3deg);
+}
+
+body[data-intro-beat="breath"] .kid-eye {
+  animation: none;
+  transform: scaleY(0.68);
+}
+
+body[data-intro-beat="breath"] .kid-pupil {
+  transform: translate(0, 0.6px);
+}
+
+body[data-intro-beat="breath"] .kid-mouth-breathe {
+  opacity: 1;
+  animation: motionKidExhaleMouth 1.8s ease-in-out both;
+}
+
+body[data-intro-beat="breath"] .kid-sweat {
+  opacity: 0.34;
+  transform: translateY(2px);
+}
+
+body[data-intro-beat="cortex"] .kid-brow-left {
+  opacity: 0.42;
+  transform: translateY(-0.2px) rotate(4deg);
+}
+
+body[data-intro-beat="cortex"] .kid-brow-right {
+  opacity: 0.42;
+  transform: translateY(-0.2px) rotate(-4deg);
+}
+
+body[data-intro-beat="cortex"] .kid-eye {
+  animation: motionKidSoftBlink 5.4s ease-in-out infinite;
+  transform: scaleY(0.96);
+}
+
+body[data-intro-beat="cortex"] .kid-mouth-worry {
+  opacity: 1;
+  transform: translateY(-0.4px) scaleX(0.9);
+}
+
+body[data-intro-beat="settle"] .kid-brow-left,
+body[data-intro-beat="settle"] .kid-brow-right {
+  opacity: 0.16;
+  transform: translateY(1px) rotate(0deg);
+}
+
+body[data-intro-beat="settle"] .kid-eye {
+  animation: motionKidSoftBlink 4.2s ease-in-out infinite;
+  transform: scaleY(0.9);
+}
+
+body[data-intro-beat="settle"] .kid-cheek {
+  opacity: 0.42;
+}
+
+body[data-intro-beat="trip"] .kid-sweat-one,
+body[data-intro-beat="panic"] .kid-sweat-one {
+  animation: motionKidSweat 0.82s ease-in-out infinite;
+}
+
+body[data-intro-beat="trip"] .kid-sweat-two,
+body[data-intro-beat="panic"] .kid-sweat-two {
+  animation: motionKidSweat 0.82s ease-in-out 0.18s infinite;
+}
+
+@keyframes motionKidSoftBlink {
+  0%, 88%, 100% { transform: scaleY(1); }
+  91%, 94% { transform: scaleY(0.18); }
+}
+
+@keyframes motionKidPupilDart {
+  0%, 100% { transform: translate(1.5px, -1px); }
+  25% { transform: translate(-1.5px, -0.6px); }
+  50% { transform: translate(1px, 1px); }
+  75% { transform: translate(-0.8px, 0.8px); }
+}
+
+@keyframes motionKidExhaleMouth {
+  0% { transform: translateY(0) scaleX(0.92); }
+  45% { transform: translateY(0.8px) scaleX(1.18); }
+  100% { transform: translateY(0) scaleX(0.96); }
+}
+
+@keyframes motionKidSweat {
+  0%, 100% {
+    transform: translateY(0) scale(0.9);
+    opacity: 0.72;
+  }
+  50% {
+    transform: translateY(2.5px) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Keep the banana as an emoji: at this small size it reads faster than a
+   custom drawing, which matters more than visual purity in the trip beat. */
+.banana {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  filter:
+    drop-shadow(0 4px 2px rgba(95, 74, 36, 0.16))
+    drop-shadow(0 0 10px rgba(244, 194, 90, 0.18));
+}
+
+.banana::before,
+.banana::after {
+  display: none;
+}
+
+html.motion-ready .intro-scene,
+html.motion-ready .game-scene {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -22px 38px rgba(90, 66, 36, 0.09);
+}
+
+html.motion-ready .game-scene {
+  overflow: visible;
+}
+
+html.motion-ready .intro-scene::after,
+html.motion-ready .game-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent 42%),
+    radial-gradient(ellipse at 50% 95%, rgba(70, 56, 38, 0.12), transparent 42%);
+  opacity: 0.52;
+  mix-blend-mode: multiply;
+}
+
+body[data-intro="trip"] .intro-scene::after {
+  background:
+    radial-gradient(ellipse at 56% 34%, rgba(225, 95, 95, 0.18), transparent 38%),
+    radial-gradient(ellipse at 50% 95%, rgba(70, 56, 38, 0.13), transparent 42%);
+  animation: motionAlertWash 0.68s var(--motion-alert) both;
+}
+
+@keyframes motionAlertWash {
+  0% { opacity: 0.28; }
+  38% { opacity: 0.78; }
+  100% { opacity: 0.46; }
+}
+
+body[data-intro="run"] .kid-shadow {
+  animation: motionRunShadow 0.5s linear infinite;
+}
+
+body[data-intro="trip"] .kid-shadow {
+  animation: motionTripShadow 0.78s var(--motion-ease-out) forwards;
+}
+
+@keyframes motionRunShadow {
+  0%, 100% { transform: scaleX(0.96); opacity: 0.07; }
+  50% { transform: scaleX(1.12); opacity: 0.12; }
+}
+
+@keyframes motionTripShadow {
+  0% { transform: translateX(0) scaleX(1); opacity: 0.08; }
+  32% { transform: translateX(8px) scaleX(1.46); opacity: 0.18; }
+  100% { transform: translateX(4px) scaleX(1.12); opacity: 0.12; }
+}
+
+html.motion-ready .kid-thought,
+html.motion-ready .peter-thought {
+  border: 1px solid rgba(236, 226, 205, 0.9);
+  box-shadow:
+    0 16px 36px rgba(69, 59, 48, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+html.motion-ready .kid-thought.shown,
+html.motion-ready .peter-thought.shown {
+  animation: motionThoughtArrive 0.62s var(--motion-soft-spring) both;
+}
+
+@keyframes motionThoughtArrive {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.78);
+    filter: blur(7px);
+  }
+  64% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.025);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+html.motion-ready .brain-layer.active image,
+html.motion-ready .brain-layer.active .layer-fill {
+  animation: motionLayerWake 0.78s var(--motion-ease-out) both;
+}
+
+html.motion-ready .brain-layer.current image,
+html.motion-ready .brain-layer.current .layer-fill,
+html.motion-ready .brain-layer.hot image,
+html.motion-ready .brain-layer.hot .layer-fill {
+  animation:
+    motionLayerWake 0.64s var(--motion-ease-out) both,
+    motionNeuralPulse 1.05s ease-in-out infinite;
+}
+
+@keyframes motionLayerWake {
+  from {
+    opacity: 0.72;
+    transform: scale(0.985);
+    filter: brightness(0.92) saturate(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes motionNeuralPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  48% {
+    transform: scale(var(--motion-layer-scale, 1.02));
+  }
+}
+
+html.motion-ready .wiring-arrows .arrow.shown,
+html.motion-ready .alarm-arrows .arrow.shown,
+html.motion-ready .intervention-arrows .arrow.shown,
+html.motion-ready .dyad-link.shown {
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+html.motion-ready .wiring-arrows .arrow.shown:not(.slow),
+html.motion-ready .intervention-arrows .arrow.shown {
+  animation:
+    drawArrow 0.82s var(--motion-ease-out) forwards,
+    motionSignalGlow 1.25s ease-in-out 0.12s infinite;
+}
+
+html.motion-ready .wiring-arrows .arrow.slow.shown {
+  opacity: 0.72;
+  stroke-dasharray: 4 10;
+  animation: motionSlowSignal 2.2s linear infinite;
+}
+
+@keyframes motionSignalGlow {
+  0%, 100% {
+    opacity: 0.72;
+    stroke-width: 2.4px;
+  }
+  50% {
+    opacity: 1;
+    stroke-width: 3.2px;
+  }
+}
+
+@keyframes motionSlowSignal {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -56; }
+}
+
+html.motion-ready .body-organ.fast .heart-path,
+html.motion-ready .body-organ.racing .heart-path,
+html.motion-ready #wiring-heart.fast .heart-path,
+html.motion-ready #wiring-heart.racing .heart-path,
+html.motion-ready #game-wiring-heart.fast .heart-path,
+html.motion-ready #game-wiring-heart.racing .heart-path,
+html.motion-ready .signal-heart-path,
+html.motion-ready .lit-heart-path {
+  transform-box: fill-box;
+  transform-origin: 50% 70%;
+}
+
+html.motion-ready #wiring-heart.calm .heart-path,
+html.motion-ready #game-wiring-heart.calm .heart-path {
+  animation: motionHeartCalm 1.42s var(--motion-breath) infinite;
+}
+
+html.motion-ready #wiring-heart.fast .heart-path,
+html.motion-ready #game-wiring-heart.fast .heart-path,
+html.motion-ready .body-organ.fast .heart-path {
+  animation: motionHeartFast 0.72s ease-in-out infinite;
+}
+
+html.motion-ready #game-wiring-heart.racing .heart-path,
+html.motion-ready .body-organ.racing .heart-path {
+  animation: motionHeartRacing 0.48s ease-in-out infinite;
+}
+
+@keyframes motionHeartCalm {
+  0%, 15%, 100% { transform: scale(1); }
+  8% { transform: scale(1.055); }
+}
+
+@keyframes motionHeartFast {
+  0%, 100% { transform: scale(1); }
+  16% { transform: scale(1.18); }
+  30% { transform: scale(0.98); }
+  45% { transform: scale(1.08); }
+}
+
+@keyframes motionHeartRacing {
+  0%, 100% { transform: translateX(0) scale(1); }
+  20% { transform: translateX(-1px) scale(1.2); }
+  42% { transform: translateX(1px) scale(0.97); }
+  64% { transform: translateX(-1px) scale(1.13); }
+}
+
+html.motion-ready #wiring-lungs.calm .lungs-path,
+html.motion-ready #game-wiring-lungs.calm .lungs-path {
+  animation: motionLungCalm 1.86s var(--motion-breath) infinite;
+}
+
+html.motion-ready #wiring-lungs.fast .lungs-path,
+html.motion-ready #game-wiring-lungs.fast .lungs-path,
+html.motion-ready #game-wiring-lungs.racing .lungs-path {
+  animation: motionLungFast 0.88s ease-in-out infinite;
+}
+
+@keyframes motionLungCalm {
+  0%, 100% { transform: scaleX(1) scaleY(1); }
+  45% { transform: scaleX(1.045) scaleY(1.035); }
+}
+
+@keyframes motionLungFast {
+  0%, 100% { transform: scaleX(1) scaleY(1); }
+  50% { transform: scaleX(1.1) scaleY(1.08); }
+}
+
+html.motion-ready .game-character {
+  filter:
+    drop-shadow(0 12px 18px rgba(63, 72, 64, 0.12))
+    saturate(var(--motion-character-saturate, 1.03));
+}
+
+html.motion-ready .game-character[data-peter="panic"] .peter-svg,
+html.motion-ready .game-character[data-peter="hyper"] .peter-svg,
+html.motion-ready .game-character[data-peter="suppress"] .peter-svg {
+  filter: drop-shadow(0 0 18px rgba(225, 95, 95, 0.16));
+}
+
+html.motion-ready .game-character[data-peter="breathe"] .peter-svg,
+html.motion-ready .game-character[data-peter="settling"] .peter-svg,
+html.motion-ready .game-character[data-peter="calm"] .peter-svg {
+  filter: drop-shadow(0 0 18px rgba(58, 138, 138, 0.14));
+}
+
+html.motion-ready .peter-brow,
+html.motion-ready .peter-cheek,
+html.motion-ready .peter-mouth {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.28s ease,
+    transform 0.38s var(--motion-ease-out);
+}
+
+html.motion-ready .peter-brow {
+  opacity: 0.28;
+}
+
+html.motion-ready .peter-mouth-worry,
+html.motion-ready .peter-mouth-open,
+html.motion-ready .peter-mouth-breathe,
+html.motion-ready .peter-mouth-grimace {
+  opacity: 0;
+}
+
+html.motion-ready .game-character[data-peter="panic"] .peter-mouth-soft,
+html.motion-ready .game-character[data-peter="hyper"] .peter-mouth-soft,
+html.motion-ready .game-character[data-peter="breathe"] .peter-mouth-soft,
+html.motion-ready .game-character[data-peter="suppress"] .peter-mouth-soft {
+  opacity: 0;
+}
+
+html.motion-ready .game-character[data-peter="panic"] .peter-brow-left,
+html.motion-ready .game-character[data-peter="hyper"] .peter-brow-left {
+  opacity: 0.78;
+  transform: translate(1px, -1px) rotate(16deg);
+}
+
+html.motion-ready .game-character[data-peter="panic"] .peter-brow-right,
+html.motion-ready .game-character[data-peter="hyper"] .peter-brow-right {
+  opacity: 0.78;
+  transform: translate(-1px, -1px) rotate(-16deg);
+}
+
+html.motion-ready .game-character[data-peter="panic"] .peter-mouth-worry,
+html.motion-ready .game-character[data-peter="hyper"] .peter-mouth-worry {
+  opacity: 1;
+}
+
+html.motion-ready .game-character[data-peter="notice"] .peter-brow-left {
+  opacity: 0.5;
+  transform: translateY(-1px) rotate(-8deg);
+}
+
+html.motion-ready .game-character[data-peter="notice"] .peter-brow-right {
+  opacity: 0.5;
+  transform: translateY(-1px) rotate(8deg);
+}
+
+html.motion-ready .game-character[data-peter="breathe"] .peter-brow {
+  opacity: 0.18;
+  transform: translateY(2px);
+}
+
+html.motion-ready .game-character[data-peter="breathe"] .peter-mouth-breathe {
+  opacity: 1;
+  animation: motionPeterBreathMouth 2.55s ease-in-out 1;
+}
+
+html.motion-ready .game-character[data-peter="suppress"] .peter-brow-left {
+  opacity: 0.9;
+  transform: translate(1px, 0) rotate(24deg);
+}
+
+html.motion-ready .game-character[data-peter="suppress"] .peter-brow-right {
+  opacity: 0.9;
+  transform: translate(-1px, 0) rotate(-24deg);
+}
+
+html.motion-ready .game-character[data-peter="suppress"] .peter-mouth-grimace {
+  opacity: 1;
+}
+
+html.motion-ready .game-character[data-peter="settling"] .peter-brow,
+html.motion-ready .game-character[data-peter="calm"] .peter-brow,
+html.motion-ready .game-character[data-peter="reframe"] .peter-brow {
+  opacity: 0.18;
+  transform: translateY(1.5px);
+}
+
+html.motion-ready .game-character[data-peter="calm"] .peter-cheek,
+html.motion-ready .game-character[data-peter="reframe"] .peter-cheek {
+  opacity: 0.24;
+}
+
+html.motion-ready .peter-thought {
+  top: -58px;
+  right: auto;
+  left: 16px;
+  max-width: 112px;
+  padding: 8px 11px;
+  font-size: 13.5px;
+  white-space: normal;
+  line-height: 1.2;
+}
+
+html.motion-ready .peter-thought::before {
+  left: 86px;
+  bottom: -9px;
+}
+
+html.motion-ready .peter-thought::after {
+  left: 98px;
+  bottom: -18px;
+}
+
+@keyframes motionPeterBreathMouth {
+  0%, 100% { transform: scaleX(0.9); }
+  42% { transform: scaleX(1.18); }
+}
+
+html.motion-ready .breath-puff.shown {
+  animation: motionBreathPuff 2.55s var(--motion-breath) 1;
+}
+
+@keyframes motionBreathPuff {
+  0% {
+    opacity: 0;
+    transform: translate(-22px, 4px) scale(0.68);
+    filter: blur(3px);
+  }
+  24% {
+    opacity: 0.82;
+    transform: translate(-42px, -6px) scale(1.04);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-78px, -22px) scale(1.74);
+    filter: blur(5px);
+  }
+}
+
+html.motion-ready .step-btn,
+html.motion-ready .ghost-btn,
+html.motion-ready .action-card,
+html.motion-ready .tool-btn {
+  transition:
+    transform 0.22s var(--motion-ease-out),
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease,
+    color 0.22s ease;
+}
+
+html.motion-ready .action-card:hover,
+html.motion-ready .step-btn:hover,
+html.motion-ready .ghost-btn:hover,
+html.motion-ready .tool-btn:hover {
+  transform: translateY(-2px);
+}
+
+html.motion-ready .action-card.pressed {
+  animation: motionCardPress 0.44s var(--motion-soft-spring) both;
+}
+
+@keyframes motionCardPress {
+  0% { transform: translateY(-2px) scale(1); }
+  38% { transform: translateY(1px) scale(0.972); }
+  100% { transform: translateY(-1px) scale(1); }
+}
+
+html.motion-ready .seq-slot.filled {
+  animation: motionSlotCommit 0.56s var(--motion-soft-spring) both;
+}
+
+@keyframes motionSlotCommit {
+  0% {
+    transform: scale(0.82);
+    filter: blur(5px);
+    opacity: 0.35;
+  }
+  72% {
+    transform: scale(1.04);
+    filter: blur(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+html.motion-ready .dyad-stage[data-phase="escalate"] .dyad-link.hot.shown,
+html.motion-ready .dyad-stage[data-phase="peak"] .dyad-link.hot.shown {
+  filter:
+    drop-shadow(0 0 10px rgba(168, 58, 58, 0.52))
+    drop-shadow(0 0 24px rgba(168, 58, 58, 0.24));
+}
+
+html.motion-ready .dyad-stage[data-phase="breath"] .dyad-link.safe,
+html.motion-ready .dyad-stage[data-phase="settle"] .dyad-link.safe {
+  filter:
+    drop-shadow(0 0 10px rgba(58, 138, 138, 0.42))
+    drop-shadow(0 0 24px rgba(58, 138, 138, 0.18));
+}
+
+html.motion-ready .lit-stage.lit-polish-ready .lit-speech.is-speaking {
+  animation:
+    litSpeechArrive 0.62s var(--motion-ease-out),
+    motionSpeechFocus 1.05s ease-out both;
+}
+
+@keyframes motionSpeechFocus {
+  0% {
+    box-shadow: 0 8px 18px rgba(74, 67, 58, 0.08);
+  }
+  38% {
+    box-shadow:
+      0 18px 34px rgba(74, 67, 58, 0.13),
+      0 0 0 1px rgba(244, 194, 90, 0.24);
+  }
+  100% {
+    box-shadow: 0 10px 22px rgba(74, 67, 58, 0.09);
+  }
+}
+
+html.motion-reduced *,
+html.motion-reduced *::before,
+html.motion-reduced *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (max-width: 640px) {
+  html.motion-ready .page-toolbar {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+  }
+}

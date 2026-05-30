@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="styles.css?v=36" />
   <link rel="stylesheet" href="part3-polish.css?v=3" />
   <link rel="stylesheet" href="part4-polish.css?v=2" />
+  <link rel="stylesheet" href="motion-polish.css?v=7" />
 </head>
 <body>
 
@@ -91,12 +92,16 @@
              junction is natural. Features sit above the rim. -->
         <g class="peter-body">
           <g class="peter-ear peter-ear-left">
-            <path d="M 90 34 Q 80 0, 94 -10 Q 108 0, 104 34 Z" fill="#e8d4b8" stroke="#a89070" stroke-width="2" stroke-linejoin="round" />
-            <path d="M 94 30 Q 89 4, 96 -2 Q 103 4, 100 30 Z" fill="#f8e4cd" />
+            <path d="M 88 48 C 84 30, 80 6, 93 -12 C 108 0, 106 30, 102 48 Z"
+                  fill="#e8d4b8" stroke="#a89070" stroke-width="2" stroke-linejoin="round" />
+            <path d="M 94 43 C 90 23, 90 4, 96 -3 C 103 6, 101 26, 99 43 Z"
+                  fill="#f8e4cd" />
           </g>
           <g class="peter-ear peter-ear-right">
-            <path d="M 116 34 Q 112 0, 126 -10 Q 140 0, 130 34 Z" fill="#e8d4b8" stroke="#a89070" stroke-width="2" stroke-linejoin="round" />
-            <path d="M 120 30 Q 117 4, 126 -2 Q 132 4, 128 30 Z" fill="#f8e4cd" />
+            <path d="M 118 48 C 114 30, 112 0, 127 -12 C 141 2, 136 31, 132 48 Z"
+                  fill="#e8d4b8" stroke="#a89070" stroke-width="2" stroke-linejoin="round" />
+            <path d="M 122 43 C 119 24, 118 5, 126 -3 C 132 6, 130 26, 128 43 Z"
+                  fill="#f8e4cd" />
           </g>
           <!-- head -->
           <ellipse cx="110" cy="68" rx="38" ry="36" fill="#e8d4b8" stroke="#a89070" stroke-width="2.5" />
@@ -109,6 +114,12 @@
           <line x1="80" y1="89" x2="98" y2="87" stroke="#a89070" stroke-width="1" />
           <line x1="140" y1="84" x2="122" y2="82" stroke="#a89070" stroke-width="1" />
           <line x1="140" y1="89" x2="122" y2="87" stroke="#a89070" stroke-width="1" />
+          <path class="peter-brow peter-brow-left"
+                d="M 88 49 Q 94 46 100 49"
+                stroke="#6f5745" stroke-width="1.8" fill="none" stroke-linecap="round" />
+          <path class="peter-brow peter-brow-right"
+                d="M 120 49 Q 126 46 132 49"
+                stroke="#6f5745" stroke-width="1.8" fill="none" stroke-linecap="round" />
           <!-- eyes — scared, wide -->
           <circle cx="94" cy="58" r="6" fill="white" />
           <circle cx="126" cy="58" r="6" fill="white" />
@@ -120,8 +131,19 @@
             <circle class="peter-pupil" cx="126" cy="59" r="3.5" fill="#3a3a3a" />
             <circle class="peter-eye-shine" cx="127.5" cy="57" r="1" fill="white" />
           </g>
+          <ellipse class="peter-cheek peter-cheek-left" cx="88" cy="78" rx="4.5" ry="2.8" fill="#d97a7a" opacity="0.14" />
+          <ellipse class="peter-cheek peter-cheek-right" cx="132" cy="78" rx="4.5" ry="2.8" fill="#d97a7a" opacity="0.14" />
           <!-- mouth -->
-          <path class="peter-mouth" d="M 104 94 Q 110 97 116 94" stroke="#3a3a3a" stroke-width="1.6" fill="none" stroke-linecap="round" />
+          <path class="peter-mouth peter-mouth-soft" d="M 104 94 Q 110 97 116 94"
+                stroke="#3a3a3a" stroke-width="1.6" fill="none" stroke-linecap="round" />
+          <path class="peter-mouth peter-mouth-worry" d="M 103 96 Q 110 91 117 96"
+                stroke="#3a3a3a" stroke-width="1.7" fill="none" stroke-linecap="round" opacity="0" />
+          <ellipse class="peter-mouth peter-mouth-open" cx="110" cy="94" rx="4.4" ry="5"
+                   fill="#5b3432" opacity="0" />
+          <ellipse class="peter-mouth peter-mouth-breathe" cx="110" cy="94" rx="4.8" ry="2.7"
+                   fill="#5b3432" opacity="0" />
+          <rect class="peter-mouth peter-mouth-grimace" x="102" y="91" width="16" height="5.5" rx="2.2"
+                fill="#fff6ed" stroke="#3a3a3a" stroke-width="1.2" opacity="0" />
         </g>
 
         <!-- ===== WATERING CAN FRONT WALL (in front of Peter) =====
@@ -129,21 +151,60 @@
              down INTO the can. The top edge follows the front arc of the
              opening, giving a rounded rim. -->
         <g class="watering-can">
-          <!-- spout (left) — drawn first so the body overlaps its base -->
-          <path d="M 38 162 Q 14 160, 8 180 Q 4 190, 14 194 L 38 190 Z"
-                fill="#7da7a0" stroke="#4a6b66" stroke-width="2" />
-          <!-- handle (right) -->
-          <path d="M 188 142 Q 208 152, 208 182 Q 208 212, 188 220"
-                fill="none" stroke="#4a6b66" stroke-width="6" stroke-linecap="round" />
-          <!-- front wall: top edge = front arc of the opening -->
-          <path d="M 38 130
-                   Q 115 141, 192 130
-                   L 192 220
-                   Q 192 230, 180 230
-                   L 50 230
-                   Q 38 230, 38 220
+          <!-- raised tube + conical rose, kept as one continuous silhouette so
+               it reads cleanly at small size. The body is drawn after this,
+               hiding the base and making the spout emerge from behind it. -->
+          <path d="M 48 184
+                   C 40 166, 30 147, 17 126
+                   C 23 119, 33 120, 40 129
+                   C 38 145, 48 164, 58 179 Z"
+                fill="#7da7a0" stroke="#4a6b66" stroke-width="2.1"
+                stroke-linejoin="round" />
+          <ellipse cx="15" cy="124" rx="8" ry="14" transform="rotate(63 15 124)"
+                   fill="#dce6df" stroke="#4a6b66" stroke-width="1.8" />
+          <g class="can-rose-holes" fill="#8fa39c" opacity="0.62">
+            <circle cx="10.4" cy="118" r="0.8" />
+            <circle cx="15.8" cy="117.2" r="0.8" />
+            <circle cx="20.4" cy="119.7" r="0.8" />
+            <circle cx="10.4" cy="123.6" r="0.8" />
+            <circle cx="15.4" cy="122.9" r="0.8" />
+            <circle cx="20.4" cy="125.6" r="0.8" />
+            <circle cx="10.8" cy="129.3" r="0.8" />
+            <circle cx="16.2" cy="128.9" r="0.8" />
+            <circle cx="21" cy="131.7" r="0.8" />
+          </g>
+
+          <!-- rounded handle with a lighter inner stroke -->
+          <path d="M 188 145
+                   C 214 149, 218 178, 209 202
+                   C 204 216, 195 224, 183 224"
+                fill="none" stroke="#4a6b66" stroke-width="9"
+                stroke-linecap="round" />
+          <path d="M 188 151
+                   C 207 156, 211 178, 204 198
+                   C 200 210, 192 216, 184 218"
+                fill="none" stroke="#9fc4bc" stroke-width="3"
+                stroke-linecap="round" opacity="0.9" />
+
+          <!-- front wall: rounded basin with the opening's front arc as rim -->
+          <path d="M 39 130
+                   Q 115 143, 191 130
+                   L 186 218
+                   Q 184 231, 170 232
+                   L 58 232
+                   Q 44 231, 41 218
                    Z"
-                fill="#7da7a0" stroke="#4a6b66" stroke-width="2.5" stroke-linejoin="round" />
+                fill="#7da7a0" stroke="#4a6b66" stroke-width="2.5"
+                stroke-linejoin="round" />
+          <path d="M 41 131 Q 115 143, 189 131"
+                fill="none" stroke="#4a6b66" stroke-width="3"
+                stroke-linecap="round" />
+          <path d="M 55 149 C 82 157, 147 157, 176 149"
+                fill="none" stroke="#b8d3cf" stroke-width="3"
+                stroke-linecap="round" opacity="0.75" />
+          <path d="M 55 224 Q 115 229, 175 224"
+                fill="none" stroke="#5f8d86" stroke-width="2"
+                stroke-linecap="round" opacity="0.55" />
         </g>
 
         <!-- ===== PAWS gripping the front rim =====
@@ -272,12 +333,18 @@
 
             <!-- BACK arm (drawn first → behind body) -->
             <g class="kid-limb kid-arm-back">
-              <rect x="44" y="68" width="24" height="9" rx="4.5" fill="#E08896" />
+              <path d="M 58 70 C 51 71, 45 73, 38 78"
+                    stroke="#E08896" stroke-width="9" stroke-linecap="round" fill="none" />
+              <circle cx="36" cy="79" r="4.8" fill="#f7d9c4" stroke="#a8745a" stroke-width="1" />
             </g>
 
             <!-- BACK leg -->
             <g class="kid-limb kid-leg-back">
               <rect x="60" y="116" width="10" height="46" rx="4" fill="#3a4f80" />
+              <path class="kid-shoe kid-shoe-back"
+                    d="M 57 158 H 69 Q 76 158, 78 164 H 57 Z"
+                    fill="#38353a" />
+              <path d="M 57 164 H 78" stroke="#f7d9c4" stroke-width="1.2" stroke-linecap="round" opacity="0.75" />
             </g>
 
             <!-- BODY -->
@@ -285,21 +352,63 @@
 
             <!-- HEAD -->
             <g class="kid-head">
-              <circle cx="70" cy="40" r="22" fill="#f7d9c4" stroke="#a8745a" stroke-width="2" />
-              <circle cx="63" cy="38" r="2.5" fill="#3a3a3a" />
-              <circle cx="77" cy="38" r="2.5" fill="#3a3a3a" />
-              <path d="M 64 47 Q 70 51 76 47" stroke="#3a3a3a" stroke-width="2" fill="none" stroke-linecap="round" />
-              <path d="M 56 24 Q 70 14 84 24" fill="#7a4a2a" />
+              <circle class="kid-ear kid-ear-left" cx="49" cy="40" r="5" fill="#f7d9c4" stroke="#a8745a" stroke-width="1.2" />
+              <circle class="kid-ear kid-ear-right" cx="91" cy="40" r="5" fill="#f7d9c4" stroke="#a8745a" stroke-width="1.2" />
+              <circle class="kid-face" cx="70" cy="40" r="22" fill="#f7d9c4" stroke="#a8745a" stroke-width="2" />
+              <path class="kid-hair" d="M 55 25 Q 67 14 83 23 Q 77 19 70 21 Q 63 19 55 25 Z" fill="#7a4a2a" />
+              <circle class="kid-cheek kid-cheek-left" cx="57.5" cy="45" r="3.2" fill="#eaa0a9" opacity="0.34" />
+              <circle class="kid-cheek kid-cheek-right" cx="82.5" cy="45" r="3.2" fill="#eaa0a9" opacity="0.34" />
+
+              <path class="kid-brow kid-brow-left" d="M 60 33.5 Q 63 32.5 66 33.5"
+                    stroke="#5c3a2a" stroke-width="1.8" fill="none" stroke-linecap="round" />
+              <path class="kid-brow kid-brow-right" d="M 74 33.5 Q 77 32.5 80 33.5"
+                    stroke="#5c3a2a" stroke-width="1.8" fill="none" stroke-linecap="round" />
+
+              <g class="kid-eye kid-eye-left">
+                <ellipse class="kid-eye-white" cx="63" cy="38" rx="3.6" ry="3.8" fill="white" />
+                <circle class="kid-pupil" cx="63" cy="38.35" r="1.95" fill="#3a3a3a" />
+                <circle class="kid-eye-shine" cx="64" cy="37.2" r="0.7" fill="white" />
+              </g>
+              <g class="kid-eye kid-eye-right">
+                <ellipse class="kid-eye-white" cx="77" cy="38" rx="3.6" ry="3.8" fill="white" />
+                <circle class="kid-pupil" cx="77" cy="38.35" r="1.95" fill="#3a3a3a" />
+                <circle class="kid-eye-shine" cx="78" cy="37.2" r="0.7" fill="white" />
+              </g>
+              <ellipse class="kid-nose" cx="70" cy="43.2" rx="1.1" ry="0.8" fill="#c58a7a" opacity="0.42" />
+
+              <path class="kid-mouth kid-mouth-smile" d="M 64.5 48 Q 70 51.5 75.5 48"
+                    stroke="#3a3a3a" stroke-width="1.9" fill="none" stroke-linecap="round" />
+              <ellipse class="kid-mouth kid-mouth-open" cx="70" cy="49" rx="4.3" ry="5.4"
+                       fill="#5b3432" opacity="0" />
+              <path class="kid-mouth kid-mouth-worry" d="M 64 51 Q 70 47 76 51"
+                    stroke="#3a3a3a" stroke-width="1.9" fill="none" stroke-linecap="round" opacity="0" />
+              <path class="kid-mouth kid-mouth-breathe" d="M 66 49 Q 70 51 74 49"
+                    stroke="#3a3a3a" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0" />
+
+              <g class="kid-sweat" opacity="0">
+                <path class="kid-sweat-drop kid-sweat-one"
+                      d="M 87 28 C 91 34, 91 38, 87 40 C 83 38, 83 34, 87 28 Z"
+                      fill="#8fc9df" />
+                <path class="kid-sweat-drop kid-sweat-two"
+                      d="M 52 30 C 55 35, 55 38, 52 39.5 C 49 38, 49 35, 52 30 Z"
+                      fill="#8fc9df" />
+              </g>
             </g>
 
             <!-- FRONT arm -->
             <g class="kid-limb kid-arm-front">
-              <rect x="72" y="68" width="24" height="9" rx="4.5" fill="#F4A6B5" />
+              <path d="M 82 70 C 90 71, 97 74, 104 79"
+                    stroke="#F4A6B5" stroke-width="9" stroke-linecap="round" fill="none" />
+              <circle cx="106" cy="80" r="4.8" fill="#f7d9c4" stroke="#a8745a" stroke-width="1" />
             </g>
 
             <!-- FRONT leg -->
             <g class="kid-limb kid-leg-front">
               <rect x="70" y="116" width="10" height="46" rx="4" fill="#5a6fa8" />
+              <path class="kid-shoe kid-shoe-front"
+                    d="M 68 158 H 80 Q 88 158, 90 164 H 68 Z"
+                    fill="#38353a" />
+              <path d="M 68 164 H 90" stroke="#f7d9c4" stroke-width="1.2" stroke-linecap="round" opacity="0.75" />
             </g>
           </svg>
         </div>
@@ -395,10 +504,14 @@
         </g>
 
         <!-- ===== ARROWS (initially hidden via CSS dashoffset) =====
-             Limbic activation is conveyed via the layer glow only — no
-             explicit arrows out of limbic. Only brain-stem → body and
-             brain-stem → cortex are drawn. -->
+             The short limbic -> brain-stem path keeps the numbered sequence
+             legible before the longer body and cortex paths appear. -->
         <g class="wiring-arrows">
+          <!-- limbic -> brain stem -->
+          <path class="arrow" data-arrow="limbic-stem"
+                d="M 208 101 C 230 116, 230 140, 208 154"
+                stroke="#a85e6a" stroke-width="2.4" fill="none"
+                stroke-linecap="round" marker-end="url(#arr-pink)" />
           <!-- brain stem → heart -->
           <path class="arrow" data-arrow="stem-heart"
                 d="M 175 150 Q 240 130, 332 70"
@@ -1014,8 +1127,9 @@
     <p class="micro">Camera estimates run locally in your browser and are not recorded.</p>
   </footer>
 
-  <script src="script.js?v=32"></script>
+  <script src="script.js?v=33"></script>
   <script src="part3-polish.js?v=3"></script>
   <script src="part4-polish.js?v=2"></script>
+  <script src="motion-polish.js?v=2"></script>
 </body>
 </html>
