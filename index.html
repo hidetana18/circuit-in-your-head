@@ -349,15 +349,10 @@
         </g>
 
         <!-- ===== ARROWS (initially hidden via CSS dashoffset) =====
-             Coordinates re-aimed at the new anatomical brain image content:
-             cortex spans ~x 20-240 / y 6-132, limbic ~84-181 / 59-135,
-             brain stem ~124-179 / 111-186. -->
+             Limbic activation is conveyed via the layer glow only — no
+             explicit arrows out of limbic. Only brain-stem → body and
+             brain-stem → cortex are drawn. -->
         <g class="wiring-arrows">
-          <!-- limbic → brain stem (short, through the visible junction) -->
-          <path class="arrow" data-arrow="limbic-stem"
-                d="M 145 108 L 145 145"
-                stroke="#a85e6a" stroke-width="2.4" fill="none"
-                stroke-linecap="round" marker-end="url(#arr-pink)" />
           <!-- brain stem → heart -->
           <path class="arrow" data-arrow="stem-heart"
                 d="M 175 150 Q 240 130, 332 70"
@@ -374,12 +369,6 @@
                 stroke="#5a6fa0" stroke-width="2.4" fill="none"
                 stroke-linecap="round" stroke-dasharray="4 6"
                 marker-end="url(#arr-blue)" />
-          <!-- limbic → cortex (short direct path; emotional alarm reaches the
-               thinking layer in addition to the slower body-state signal) -->
-          <path class="arrow" data-arrow="limbic-cortex"
-                d="M 110 88 L 110 30"
-                stroke="#a85e6a" stroke-width="2.4" fill="none"
-                stroke-linecap="round" marker-end="url(#arr-pink)" />
         </g>
 
         <!-- ===== NUMBER BADGES =====
@@ -547,12 +536,10 @@
           </g>
         </g>
 
-        <!-- ===== ALARM ARROWS (from Part 1's vocabulary, shown initially) ===== -->
+        <!-- ===== ALARM ARROWS (from Part 1's vocabulary, shown initially) =====
+             Limbic activation is conveyed via the layer glow only — only
+             the brain-stem → body arrows are drawn. -->
         <g class="wiring-arrows alarm-arrows">
-          <path class="arrow" data-arrow="limbic-stem"
-                d="M 145 108 L 145 145"
-                stroke="#a85e6a" stroke-width="2.4" fill="none"
-                stroke-linecap="round" marker-end="url(#arr-pink)" />
           <path class="arrow" data-arrow="stem-heart"
                 d="M 175 150 Q 240 130, 332 70"
                 stroke="#5a7a5a" stroke-width="2.4" fill="none"
@@ -981,7 +968,7 @@
     <p class="micro">Camera estimates run locally in your browser and are not recorded.</p>
   </footer>
 
-  <script src="script.js?v=31"></script>
+  <script src="script.js?v=32"></script>
   <script src="part3-polish.js?v=3"></script>
   <script src="part4-polish.js?v=2"></script>
 </body>
