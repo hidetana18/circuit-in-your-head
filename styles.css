@@ -884,7 +884,7 @@ body[data-intro="trip"] .ouch {
   transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
 }
 .game-stage .wiring-svg {
-  max-height: 300px;
+  max-height: 270px;
   align-self: center;
 }
 .game-stage[data-regulation="alarm"] {
@@ -908,7 +908,7 @@ body[data-intro="trip"] .ouch {
 /* LEFT: scene with Peter in the watering can. Mirrors intro-scene. */
 .game-scene {
   position: relative;
-  height: clamp(250px, 25vw, 300px);
+  height: clamp(220px, 22vw, 270px);
   display: flex;
   align-items: flex-end;
   justify-content: center;
