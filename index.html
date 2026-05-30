@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=31" />
+  <link rel="stylesheet" href="styles.css?v=32" />
   <link rel="stylesheet" href="part3-polish.css?v=3" />
   <link rel="stylesheet" href="part4-polish.css?v=2" />
 </head>
@@ -288,51 +288,26 @@
           </marker>
         </defs>
 
-        <!-- ===== BRAIN (left half) ===== -->
+        <!-- ===== BRAIN (left half) =====
+             Three PNG layers (cortex / limbic / brain stem) drawn at the
+             same x/y/width/height so they stack pixel-perfectly into one
+             complete brain. Source images live in assets/. Each image
+             carries its own white label baked in. -->
         <g class="wiring-brain">
-          <!-- CORTEX -->
           <g class="brain-layer" data-region="cortex">
-            <path class="layer-fill"
-                  d="M 30 62
-                     C 22 34, 48 12, 86 10
-                     C 112 2, 154 0, 178 12
-                     C 220 10, 246 34, 238 66
-                     C 233 88, 216 102, 192 108
-                     C 152 116, 94 112, 58 104
-                     C 40 100, 30 84, 30 62 Z"
-                  fill="#9FB2D4" stroke="#5a6fa0" stroke-width="2" />
-            <path d="M 42 36 C 72 20, 98 44, 126 34 S 182 20, 220 42"
-                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
-            <path d="M 38 66 C 70 52, 100 78, 130 66 S 184 52, 218 72"
-                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
-            <text x="130" y="56" text-anchor="middle" class="layer-label" fill="#2c3a60">CORTEX</text>
-            <text x="130" y="76" text-anchor="middle" class="layer-sub" fill="#2c3a60">thinks · plans</text>
+            <image href="assets/brain-cortex.png"
+                   x="-86" y="-31" width="447" height="252"
+                   preserveAspectRatio="xMidYMid meet" />
           </g>
-          <!-- LIMBIC -->
           <g class="brain-layer" data-region="limbic">
-            <path class="layer-fill"
-                  d="M 56 101
-                     C 80 94, 108 95, 130 102
-                     C 156 94, 190 95, 212 106
-                     L 204 145
-                     C 196 158, 162 160, 132 153
-                     C 104 160, 74 158, 56 146
-                     C 48 132, 46 112, 56 101 Z"
-                  fill="#F4A6B5" stroke="#a85e6a" stroke-width="2" />
-            <text x="130" y="124" text-anchor="middle" class="layer-label" fill="#6a2f3a">LIMBIC</text>
-            <text x="130" y="142" text-anchor="middle" class="layer-sub" fill="#6a2f3a">feels · alarms</text>
+            <image href="assets/brain-limbic.png"
+                   x="-86" y="-31" width="447" height="252"
+                   preserveAspectRatio="xMidYMid meet" />
           </g>
-          <!-- BRAIN STEM -->
           <g class="brain-layer" data-region="brainstem">
-            <path class="layer-fill"
-                  d="M 74 154
-                     C 100 148, 160 148, 186 154
-                     C 182 182, 170 206, 150 218
-                     C 138 225, 122 225, 110 218
-                     C 90 206, 78 182, 74 154 Z"
-                  fill="#9CC09A" stroke="#5a7a5a" stroke-width="2" />
-            <text x="130" y="184" text-anchor="middle" class="layer-label" fill="#2c4a2c">BRAIN STEM</text>
-            <text x="130" y="202" text-anchor="middle" class="layer-sub" fill="#2c4a2c">runs body</text>
+            <image href="assets/brain-brainstem.png"
+                   x="-86" y="-31" width="447" height="252"
+                   preserveAspectRatio="xMidYMid meet" />
           </g>
         </g>
 
@@ -372,33 +347,36 @@
           </g>
         </g>
 
-        <!-- ===== ARROWS (initially hidden via CSS dashoffset) ===== -->
+        <!-- ===== ARROWS (initially hidden via CSS dashoffset) =====
+             Coordinates re-aimed at the new anatomical brain image content:
+             cortex spans ~x 20-240 / y 6-132, limbic ~84-181 / 59-135,
+             brain stem ~124-179 / 111-186. -->
         <g class="wiring-arrows">
-          <!-- limbic → brain stem (short, on the right side, curved around badge) -->
+          <!-- limbic → brain stem (short, through the visible junction) -->
           <path class="arrow" data-arrow="limbic-stem"
-                d="M 130 134 L 130 152"
+                d="M 145 108 L 145 145"
                 stroke="#a85e6a" stroke-width="2.4" fill="none"
                 stroke-linecap="round" marker-end="url(#arr-pink)" />
           <!-- brain stem → heart -->
           <path class="arrow" data-arrow="stem-heart"
-                d="M 200 178 Q 260 150, 332 70"
+                d="M 175 150 Q 240 130, 332 70"
                 stroke="#5a7a5a" stroke-width="2.4" fill="none"
                 stroke-linecap="round" marker-end="url(#arr-green)" />
           <!-- brain stem → lungs -->
           <path class="arrow" data-arrow="stem-lungs"
-                d="M 200 198 Q 260 210, 332 196"
+                d="M 175 172 Q 240 188, 332 196"
                 stroke="#5a7a5a" stroke-width="2.4" fill="none"
                 stroke-linecap="round" marker-end="url(#arr-green)" />
           <!-- brain stem → cortex (slow path, dotted to emphasize slowness) -->
           <path class="arrow slow" data-arrow="stem-cortex"
-                d="M 60 184 Q 14 130, 60 70"
+                d="M 130 175 Q 0 100, 60 24"
                 stroke="#5a6fa0" stroke-width="2.4" fill="none"
                 stroke-linecap="round" stroke-dasharray="4 6"
                 marker-end="url(#arr-blue)" />
           <!-- limbic → cortex (short direct path; emotional alarm reaches the
                thinking layer in addition to the slower body-state signal) -->
           <path class="arrow" data-arrow="limbic-cortex"
-                d="M 156 122 L 156 88"
+                d="M 110 88 L 110 30"
                 stroke="#a85e6a" stroke-width="2.4" fill="none"
                 stroke-linecap="round" marker-end="url(#arr-pink)" />
         </g>
@@ -410,25 +388,28 @@
              Without this split, CSS transform replaces the SVG translate and
              the badge snaps to (0, 0) of the viewBox. -->
         <g class="wiring-badges">
-          <g transform="translate(240, 124)">
+          <!-- Positioned next to the corresponding action in the new brain
+               layout: 1 near limbic, 2 at brain-stem outflow, 3 at heart,
+               4 at the cortex apex where the slow signal arrives. -->
+          <g transform="translate(195, 90)">
             <g class="step-badge" data-step="1">
               <circle r="14" fill="#a85e6a" />
               <text text-anchor="middle" dy="5" fill="white" font-weight="700" font-size="16">1</text>
             </g>
           </g>
-          <g transform="translate(216, 184)">
+          <g transform="translate(195, 158)">
             <g class="step-badge" data-step="2">
               <circle r="14" fill="#5a7a5a" />
               <text text-anchor="middle" dy="5" fill="white" font-weight="700" font-size="16">2</text>
             </g>
           </g>
-          <g transform="translate(296, 130)">
+          <g transform="translate(296, 105)">
             <g class="step-badge" data-step="3">
               <circle r="14" fill="#a83a3a" />
               <text text-anchor="middle" dy="5" fill="white" font-weight="700" font-size="16">3</text>
             </g>
           </g>
-          <g transform="translate(40, 56)">
+          <g transform="translate(50, 28)">
             <g class="step-badge" data-step="4">
               <circle r="14" fill="#5a6fa0" />
               <text text-anchor="middle" dy="5" fill="white" font-weight="700" font-size="16">4</text>
@@ -512,48 +493,22 @@
           </marker>
         </defs>
 
-        <!-- ===== BRAIN ===== -->
+        <!-- ===== BRAIN ===== (image-based, same as Part 1 wiring) -->
         <g class="wiring-brain">
           <g class="brain-layer" data-region="cortex">
-            <path class="layer-fill"
-                  d="M 30 62
-                     C 22 34, 48 12, 86 10
-                     C 112 2, 154 0, 178 12
-                     C 220 10, 246 34, 238 66
-                     C 233 88, 216 102, 192 108
-                     C 152 116, 94 112, 58 104
-                     C 40 100, 30 84, 30 62 Z"
-                  fill="#9FB2D4" stroke="#5a6fa0" stroke-width="2" />
-            <path d="M 42 36 C 72 20, 98 44, 126 34 S 182 20, 220 42"
-                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
-            <path d="M 38 66 C 70 52, 100 78, 130 66 S 184 52, 218 72"
-                  stroke="#5a6fa0" stroke-width="1.5" fill="none" opacity="0.4" />
-            <text x="130" y="56" text-anchor="middle" class="layer-label" fill="#2c3a60">CORTEX</text>
-            <text x="130" y="76" text-anchor="middle" class="layer-sub" fill="#2c3a60">thinks · plans</text>
+            <image href="assets/brain-cortex.png"
+                   x="-86" y="-31" width="447" height="252"
+                   preserveAspectRatio="xMidYMid meet" />
           </g>
           <g class="brain-layer" data-region="limbic">
-            <path class="layer-fill"
-                  d="M 56 101
-                     C 80 94, 108 95, 130 102
-                     C 156 94, 190 95, 212 106
-                     L 204 145
-                     C 196 158, 162 160, 132 153
-                     C 104 160, 74 158, 56 146
-                     C 48 132, 46 112, 56 101 Z"
-                  fill="#F4A6B5" stroke="#a85e6a" stroke-width="2" />
-            <text x="130" y="124" text-anchor="middle" class="layer-label" fill="#6a2f3a">LIMBIC</text>
-            <text x="130" y="142" text-anchor="middle" class="layer-sub" fill="#6a2f3a">feels · alarms</text>
+            <image href="assets/brain-limbic.png"
+                   x="-86" y="-31" width="447" height="252"
+                   preserveAspectRatio="xMidYMid meet" />
           </g>
           <g class="brain-layer" data-region="brainstem">
-            <path class="layer-fill"
-                  d="M 74 154
-                     C 100 148, 160 148, 186 154
-                     C 182 182, 170 206, 150 218
-                     C 138 225, 122 225, 110 218
-                     C 90 206, 78 182, 74 154 Z"
-                  fill="#9CC09A" stroke="#5a7a5a" stroke-width="2" />
-            <text x="130" y="184" text-anchor="middle" class="layer-label" fill="#2c4a2c">BRAIN STEM</text>
-            <text x="130" y="202" text-anchor="middle" class="layer-sub" fill="#2c4a2c">runs body</text>
+            <image href="assets/brain-brainstem.png"
+                   x="-86" y="-31" width="447" height="252"
+                   preserveAspectRatio="xMidYMid meet" />
           </g>
         </g>
 
@@ -594,15 +549,15 @@
         <!-- ===== ALARM ARROWS (from Part 1's vocabulary, shown initially) ===== -->
         <g class="wiring-arrows alarm-arrows">
           <path class="arrow" data-arrow="limbic-stem"
-                d="M 130 134 L 130 152"
+                d="M 145 108 L 145 145"
                 stroke="#a85e6a" stroke-width="2.4" fill="none"
                 stroke-linecap="round" marker-end="url(#arr-pink)" />
           <path class="arrow" data-arrow="stem-heart"
-                d="M 200 178 Q 260 150, 332 70"
+                d="M 175 150 Q 240 130, 332 70"
                 stroke="#5a7a5a" stroke-width="2.4" fill="none"
                 stroke-linecap="round" marker-end="url(#arr-green)" />
           <path class="arrow" data-arrow="stem-lungs"
-                d="M 200 198 Q 260 210, 332 196"
+                d="M 175 172 Q 240 188, 332 196"
                 stroke="#5a7a5a" stroke-width="2.4" fill="none"
                 stroke-linecap="round" marker-end="url(#arr-green)" />
         </g>
@@ -610,29 +565,29 @@
         <!-- ===== INTERVENTION ARROWS (lit by the player's actions) ===== -->
         <g class="wiring-arrows intervention-arrows">
           <!-- ATTN: cortex → limbic. Used by Notice (small) and Reframe (strong).
-               Draws a short downward arrow on the LEFT side of the brain. -->
+               Short downward arrow from the cortex top into the limbic interior. -->
           <path class="arrow attn" data-arrow="attn"
-                d="M 80 86 L 80 104"
+                d="M 110 45 L 110 88"
                 stroke="#5a6fa0" stroke-width="2.4" fill="none"
                 stroke-linecap="round" marker-end="url(#arr-attn)" />
           <!-- BREATH: lungs → brain stem → limbic, going UP via the vagal pathway.
-               One long sweeping curve that enters the brain stem from below-right. -->
+               Sweep enters the brain stem from below-right and continues up. -->
           <path class="arrow breath" data-arrow="breath"
                 d="M 348 200
-                   C 240 240, 160 240, 130 215
-                   L 130 162"
+                   C 250 240, 170 222, 150 188
+                   L 150 130"
                 stroke="#3a8a8a" stroke-width="2.4" fill="none"
                 stroke-linecap="round" marker-end="url(#arr-vagal)" />
           <!-- BLOCK: same path as attn but red and dashed; X is drawn separately. -->
           <path class="arrow block" data-arrow="block"
-                d="M 80 86 L 80 104"
+                d="M 110 45 L 110 88"
                 stroke="#a83a3a" stroke-width="2.4" fill="none"
                 stroke-linecap="round" stroke-dasharray="3 4" marker-end="url(#arr-block)" />
           <!-- Block X — two short crossing strokes over the block arrow. Hidden
                until block is fired. -->
           <g class="block-x" data-arrow="block-x">
-            <line x1="72" y1="88" x2="88" y2="104" stroke="#a83a3a" stroke-width="2.6" stroke-linecap="round" />
-            <line x1="88" y1="88" x2="72" y2="104" stroke="#a83a3a" stroke-width="2.6" stroke-linecap="round" />
+            <line x1="102" y1="58" x2="118" y2="74" stroke="#a83a3a" stroke-width="2.6" stroke-linecap="round" />
+            <line x1="118" y1="58" x2="102" y2="74" stroke="#a83a3a" stroke-width="2.6" stroke-linecap="round" />
           </g>
         </g>
       </svg>
