@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=43" />
-  <link rel="stylesheet" href="part3-polish.css?v=5" />
+  <link rel="stylesheet" href="styles.css?v=44" />
+  <link rel="stylesheet" href="part3-polish.css?v=6" />
   <link rel="stylesheet" href="part4-polish.css?v=2" />
   <link rel="stylesheet" href="motion-polish.css?v=8" />
 </head>
@@ -819,60 +819,18 @@
           <span class="dyad-eye right"></span>
           <span class="dyad-mouth"></span>
         </div>
-        <p class="dyad-person-read" id="dyad-a-read">"Safe enough to play."</p>
-        <div class="dyad-meter">
-          <span class="dyad-meter-label">alarm</span>
-          <span class="dyad-meter-track"><span class="dyad-meter-fill"></span></span>
-          <span class="dyad-meter-value" id="dyad-a-alarm">low</span>
-        </div>
-      </div>
-
-      <div class="dyad-center">
-        <div class="dyad-event" aria-label="Block tower scene">
-          <div class="dyad-scene" aria-hidden="true">
-            <span class="courtyard-line"></span>
-            <!-- Two block towers — Nora's on the left, Jules's on the right.
-                 Each tower is three stacked blocks; in beat 2 Nora's topples. -->
-            <span class="block-tower nora">
-              <span class="block top"></span>
-              <span class="block mid"></span>
-              <span class="block base"></span>
-            </span>
-            <span class="block-tower jules">
-              <span class="block top"></span>
-              <span class="block mid"></span>
-              <span class="block base"></span>
-            </span>
-            <span class="quarrel-mark nora">!</span>
-            <span class="quarrel-mark jules">!</span>
-            <!-- Breath puff — drifts up from Nora's side in the breath beat. -->
-            <span class="dyad-breath-puff" id="dyad-breath-puff" aria-hidden="true"></span>
-          </div>
-          <p class="dyad-event-text" id="dyad-event-text">Nora and Jules build, side by side.</p>
-        </div>
-
-        <div class="dyad-readout" id="dyad-readout" aria-live="polite" aria-atomic="true">
-          <p class="dyad-read-primary" id="dyad-read-primary">Both read: this space is shared.</p>
-        </div>
-
-        <svg class="dyad-loop dyad-brain-loop" viewBox="0 0 430 155" aria-label="Shared loop between Nora and Jules's brain-body circuits">
+        <svg class="dyad-card-circuit nora-brain" viewBox="0 0 230 138" aria-label="Nora's brain and body circuit">
           <defs>
-            <marker id="arr-dyad-hot" viewBox="0 0 10 10" refX="9" refY="5"
-                    markerWidth="6" markerHeight="6" orient="auto">
+            <marker id="arr-dyad-card-a" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="5" markerHeight="5" orient="auto">
               <path d="M 0 1 L 9 5 L 0 9"
-                    fill="none" stroke="#a83a3a" stroke-width="1.6"
-                    stroke-linecap="round" stroke-linejoin="round" />
-            </marker>
-            <marker id="arr-dyad-safe" viewBox="0 0 10 10" refX="9" refY="5"
-                    markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M 0 1 L 9 5 L 0 9"
-                    fill="none" stroke="#3a8a8a" stroke-width="1.6"
+                    fill="none" stroke="#5a7a5a" stroke-width="1.6"
                     stroke-linecap="round" stroke-linejoin="round" />
             </marker>
           </defs>
-          <g class="dyad-brain-map nora-brain" transform="translate(2 10)" aria-hidden="true">
-            <text class="dyad-brain-name" x="88" y="12" text-anchor="middle">NORA CIRCUIT</text>
-            <g class="wiring-brain" transform="translate(0 20)">
+          <g class="dyad-brain-map" transform="translate(6 11)">
+            <text class="dyad-brain-name" x="72" y="8" text-anchor="middle">NORA CIRCUIT</text>
+            <g class="wiring-brain" transform="translate(0 19)">
               <g class="brain-layer" data-region="cortex">
                 <image href="assets/brain-cortex.png?v=2"
                        x="0" y="0" width="118" height="68"
@@ -889,16 +847,16 @@
                        preserveAspectRatio="xMidYMid meet" />
               </g>
             </g>
-            <g class="dyad-body-icons" transform="translate(124 26)">
-              <text class="dyad-organ-name dyad-organ-heart" x="32" y="-7" text-anchor="middle">HEART</text>
+            <g class="dyad-body-icons" transform="translate(124 25)">
+              <text class="dyad-organ-name dyad-organ-heart" x="32" y="-5" text-anchor="middle">HEART</text>
               <path class="dyad-body-arrow"
                     d="M -40 57 C -18 48, -7 34, 13 22"
                     fill="none" stroke="#5a7a5a" stroke-width="2"
-                    stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
+                    stroke-linecap="round" marker-end="url(#arr-dyad-card-a)" />
               <path class="dyad-body-arrow"
                     d="M -39 70 C -18 78, -2 84, 18 91"
                     fill="none" stroke="#5a7a5a" stroke-width="2"
-                    stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
+                    stroke-linecap="round" marker-end="url(#arr-dyad-card-a)" />
               <path class="dyad-heart-path"
                     d="M 32 35
                        C 32 35, 12 23, 12 10
@@ -927,9 +885,121 @@
               </text>
             </g>
           </g>
-          <g class="dyad-brain-map jules-brain" transform="translate(246 10)" aria-hidden="true">
-            <text class="dyad-brain-name" x="88" y="12" text-anchor="middle">JULES CIRCUIT</text>
-            <g class="wiring-brain" transform="translate(0 20)">
+        </svg>
+        <p class="dyad-person-read" id="dyad-a-read">"Safe enough to play."</p>
+        <div class="dyad-meter">
+          <span class="dyad-meter-label">alarm</span>
+          <span class="dyad-meter-track"><span class="dyad-meter-fill"></span></span>
+          <span class="dyad-meter-value" id="dyad-a-alarm">low</span>
+        </div>
+      </div>
+
+      <div class="dyad-center">
+        <div class="dyad-event" aria-label="Block tower scene">
+          <div class="dyad-scene" aria-hidden="true">
+            <span class="courtyard-line"></span>
+            <span class="dyad-child nora">
+              <span class="dyad-child-arm back"></span>
+              <span class="dyad-child-leg back"></span>
+              <span class="dyad-child-body"></span>
+              <span class="dyad-child-head">
+                <span class="dyad-child-brow left"></span>
+                <span class="dyad-child-brow right"></span>
+                <span class="dyad-child-eye left"></span>
+                <span class="dyad-child-eye right"></span>
+                <span class="dyad-child-mouth"></span>
+              </span>
+              <span class="dyad-child-arm front"></span>
+              <span class="dyad-child-leg front"></span>
+            </span>
+            <span class="dyad-child jules">
+              <span class="dyad-child-arm back"></span>
+              <span class="dyad-child-leg back"></span>
+              <span class="dyad-child-body"></span>
+              <span class="dyad-child-head">
+                <span class="dyad-child-brow left"></span>
+                <span class="dyad-child-brow right"></span>
+                <span class="dyad-child-eye left"></span>
+                <span class="dyad-child-eye right"></span>
+                <span class="dyad-child-mouth"></span>
+              </span>
+              <span class="dyad-child-arm front"></span>
+              <span class="dyad-child-leg front"></span>
+            </span>
+            <!-- Two block towers — Nora's on the left, Jules's on the right.
+                 Each tower is three stacked blocks; in beat 2 Nora's topples. -->
+            <span class="block-tower nora">
+              <span class="block top"></span>
+              <span class="block mid"></span>
+              <span class="block base"></span>
+            </span>
+            <span class="block-tower jules">
+              <span class="block top"></span>
+              <span class="block mid"></span>
+              <span class="block base"></span>
+            </span>
+            <span class="quarrel-mark nora">!</span>
+            <span class="quarrel-mark jules">!</span>
+            <!-- Breath puff — drifts up from Nora's side in the breath beat. -->
+            <span class="dyad-breath-puff" id="dyad-breath-puff" aria-hidden="true"></span>
+            <svg class="dyad-scene-loop" viewBox="0 0 360 132" focusable="false" aria-hidden="true">
+              <defs>
+                <marker id="arr-dyad-hot" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M 0 1 L 9 5 L 0 9"
+                        fill="none" stroke="#a83a3a" stroke-width="1.6"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </marker>
+                <marker id="arr-dyad-safe" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M 0 1 L 9 5 L 0 9"
+                        fill="none" stroke="#3a8a8a" stroke-width="1.6"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </marker>
+              </defs>
+              <path class="dyad-link hot" data-link="a-hot"
+                    d="M 120 42 C 156 10, 205 10, 240 42"
+                    fill="none" stroke="#a83a3a" stroke-width="3"
+                    stroke-linecap="round" marker-end="url(#arr-dyad-hot)" />
+              <path class="dyad-link hot" data-link="b-hot"
+                    d="M 242 86 C 204 120, 156 120, 118 86"
+                    fill="none" stroke="#a83a3a" stroke-width="3"
+                    stroke-linecap="round" marker-end="url(#arr-dyad-hot)" />
+              <path class="dyad-link safe" data-link="safe"
+                    d="M 120 76 C 148 58, 210 58, 238 76"
+                    fill="none" stroke="#3a8a8a" stroke-width="3"
+                    stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
+              <text class="dyad-loop-word hot-word" x="180" y="69" text-anchor="middle">alarm loop</text>
+              <text class="dyad-loop-word safe-word" x="180" y="92" text-anchor="middle">new signal</text>
+            </svg>
+          </div>
+          <p class="dyad-event-text" id="dyad-event-text">Nora and Jules build, side by side.</p>
+        </div>
+
+        <div class="dyad-readout" id="dyad-readout" aria-live="polite" aria-atomic="true">
+          <p class="dyad-read-primary" id="dyad-read-primary">Both read: this space is shared.</p>
+        </div>
+      </div>
+
+      <div class="dyad-person" id="dyad-b" data-state="calm">
+        <p class="dyad-name">Jules</p>
+        <div class="dyad-face" aria-hidden="true">
+          <span class="dyad-eye left"></span>
+          <span class="dyad-eye right"></span>
+          <span class="dyad-mouth"></span>
+        </div>
+        <svg class="dyad-card-circuit jules-brain" viewBox="0 0 230 138" aria-label="Jules's brain and body circuit">
+          <defs>
+            <marker id="arr-dyad-card-b" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M 0 1 L 9 5 L 0 9"
+                    fill="none" stroke="#5a7a5a" stroke-width="1.6"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </marker>
+          </defs>
+          <g class="dyad-brain-map" transform="translate(6 11)">
+            <text class="dyad-brain-name" x="72" y="8" text-anchor="middle">JULES CIRCUIT</text>
+            <g class="wiring-brain" transform="translate(0 19)">
               <g class="brain-layer" data-region="cortex">
                 <image href="assets/brain-cortex.png?v=2"
                        x="0" y="0" width="118" height="68"
@@ -946,16 +1016,16 @@
                        preserveAspectRatio="xMidYMid meet" />
               </g>
             </g>
-            <g class="dyad-body-icons" transform="translate(124 26)">
-              <text class="dyad-organ-name dyad-organ-heart" x="32" y="-7" text-anchor="middle">HEART</text>
+            <g class="dyad-body-icons" transform="translate(124 25)">
+              <text class="dyad-organ-name dyad-organ-heart" x="32" y="-5" text-anchor="middle">HEART</text>
               <path class="dyad-body-arrow"
                     d="M -40 57 C -18 48, -7 34, 13 22"
                     fill="none" stroke="#5a7a5a" stroke-width="2"
-                    stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
+                    stroke-linecap="round" marker-end="url(#arr-dyad-card-b)" />
               <path class="dyad-body-arrow"
                     d="M -39 70 C -18 78, -2 84, 18 91"
                     fill="none" stroke="#5a7a5a" stroke-width="2"
-                    stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
+                    stroke-linecap="round" marker-end="url(#arr-dyad-card-b)" />
               <path class="dyad-heart-path"
                     d="M 32 35
                        C 32 35, 12 23, 12 10
@@ -984,30 +1054,7 @@
               </text>
             </g>
           </g>
-          <path class="dyad-link hot" data-link="a-hot"
-                d="M 194 48 C 224 14, 206 14, 236 48"
-                fill="none" stroke="#a83a3a" stroke-width="3"
-                stroke-linecap="round" marker-end="url(#arr-dyad-hot)" />
-          <path class="dyad-link hot" data-link="b-hot"
-                d="M 236 108 C 206 142, 224 142, 194 108"
-                fill="none" stroke="#a83a3a" stroke-width="3"
-                stroke-linecap="round" marker-end="url(#arr-dyad-hot)" />
-          <path class="dyad-link safe" data-link="safe"
-                d="M 196 78 C 210 68, 220 68, 234 78"
-                fill="none" stroke="#3a8a8a" stroke-width="3"
-                stroke-linecap="round" marker-end="url(#arr-dyad-safe)" />
-          <text class="dyad-loop-word hot-word" x="215" y="87" text-anchor="middle">alarm loop</text>
-          <text class="dyad-loop-word safe-word" x="215" y="103" text-anchor="middle">new signal</text>
         </svg>
-      </div>
-
-      <div class="dyad-person" id="dyad-b" data-state="calm">
-        <p class="dyad-name">Jules</p>
-        <div class="dyad-face" aria-hidden="true">
-          <span class="dyad-eye left"></span>
-          <span class="dyad-eye right"></span>
-          <span class="dyad-mouth"></span>
-        </div>
         <p class="dyad-person-read" id="dyad-b-read">"Safe enough to play."</p>
         <div class="dyad-meter">
           <span class="dyad-meter-label">alarm</span>
