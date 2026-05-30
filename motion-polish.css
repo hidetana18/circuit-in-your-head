@@ -804,14 +804,14 @@ html.motion-ready .game-character[data-peter="reframe"] .peter-cheek {
 }
 
 html.motion-ready .peter-thought {
-  top: -58px;
+  top: -48px;
   right: auto;
   left: 16px;
-  max-width: 112px;
-  padding: 8px 11px;
-  font-size: 13.5px;
+  max-width: 104px;
+  padding: 5px 9px;
+  font-size: 12.5px;
   white-space: normal;
-  line-height: 1.2;
+  line-height: 1.05;
 }
 
 html.motion-ready .peter-thought::before {

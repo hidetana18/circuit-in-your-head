@@ -861,11 +861,12 @@ body[data-intro="trip"] .ouch {
   padding-right: 0;
 }
 .part-game > * {
-  max-width: 1180px;
+  width: calc(100% - clamp(40px, 10vw, 112px));
+  max-width: 1068px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: clamp(20px, 5vw, 56px);
-  padding-right: clamp(20px, 5vw, 56px);
+  padding-left: 0;
+  padding-right: 0;
 }
 .part-game .part-head {
   margin-bottom: 22px;
@@ -960,8 +961,8 @@ body[data-intro="trip"] .ouch {
 }
 @media (max-width: 880px) {
   .part-game > * {
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left: 0;
+    padding-right: 0;
   }
   .part-game .part-head {
     margin-bottom: 16px;
@@ -1002,8 +1003,8 @@ body[data-intro="trip"] .ouch {
     padding-bottom: 46px;
   }
   .part-game > * {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 0;
+    padding-right: 0;
   }
   .part-game .part-sub {
     font-size: 15px;
