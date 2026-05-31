@@ -331,10 +331,7 @@ html, body {
   background-size: 76px 100%, 100% 100%;
   border-top: 3px solid #8d6840;
 }
-/* Ground scrolls leftward to suggest the kid is moving forward */
-body[data-intro="run"] .ground {
-  animation: groundScroll 0.5s linear infinite;
-}
+/* The floor stays fixed; the kid supplies the forward motion. */
 @keyframes groundScroll {
   from { background-position: 0 0, 0 0; }
   to   { background-position: -76px 0, 0 0; }
@@ -361,16 +358,19 @@ body[data-intro="run"] .ground {
 }
 
 /* ============== STATE: RUNNING ==============
-   Kid runs in place — legs cycle, arms counter-swing, body bobs.
-   The ground texture scrolls leftward (groundScroll) to suggest forward
-   motion. The banana slides in from off-screen right at the same pace,
-   so it reads as a stationary object the kid is approaching. */
+   The banana stays planted on the floor. The kid walks toward it while
+   legs, arms, and torso keep a running cycle. */
+body[data-intro="run"] .kid-wrap      { animation: kidApproachBanana 1.28s linear both; }
 body[data-intro="run"] .kid-leg-front { animation: legCycleA 0.5s linear infinite; }
 body[data-intro="run"] .kid-leg-back  { animation: legCycleB 0.5s linear infinite; }
 body[data-intro="run"] .kid-arm-front { animation: armCycleB 0.5s linear infinite; }
 body[data-intro="run"] .kid-arm-back  { animation: armCycleA 0.5s linear infinite; }
 body[data-intro="run"] .kid-body      { animation: torsoBob   0.5s linear infinite; }
 body[data-intro="run"] .kid-head      { animation: torsoBob   0.5s linear infinite; }
+@keyframes kidApproachBanana {
+  from { transform: translateX(-118px); }
+  to   { transform: translateX(0); }
+}
 @keyframes legCycleA {
   0%   { transform: rotate(22deg); }                    /* foot forward */
   25%  { transform: rotate(8deg)  translateY(-1px); }   /* foot lifting (mid-stride) */
@@ -466,10 +466,8 @@ body[data-intro="think"] .kid-head      { transform: rotate(0deg); }
   100% { transform: translateX(0)    translateY(0)   rotate(0deg); }
 }
 
-/* Banana peel — a stationary object on the ground that the kid walks
-   into. During run it slides in from off-screen right at the ground's
-   pace, then sits at the kid's foot. The trip beat sends it spinning
-   backward. */
+/* Banana peel — a stationary object on the ground that the kid walks into.
+   The trip beat sends it spinning backward. */
 .banana {
   position: absolute;
   bottom: 22px;
@@ -477,20 +475,16 @@ body[data-intro="think"] .kid-head      { transform: rotate(0deg); }
   margin-left: -13px;
   font-size: 28px;
   line-height: 1;
-  transform: translateX(280px) rotate(-22deg);  /* off-screen right by default */
+  transform: rotate(-22deg);
   transform-origin: center;
   pointer-events: none;
   user-select: none;
   filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.18));
   transition: transform 0.5s cubic-bezier(0.4, 0.9, 0.5, 1);
 }
-/* Bring the peel in quickly, then let it sit still before the trip beat. */
 body[data-intro="run"] .banana {
-  animation: bananaArrive 0.62s cubic-bezier(0.18, 0.9, 0.22, 1) both;
-}
-@keyframes bananaArrive {
-  from { transform: translateX(280px) rotate(-22deg); }  /* off-screen right */
-  to   { transform: translateX(0)     rotate(-22deg); }  /* at the kid's foot */
+  transform: rotate(-22deg);
+  transition: none;
 }
 body[data-intro="trip"] .banana,
 body[data-intro="think"] .banana {

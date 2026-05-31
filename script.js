@@ -464,7 +464,7 @@
   const wBrpm     = document.getElementById("w-brpm");
   const thoughtEl = document.getElementById("kid-thought");
   const thoughtTextEl = thoughtEl ? thoughtEl.querySelector(".thought-text") : null;
-  const bananaEl  = document.querySelector(".banana");
+  const kidWrapEl = document.getElementById("kid-wrap");
 
   let beatIdx     = 0;
   let autoTimer   = null;
@@ -501,7 +501,7 @@
     // kid pose + finer beat name for facial expression polish
     body.dataset.intro = b.kid;
     body.dataset.introBeat = b.name;
-    if (b.name === "run") restartAnimation(bananaEl);
+    if (b.name === "run") restartAnimation(kidWrapEl);
 
     // brain layers
     if (wiringSvg) {
