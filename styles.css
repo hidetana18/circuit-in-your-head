@@ -701,8 +701,19 @@ body[data-intro="trip"] .ouch {
 }
 .wiring-badges .step-badge[data-step="1"] { color: #a85e6a; }
 .wiring-badges .step-badge[data-step="2"] { color: #5a7a5a; }
-.wiring-badges .step-badge[data-step="3"] { color: #a83a3a; }
+.wiring-badges .step-badge[data-step="3"] { color: #bf715e; }
 .wiring-badges .step-badge[data-step="4"] { color: #5a6fa0; }
+.wiring-badges .step-badge-role {
+  font-family: var(--sans);
+  font-size: 7.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  fill: currentColor;
+  paint-order: stroke;
+  stroke: rgba(255, 248, 238, 0.92);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
 
 /* Brain-layer activation via CSS variables set by JS */
 .brain-layer {
