@@ -2411,20 +2411,47 @@ body[data-intro="trip"] .ouch {
   transform: rotate(16deg);
 }
 .dyad-child-hair {
-  left: 9px;
+  left: 8px;
   top: 4px;
-  width: 32px;
-  height: 14px;
-  border-radius: 58% 54% 42% 42%;
+  width: 34px;
+  height: 17px;
+  border-radius: 52% 52% 42% 38% / 70% 70% 34% 28%;
   background: var(--hair);
-  clip-path: polygon(0 100%, 13% 33%, 31% 86%, 48% 18%, 63% 82%, 82% 36%, 100% 100%);
+  box-shadow: inset 0 -2px 0 rgba(255, 248, 232, 0.1);
   opacity: 0.95;
   z-index: 2;
 }
+.dyad-child-hair::before,
+.dyad-child-hair::after {
+  content: "";
+  position: absolute;
+  top: 9px;
+  width: 10px;
+  height: 12px;
+  border-radius: 2px 2px 10px 10px;
+  background: var(--hair);
+  transform-origin: 50% 0;
+}
+.dyad-child-hair::before {
+  left: 7px;
+  transform: rotate(24deg);
+}
+.dyad-child-hair::after {
+  right: 8px;
+  transform: rotate(-18deg);
+}
 .dyad-child.jules .dyad-child-hair {
-  left: 11px;
-  width: 28px;
-  clip-path: polygon(0 92%, 18% 30%, 38% 78%, 58% 24%, 78% 82%, 100% 42%, 100% 100%, 0 100%);
+  left: 9px;
+  width: 32px;
+  border-radius: 56% 50% 40% 36% / 72% 68% 30% 28%;
+}
+.dyad-child.jules .dyad-child-hair::before {
+  left: 8px;
+  transform: rotate(18deg);
+}
+.dyad-child.jules .dyad-child-hair::after {
+  right: 7px;
+  transform: rotate(-24deg);
 }
 .dyad-child-cheek {
   top: 30px;
@@ -2528,9 +2555,9 @@ body[data-intro="trip"] .ouch {
 .dyad-child-body {
   left: 50%;
   top: 53px;
-  width: 32px;
+  width: 34px;
   height: 42px;
-  border-radius: 10px 10px 8px 8px;
+  border-radius: 12px 12px 8px 8px;
   background: var(--shirt);
   border: 1px solid rgba(92, 58, 42, 0.08);
   box-shadow: inset 0 -6px 0 rgba(92, 58, 42, 0.08);
@@ -2544,8 +2571,8 @@ body[data-intro="trip"] .ouch {
   position: absolute;
   left: 50%;
   top: 3px;
-  width: 10px;
-  height: 8px;
+  width: 12px;
+  height: 9px;
   border-radius: 0 0 8px 8px;
   background: rgba(255, 253, 249, 0.66);
   transform: translateX(-50%);
@@ -2565,7 +2592,6 @@ body[data-intro="trip"] .ouch {
 .dyad-child-arm::after {
   content: "";
   position: absolute;
-  right: -3px;
   top: 50%;
   width: 8px;
   height: 8px;
@@ -2575,14 +2601,22 @@ body[data-intro="trip"] .ouch {
   transform: translateY(-50%);
 }
 .dyad-child-arm.back {
-  left: 9px;
-  transform: rotate(35deg);
+  left: 7px;
+  transform: rotate(-52deg);
+  transform-origin: 27px 50%;
   z-index: 0;
 }
+.dyad-child-arm.back::after {
+  left: -4px;
+}
 .dyad-child-arm.front {
-  right: 9px;
-  transform: rotate(-35deg);
+  right: 7px;
+  transform: rotate(52deg);
+  transform-origin: 2px 50%;
   z-index: 3;
+}
+.dyad-child-arm.front::after {
+  right: -4px;
 }
 .dyad-child-leg {
   top: 91px;
@@ -2633,7 +2667,7 @@ body[data-intro="trip"] .ouch {
   transform: translateX(-24px) rotate(-8deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.jules .dyad-child-arm.front {
-  transform: translateX(-15px) rotate(-88deg);
+  transform: rotate(-64deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.nora .dyad-child-head {
   transform: translateX(-50%) rotate(-7deg);
@@ -2642,10 +2676,10 @@ body[data-intro="trip"] .ouch {
   transform: translateX(-50%) rotate(-5deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.nora .dyad-child-arm.back {
-  transform: translateX(-2px) rotate(76deg);
+  transform: translateX(-2px) rotate(58deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.nora .dyad-child-arm.front {
-  transform: translateX(2px) rotate(-96deg);
+  transform: translateX(2px) rotate(-72deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.nora .dyad-child-leg.back {
   transform: rotate(12deg);
@@ -2657,7 +2691,7 @@ body[data-intro="trip"] .ouch {
   transform: translateX(-50%) rotate(-4deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.jules .dyad-child-arm.back {
-  transform: rotate(58deg);
+  transform: rotate(-44deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.jules .dyad-child-leg.front {
   transform: translateY(-1px) rotate(-10deg);
@@ -2672,13 +2706,13 @@ body[data-intro="trip"] .ouch {
   transform: translateX(-50%) rotate(-3deg);
 }
 #dyad-stage[data-phase="b-reads"] .dyad-child.nora .dyad-child-arm.front {
-  transform: translateX(3px) rotate(-52deg);
+  transform: translateX(2px) rotate(36deg);
 }
 #dyad-stage[data-phase="b-reads"] .dyad-child.jules .dyad-child-arm.back {
-  transform: translateX(-1px) rotate(68deg);
+  transform: translateX(-1px) rotate(-38deg);
 }
 #dyad-stage[data-phase="b-reads"] .dyad-child.jules .dyad-child-arm.front {
-  transform: translateX(-8px) rotate(-78deg);
+  transform: translateX(1px) rotate(-54deg);
 }
 #dyad-stage[data-phase="escalate"] .dyad-child.nora,
 #dyad-stage[data-phase="peak"] .dyad-child.nora {
@@ -2696,11 +2730,11 @@ body[data-intro="trip"] .ouch {
 }
 #dyad-stage[data-phase="escalate"] .dyad-child .dyad-child-arm.back,
 #dyad-stage[data-phase="peak"] .dyad-child .dyad-child-arm.back {
-  transform: rotate(62deg);
+  transform: rotate(42deg);
 }
 #dyad-stage[data-phase="escalate"] .dyad-child .dyad-child-arm.front,
 #dyad-stage[data-phase="peak"] .dyad-child .dyad-child-arm.front {
-  transform: rotate(-62deg);
+  transform: rotate(-42deg);
 }
 #dyad-stage[data-phase="escalate"] .dyad-child.nora .dyad-child-leg.front,
 #dyad-stage[data-phase="peak"] .dyad-child.nora .dyad-child-leg.front {
@@ -2724,10 +2758,10 @@ body[data-intro="trip"] .ouch {
   transform: translateX(-50%) scaleY(1.03);
 }
 #dyad-stage[data-phase="breath"] .dyad-child.nora .dyad-child-arm.back {
-  transform: rotate(30deg);
+  transform: rotate(-44deg);
 }
 #dyad-stage[data-phase="breath"] .dyad-child.jules .dyad-child-arm.front {
-  transform: translateX(-5px) rotate(-58deg);
+  transform: translateX(1px) rotate(42deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.nora .dyad-child-head,
 #dyad-stage[data-phase="b-reads"] .dyad-child .dyad-child-head,
