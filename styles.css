@@ -2629,7 +2629,7 @@ body[data-intro="trip"] .ouch {
   top: 4px;
   z-index: 6;
   width: clamp(108px, 34%, 136px);
-  min-height: 38px;
+  min-height: 42px;
   display: grid;
   place-items: center;
   padding: 7px 10px;
@@ -3362,7 +3362,7 @@ body[data-intro="trip"] .ouch {
   .dyad-speech {
     top: 2px;
     width: calc(50% - 18px);
-    min-height: 36px;
+    min-height: 40px;
     padding: 6px 7px;
     border-radius: 13px;
     font-size: 10.5px;

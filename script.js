@@ -1229,7 +1229,7 @@
       read: {
         primary: "Nora's alarm fills in the missing story: \"He wrecked it on purpose.\"",
         a: "\"He wrecked it on purpose.\"",
-        b: "\"I just turned.\"",
+        b: "\"It was an accident.\"",
       },
       hold: 2000,
     },
@@ -1260,7 +1260,7 @@
       event: "Two alarms start looping.",
       speech: {
         a: "You won't listen!",
-        b: "I'm in trouble!",
+        b: "Stop blaming me!",
       },
       read: {
         primary: "The loop gets louder. Each child feels certain their story is right.",
@@ -1277,7 +1277,7 @@
       vitals: { a: { bpm: 108, brpm: 18 }, b: { bpm: 140, brpm: 28 } },
       event: "Nora changes the signal.",
       speech: {
-        a: "Wait... was it an accident?",
+        a: "Was it an accident?",
         b: "Yes. I can fix it.",
       },
       read: {
