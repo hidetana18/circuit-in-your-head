@@ -282,9 +282,9 @@ html, body {
   font-style: normal;
   font-family: var(--sans);
   font-weight: 700;
-  background: var(--gold-soft);
-  padding: 1px 6px;
-  border-radius: 4px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
 }
 
 /* ====================== PART 1 — INTRO ANIMATION ====================== */
@@ -294,8 +294,8 @@ html, body {
   gap: 24px;
   align-items: stretch;
   background: var(--paper);
-  border: 1px solid #ece2cd;
-  border-radius: 22px;
+  border: 1px solid rgba(236, 226, 205, 0.72);
+  border-radius: 18px;
   padding: 24px 24px 22px;
   position: relative;
   min-height: 290px;
@@ -893,7 +893,7 @@ body[data-intro="trip"] .ouch {
   gap: 18px;
   align-items: stretch;
   background: var(--paper);
-  border: 1px solid #ece2cd;
+  border: 1px solid rgba(236, 226, 205, 0.72);
   border-radius: 18px;
   padding: 18px 18px 16px;
   margin-top: 0;
@@ -907,21 +907,21 @@ body[data-intro="trip"] .ouch {
 }
 .game-stage[data-regulation="alarm"] {
   background: linear-gradient(180deg, #fff6ed 0%, #fde8df 100%);
-  border-color: #efc6ba;
-  box-shadow: 0 12px 36px rgba(168, 58, 58, 0.08);
+  border-color: rgba(239, 198, 186, 0.72);
+  box-shadow: 0 8px 28px rgba(168, 58, 58, 0.045);
 }
 .game-stage[data-regulation="active"] {
   background: linear-gradient(180deg, #fff9f0 0%, #f9eddf 100%);
-  border-color: #ead6bd;
+  border-color: rgba(234, 214, 189, 0.72);
 }
 .game-stage[data-regulation="settling"] {
   background: linear-gradient(180deg, #f7fbf4 0%, #eaf4ed 100%);
-  border-color: #c8ddcb;
+  border-color: rgba(200, 221, 203, 0.72);
 }
 .game-stage[data-regulation="calm"] {
   background: linear-gradient(180deg, #f4fbfb 0%, #e4f0ed 100%);
-  border-color: #bddbd6;
-  box-shadow: 0 12px 36px rgba(58, 138, 138, 0.12);
+  border-color: rgba(189, 219, 214, 0.76);
+  box-shadow: 0 8px 28px rgba(58, 138, 138, 0.06);
 }
 /* LEFT: scene with Peter in the watering can. Mirrors intro-scene. */
 .game-scene {
@@ -1637,7 +1637,7 @@ body[data-intro="trip"] .ouch {
   width: 86px;
   height: 78px;
   border-radius: 14px;
-  border: 2px dashed var(--ink-light);
+  border: 1.5px dashed rgba(56, 53, 58, 0.3);
   background: rgba(255, 249, 240, 0.7);
   display: flex;
   flex-direction: column;
@@ -1663,8 +1663,8 @@ body[data-intro="trip"] .ouch {
   color: var(--ink-light);
 }
 .seq-slot.filled {
-  background: var(--gold-soft);
-  border: 2px solid var(--gold);
+  background: rgba(255, 246, 224, 0.72);
+  border: 1.5px solid rgba(200, 156, 48, 0.74);
   border-style: solid;
 }
 .seq-slot.filled .seq-placeholder { display: none; }
@@ -1708,7 +1708,7 @@ body[data-intro="trip"] .ouch {
 
 .action-card {
   background: white;
-  border: 2px solid #ece2cd;
+  border: 1.5px solid rgba(236, 226, 205, 0.82);
   border-radius: 14px;
   padding: 14px 10px 15px;
   min-height: 84px;
@@ -1722,15 +1722,15 @@ body[data-intro="trip"] .ouch {
   align-items: center;
   gap: 5px;
   transition: transform 0.15s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
-  box-shadow: 0 3px 0 #ece2cd;
+  box-shadow: 0 2px 0 rgba(236, 226, 205, 0.72);
 }
 .action-card:hover {
   border-color: var(--gold);
   background: var(--gold-soft);
   transform: translateY(-2px);
-  box-shadow: 0 5px 0 #c89c30;
+  box-shadow: 0 3px 0 rgba(200, 156, 48, 0.62);
 }
-.action-card:active { transform: translateY(0); box-shadow: 0 2px 0 #c89c30; }
+.action-card:active { transform: translateY(0); box-shadow: 0 1px 0 rgba(200, 156, 48, 0.68); }
 .action-card.pressed {
   /* brief feedback right after a click — pulses to confirm the choice */
   animation: cardPress 0.45s ease-out 1;
@@ -1811,10 +1811,10 @@ body[data-intro="trip"] .ouch {
   gap: 16px;
   align-items: stretch;
   background: rgba(255, 249, 240, 0.84);
-  border: 1px solid #dce8dc;
-  border-radius: 20px;
+  border: 1px solid rgba(220, 232, 220, 0.78);
+  border-radius: 18px;
   padding: 20px;
-  box-shadow: 0 14px 38px rgba(74, 107, 102, 0.08);
+  box-shadow: 0 10px 30px rgba(74, 107, 102, 0.045);
 }
 .dyad-person {
   display: grid;
@@ -1824,7 +1824,7 @@ body[data-intro="trip"] .ouch {
   justify-items: center;
   min-height: 300px;
   background: white;
-  border: 1px solid #e6e1d6;
+  border: 1px solid rgba(230, 225, 214, 0.78);
   border-radius: 16px;
   padding: 16px 14px;
   text-align: center;
@@ -2253,9 +2253,9 @@ body[data-intro="trip"] .ouch {
   gap: 7px;
   padding: 10px 12px;
   border-radius: 15px;
-  border: 1.5px solid #e6e1d6;
+  border: 1px solid rgba(230, 225, 214, 0.82);
   background: #fffdf9;
-  box-shadow: 0 8px 22px rgba(74, 107, 102, 0.07);
+  box-shadow: 0 6px 18px rgba(74, 107, 102, 0.04);
   text-align: center;
 }
 .dyad-event-kicker {
