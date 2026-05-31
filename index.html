@@ -8,10 +8,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=68" />
+  <link rel="stylesheet" href="styles.css?v=69" />
   <link rel="stylesheet" href="part3-polish.css?v=10" />
   <link rel="stylesheet" href="part4-polish.css?v=2" />
-  <link rel="stylesheet" href="motion-polish.css?v=9" />
+  <link rel="stylesheet" href="motion-polish.css?v=10" />
 </head>
 <body>
 
@@ -617,32 +617,8 @@
       </div>
 
       <!-- Wiring diagram — same vocabulary as Part 1, starts in the
-           post-trip "alarm firing" state. Intervention arrows are unique. -->
+           post-trip "alarm firing" state. -->
       <svg class="wiring-svg" viewBox="0 0 460 270" id="game-wiring" aria-label="Peter's brain and body">
-        <defs>
-          <!-- intervention-specific markers (alarm markers are reused via the
-               global #arr-pink / #arr-green refs in the top-of-document SVG;
-               we add the two new ones here) -->
-          <marker id="arr-vagal" viewBox="0 0 10 10" refX="9" refY="5"
-                  markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M 0 1 L 9 5 L 0 9"
-                  fill="none" stroke="#3a8a8a" stroke-width="1.6"
-                  stroke-linecap="round" stroke-linejoin="round" />
-          </marker>
-          <marker id="arr-attn" viewBox="0 0 10 10" refX="9" refY="5"
-                  markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M 0 1 L 9 5 L 0 9"
-                  fill="none" stroke="#5a6fa0" stroke-width="1.6"
-                  stroke-linecap="round" stroke-linejoin="round" />
-          </marker>
-          <marker id="arr-block" viewBox="0 0 10 10" refX="9" refY="5"
-                  markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M 0 1 L 9 5 L 0 9"
-                  fill="none" stroke="#a83a3a" stroke-width="1.6"
-                  stroke-linecap="round" stroke-linejoin="round" />
-          </marker>
-        </defs>
-
         <!-- ===== BRAIN ===== (image-based, same as Part 1 wiring) -->
         <g class="wiring-brain">
           <g class="brain-layer" data-region="cortex">
@@ -710,34 +686,6 @@
                 stroke-linecap="round" marker-end="url(#arr-green)" />
         </g>
 
-        <!-- ===== INTERVENTION ARROWS (lit by the player's actions) ===== -->
-        <g class="wiring-arrows intervention-arrows">
-          <!-- ATTN: cortex → limbic. Used by Notice (small) and Reframe (strong).
-               Short downward arrow from the cortex top into the limbic interior. -->
-          <path class="arrow attn" data-arrow="attn"
-                d="M 110 45 L 110 88"
-                stroke="#5a6fa0" stroke-width="2.4" fill="none"
-                stroke-linecap="round" marker-end="url(#arr-attn)" />
-          <!-- BREATH: lungs → brain stem → limbic, going UP via the vagal pathway.
-               Sweep enters the brain stem from below-right and continues up. -->
-          <path class="arrow breath" data-arrow="breath"
-                d="M 348 200
-                   C 250 240, 170 222, 150 188
-                   L 150 130"
-                stroke="#3a8a8a" stroke-width="2.4" fill="none"
-                stroke-linecap="round" marker-end="url(#arr-vagal)" />
-          <!-- BLOCK: same path as attn but red and dashed; X is drawn separately. -->
-          <path class="arrow block" data-arrow="block"
-                d="M 110 45 L 110 88"
-                stroke="#a83a3a" stroke-width="2.4" fill="none"
-                stroke-linecap="round" stroke-dasharray="3 4" marker-end="url(#arr-block)" />
-          <!-- Block X — two short crossing strokes over the block arrow. Hidden
-               until block is fired. -->
-          <g class="block-x" data-arrow="block-x">
-            <line x1="102" y1="58" x2="118" y2="74" stroke="#a83a3a" stroke-width="2.6" stroke-linecap="round" />
-            <line x1="118" y1="58" x2="102" y2="74" stroke="#a83a3a" stroke-width="2.6" stroke-linecap="round" />
-          </g>
-        </g>
       </svg>
 
       <!-- Caption — same role and styling as Part 1's intro-caption. -->
@@ -1301,7 +1249,7 @@
     <p class="micro">Camera estimates run locally in your browser and are not recorded.</p>
   </footer>
 
-  <script src="script.js?v=42"></script>
+  <script src="script.js?v=43"></script>
   <script src="part3-polish.js?v=3"></script>
   <script src="part4-polish.js?v=2"></script>
   <script src="motion-polish.js?v=2"></script>

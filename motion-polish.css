@@ -592,13 +592,11 @@ html.motion-ready .brain-layer.hot .layer-fill {
 
 html.motion-ready .wiring-arrows .arrow.shown,
 html.motion-ready .alarm-arrows .arrow.shown,
-html.motion-ready .intervention-arrows .arrow.shown,
 html.motion-ready .dyad-link.shown {
   filter: drop-shadow(0 0 8px currentColor);
 }
 
-html.motion-ready .wiring-arrows .arrow.shown:not(.slow),
-html.motion-ready .intervention-arrows .arrow.shown {
+html.motion-ready .wiring-arrows .arrow.shown:not(.slow) {
   animation:
     drawArrow 0.82s var(--motion-ease-out) forwards,
     motionSignalGlow 1.25s ease-in-out 0.12s infinite;

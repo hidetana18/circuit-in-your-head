@@ -714,7 +714,6 @@
       this.ended = false;
       this.attempts = 0;
       this.clearSlots();
-      this.clearInterventionArrows();
       this.applyStateToDom(true);
       this.setCaption("Peter's alarm is loud. His body is racing. Pick an action.", "");
       this.unlockCards();
@@ -841,8 +840,7 @@
       const effect = this.applyCard(cardId);
       this.playPeterSound(cardId, effect);
 
-      // T+0: fire the intervention arrow and any character flourish
-      this.fireInterventionArrow(effect.arrow);
+      // T+0: character and circuit feedback; brain-region glow carries the action.
       if (effect.amplifyAlarm) this.amplifyAlarmArrows();
       if (effect.showPuff)     this.showBreathPuff();
       if (effect.showThought)  this.showPeterThought();
@@ -1000,53 +998,6 @@
       this.applyRegulationState();
     },
 
-    fireInterventionArrow(name) {
-      this.clearInterventionArrows();
-      if (!name) return;
-      const root = document.getElementById("game-wiring");
-      if (!root) return;
-
-      if (name === "attn") {
-        const a = root.querySelector(".arrow.attn");
-        if (a) {
-          a.classList.add("shown");
-          setTimeout(() => a.classList.remove("shown"), 1300);
-        }
-      } else if (name === "attn-bounced") {
-        const a = root.querySelector(".arrow.attn");
-        if (a) {
-          a.classList.add("bounced");
-          setTimeout(() => a.classList.remove("bounced"), 950);
-        }
-      } else if (name === "breath") {
-        const a = root.querySelector(".arrow.breath");
-        if (a) {
-          a.classList.add("shown");
-          setTimeout(() => a.classList.remove("shown"), 1800);
-        }
-      } else if (name === "block") {
-        const a = root.querySelector(".arrow.block");
-        const x = root.querySelector(".block-x");
-        if (a) a.classList.add("shown");
-        if (x) x.classList.add("shown");
-        setTimeout(() => {
-          if (a) a.classList.remove("shown");
-          if (x) x.classList.remove("shown");
-        }, 1500);
-      }
-      if (sounds.arrow) sounds.arrow();
-    },
-
-    clearInterventionArrows() {
-      const root = document.getElementById("game-wiring");
-      if (!root) return;
-      root.querySelectorAll(".intervention-arrows .arrow").forEach(a => {
-        a.classList.remove("shown", "bounced");
-      });
-      const x = root.querySelector(".block-x");
-      if (x) x.classList.remove("shown");
-    },
-
     amplifyAlarmArrows() {
       const alarms = document.querySelectorAll("#game-wiring .alarm-arrows .arrow");
       alarms.forEach(a => {
@@ -1161,7 +1112,6 @@
       this.pickInProgress = false;
       this.attempts = carryAttempts;
       this.clearSlots();
-      this.clearInterventionArrows();
       this.applyStateToDom(true);
       this.unlockCards();
       this.hideRetry();

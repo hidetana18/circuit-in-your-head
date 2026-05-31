@@ -1550,73 +1550,12 @@ body[data-intro="trip"] .ouch {
 #game-wiring .alarm-arrows .arrow.dim   { opacity: 0.22; animation: none; stroke-dashoffset: 0; }
 #game-wiring .alarm-arrows .arrow.faded { opacity: 0;    animation: none; stroke-dashoffset: 0; }
 
-/* Intervention arrows — lit by the player's actions. */
-#game-wiring .intervention-arrows .arrow {
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-#game-wiring .intervention-arrows .arrow.shown {
-  opacity: 1;
-  animation: drawArrow 0.7s ease-out forwards;
-}
-#game-wiring .intervention-arrows .arrow.breath.shown {
-  animation-duration: 1.2s;
-}
 .game-stage.learned .wiring-brain .brain-layer .layer-fill {
   animation: learningGlow 1.45s ease-out 1;
-}
-.game-stage.learned #game-wiring .intervention-arrows .arrow.attn,
-.game-stage.learned #game-wiring .intervention-arrows .arrow.breath {
-  opacity: 0.95;
-  stroke: var(--gold);
-  stroke-width: 3;
-  stroke-dashoffset: 0;
-  filter: drop-shadow(0 0 8px rgba(244, 194, 90, 0.72));
-  animation: learningPathGlow 1.45s ease-out 1;
 }
 @keyframes learningGlow {
   0%, 100% { filter: brightness(1.08); }
   35%      { filter: brightness(1.28) drop-shadow(0 0 14px rgba(244, 194, 90, 0.72)); }
-}
-@keyframes learningPathGlow {
-  0%   { opacity: 0; stroke-dashoffset: 120; }
-  35%  { opacity: 1; stroke-dashoffset: 0; }
-  100% { opacity: 0.32; stroke-dashoffset: 0; }
-}
-/* Block arrow stays dashed, flickers, never settles. */
-#game-wiring .intervention-arrows .arrow.block { stroke-dasharray: 3 4; }
-#game-wiring .intervention-arrows .arrow.block.shown {
-  stroke-dashoffset: 0;
-  animation: blockFlicker 0.55s ease-in-out 2;
-}
-@keyframes blockFlicker {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.25; }
-}
-/* Reframe-while-panicked: arrow tries to draw, then bounces back. */
-#game-wiring .intervention-arrows .arrow.attn.bounced {
-  animation: attnBounce 0.9s ease-in-out 1 forwards;
-}
-@keyframes attnBounce {
-  0%   { opacity: 0;   stroke-dashoffset: 200; }
-  35%  { opacity: 0.9; stroke-dashoffset: 80; }
-  70%  { opacity: 0.4; stroke-dashoffset: 200; }
-  100% { opacity: 0;   stroke-dashoffset: 200; }
-}
-
-/* Block X overlay on the cortex→limbic arrow. */
-#game-wiring .block-x {
-  opacity: 0;
-  transform: scale(0);
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: opacity 0.3s, transform 0.35s cubic-bezier(0.22, 1.6, 0.36, 1);
-}
-#game-wiring .block-x.shown {
-  opacity: 1;
-  transform: scale(1);
 }
 
 /* ============== SEQUENCE SLOTS ============== */
