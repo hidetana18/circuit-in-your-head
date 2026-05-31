@@ -2417,14 +2417,14 @@ body[data-intro="trip"] .ouch {
   transform: rotate(16deg);
 }
 .dyad-child-hair {
-  left: 7.5px;
-  top: 3px;
-  width: 35px;
-  height: 19px;
+  left: 8px;
+  top: -3px;
+  width: 34px;
+  height: 18px;
   background: var(--hair);
-  clip-path: polygon(0 74%, 13% 39%, 34% 11%, 55% 0, 75% 9%, 100% 49%, 82% 39%, 64% 39%, 48% 49%, 31% 40%, 14% 52%);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 35 19' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M0 14 C8 2 21 -2 35 9 C28 6 22 6 17.5 8 C12.5 6.5 6 8.5 0 14 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 35 19' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M0 14 C8 2 21 -2 35 9 C28 6 22 6 17.5 8 C12.5 6.5 6 8.5 0 14 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  clip-path: none;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 34 18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M0 17 C7 3 21 -4 34 8 C27 5 22 5 17 7 C12 5 6 8 0 17 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 34 18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M0 17 C7 3 21 -4 34 8 C27 5 22 5 17 7 C12 5 6 8 0 17 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
   opacity: 1;
   z-index: 2;
 }
@@ -2433,8 +2433,8 @@ body[data-intro="trip"] .ouch {
   content: none;
 }
 .dyad-child.jules .dyad-child-hair {
-  left: 7.5px;
-  width: 35px;
+  left: 8px;
+  width: 34px;
 }
 .dyad-child-cheek {
   top: 30px;
