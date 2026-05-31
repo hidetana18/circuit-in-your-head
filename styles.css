@@ -1877,7 +1877,7 @@ body[data-intro="trip"] .ouch {
   width: min(100%, 276px);
   height: auto;
   display: block;
-  overflow: hidden;
+  overflow: visible;
 }
 .dyad-card-circuit .dyad-brain-name {
   font-size: 7.8px;
