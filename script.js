@@ -1203,7 +1203,11 @@
       links: [],
       alarms: { a: "low", b: "low" },
       vitals: { a: { bpm: 82, brpm: 15 }, b: { bpm: 82, brpm: 15 } },
-      event: "Nora and Jules build one castle together.",
+      event: "They start with one shared story.",
+      speech: {
+        a: "Let's build one castle.",
+        b: "I'll add this wall.",
+      },
       read: {
         primary: "Both circuits read: we are building together.",
         a: "\"Safe enough to play.\"",
@@ -1217,7 +1221,11 @@
       links: [],
       alarms: { a: "rising", b: "low" },
       vitals: { a: { bpm: 118, brpm: 23 }, b: { bpm: 84, brpm: 15 } },
-      event: "Jules turns and knocks one wall of their castle.",
+      event: "A wall falls. Nora's body jumps.",
+      speech: {
+        a: "Hey, you knocked it down!",
+        b: "I just turned.",
+      },
       read: {
         primary: "Nora's alarm fills in the missing story: \"He wrecked it on purpose.\"",
         a: "\"He wrecked it on purpose.\"",
@@ -1231,7 +1239,11 @@
       links: ["a-hot"],
       alarms: { a: "rising", b: "rising" },
       vitals: { a: { bpm: 126, brpm: 25 }, b: { bpm: 108, brpm: 21 } },
-      event: "Nora's face becomes Jules's input.",
+      event: "Jules reads Nora's alarm.",
+      speech: {
+        a: "You ruined it!",
+        b: "I didn't mean to!",
+      },
       read: {
         primary: "Jules reads her alarm as danger: \"She thinks I'm bad.\"",
         a: "\"He ruined it.\"",
@@ -1245,7 +1257,11 @@
       links: ["a-hot", "b-hot"],
       alarms: { a: "high", b: "high" },
       vitals: { a: { bpm: 144, brpm: 29 }, b: { bpm: 138, brpm: 28 } },
-      event: "Each alarm now becomes the other's input.",
+      event: "Two alarms start looping.",
+      speech: {
+        a: "You won't listen!",
+        b: "I'm in trouble!",
+      },
       read: {
         primary: "The loop gets louder. Each child feels certain their story is right.",
         a: "\"He won't listen.\"",
@@ -1259,7 +1275,11 @@
       links: ["safe"],
       alarms: { a: "falling", b: "high" },
       vitals: { a: { bpm: 108, brpm: 18 }, b: { bpm: 140, brpm: 28 } },
-      event: "Nora takes one slow breath and asks.",
+      event: "Nora changes the signal.",
+      speech: {
+        a: "Wait... was it an accident?",
+        b: "Yes. I can fix it.",
+      },
       read: {
         primary: "One changed signal gives cortex time to check: \"Was it an accident?\"",
         a: "\"Maybe it was an accident.\"",
@@ -1273,7 +1293,11 @@
       links: ["safe"],
       alarms: { a: "low", b: "low" },
       vitals: { a: { bpm: 86, brpm: 16 }, b: { bpm: 90, brpm: 17 } },
-      event: "Jules can answer. Both update the story.",
+      event: "Both update the story.",
+      speech: {
+        a: "Let's rebuild it.",
+        b: "I'll help.",
+      },
       read: {
         primary: "\"It fell. We can rebuild.\" The castle becomes shared again.",
         a: "\"We can rebuild.\"",
@@ -1300,6 +1324,8 @@
   const dyadReadSecondary = document.getElementById("dyad-read-secondary");
   const dyadARead = document.getElementById("dyad-a-read");
   const dyadBRead = document.getElementById("dyad-b-read");
+  const dyadASpeech = document.getElementById("dyad-speech-a");
+  const dyadBSpeech = document.getElementById("dyad-speech-b");
   const dyadABpm = document.getElementById("dyad-a-bpm");
   const dyadABrpm = document.getElementById("dyad-a-brpm");
   const dyadBBpm = document.getElementById("dyad-b-bpm");
@@ -1326,6 +1352,8 @@
     if (dyadReadSecondary) dyadReadSecondary.textContent = b.read.secondary;
     if (dyadARead) dyadARead.textContent = b.read.a;
     if (dyadBRead) dyadBRead.textContent = b.read.b;
+    if (dyadASpeech) dyadASpeech.textContent = b.speech.a;
+    if (dyadBSpeech) dyadBSpeech.textContent = b.speech.b;
     if (dyadABpm) animateNumber(dyadABpm, parseInt(dyadABpm.textContent, 10), b.vitals.a.bpm, 600);
     if (dyadABrpm) animateNumber(dyadABrpm, parseInt(dyadABrpm.textContent, 10), b.vitals.a.brpm, 600);
     if (dyadBBpm) animateNumber(dyadBBpm, parseInt(dyadBBpm.textContent, 10), b.vitals.b.bpm, 600);

@@ -2290,16 +2290,17 @@ body[data-intro="trip"] .ouch {
 }
 .dyad-center {
   display: grid;
-  grid-template-rows: minmax(210px, auto) auto;
-  gap: 10px;
+  grid-template-rows: auto;
+  gap: 0;
   align-items: center;
+  position: relative;
 }
 .dyad-event {
-  min-height: 214px;
+  min-height: 262px;
   display: grid;
   align-content: center;
-  gap: 5px;
-  padding: 8px 12px;
+  gap: 7px;
+  padding: 10px 12px;
   border-radius: 15px;
   border: 1.5px solid #e6e1d6;
   background: #fffdf9;
@@ -2317,7 +2318,7 @@ body[data-intro="trip"] .ouch {
 }
 .dyad-scene {
   position: relative;
-  height: 160px;
+  height: 210px;
   overflow: visible;
 }
 .courtyard-line {
@@ -2622,6 +2623,84 @@ body[data-intro="trip"] .ouch {
   border-radius: 50%;
   background: rgba(74, 107, 102, 0.14);
   transform: translateX(-50%);
+}
+.dyad-speech {
+  position: absolute;
+  top: 4px;
+  z-index: 6;
+  width: clamp(108px, 34%, 136px);
+  min-height: 38px;
+  display: grid;
+  place-items: center;
+  padding: 7px 10px;
+  border: 1.5px solid #e5ded1;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 18px rgba(74, 107, 102, 0.12);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.14;
+  text-align: center;
+  overflow-wrap: anywhere;
+  transition:
+    border-color 0.35s ease,
+    background 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease;
+}
+.dyad-speech::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  border-right: 1.5px solid #e5ded1;
+  border-bottom: 1.5px solid #e5ded1;
+  background: inherit;
+  transform: rotate(45deg);
+  transition: border-color 0.35s ease;
+}
+.dyad-speech.nora {
+  left: 3%;
+}
+.dyad-speech.nora::after {
+  left: 36px;
+}
+.dyad-speech.jules {
+  right: 3%;
+}
+.dyad-speech.jules::after {
+  right: 36px;
+}
+#dyad-stage[data-phase="bump"] .dyad-speech.nora,
+#dyad-stage[data-phase="b-reads"] .dyad-speech.nora,
+#dyad-stage[data-phase="escalate"] .dyad-speech,
+#dyad-stage[data-phase="peak"] .dyad-speech {
+  border-color: #efc6ba;
+  background: #fff5ef;
+  color: #8f3838;
+}
+#dyad-stage[data-phase="b-reads"] .dyad-speech.jules,
+#dyad-stage[data-phase="breath"] .dyad-speech.jules {
+  border-color: rgba(244, 194, 90, 0.48);
+  background: #fff8ec;
+  color: #8b5d21;
+}
+#dyad-stage[data-phase="breath"] .dyad-speech.nora,
+#dyad-stage[data-phase="settle"] .dyad-speech {
+  border-color: #bddbd6;
+  background: #f4fbfb;
+  color: var(--brainstem-deep);
+}
+#dyad-stage[data-phase="escalate"] .dyad-speech.nora,
+#dyad-stage[data-phase="peak"] .dyad-speech.nora {
+  transform: translateX(5px);
+}
+#dyad-stage[data-phase="escalate"] .dyad-speech.jules,
+#dyad-stage[data-phase="peak"] .dyad-speech.jules {
+  transform: translateX(-5px);
 }
 #dyad-stage[data-phase="calm"] .dyad-child,
 #dyad-stage[data-phase="settle"] .dyad-child {
@@ -3044,7 +3123,7 @@ body[data-intro="trip"] .ouch {
 
 /* Event text below the scene. */
 .dyad-event-text {
-  min-height: 2.25em;
+  min-height: 1.35em;
   margin: 0;
   font-family: var(--sans);
   font-size: 12.5px;
@@ -3068,17 +3147,17 @@ body[data-intro="trip"] .ouch {
   background: #f8fcfc;
 }
 .dyad-readout {
-  min-height: 94px;
-  display: grid;
-  align-content: center;
-  gap: 7px;
-  padding: 14px;
-  border-radius: 15px;
-  border: 1.5px solid #e6e1d6;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 8px 22px rgba(74, 107, 102, 0.08);
-  text-align: center;
-  transition: border-color 0.45s ease, background 0.45s ease, box-shadow 0.45s ease;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
 }
 .dyad-read-kicker {
   margin: 0;
@@ -3256,8 +3335,8 @@ body[data-intro="trip"] .ouch {
     grid-column: 1 / -1;
     grid-row: 2;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto auto;
-    gap: 8px;
+    grid-template-rows: auto;
+    gap: 0;
   }
   #dyad-a {
     grid-column: 1;
@@ -3269,7 +3348,7 @@ body[data-intro="trip"] .ouch {
   }
   .dyad-event {
     grid-column: 1 / -1;
-    min-height: 206px;
+    min-height: 250px;
     padding: 8px;
     gap: 8px;
   }
@@ -3278,7 +3357,28 @@ body[data-intro="trip"] .ouch {
     letter-spacing: 0.12em;
   }
   .dyad-scene {
-    height: 158px;
+    height: 198px;
+  }
+  .dyad-speech {
+    top: 2px;
+    width: calc(50% - 18px);
+    min-height: 36px;
+    padding: 6px 7px;
+    border-radius: 13px;
+    font-size: 10.5px;
+    line-height: 1.12;
+  }
+  .dyad-speech.nora {
+    left: 2px;
+  }
+  .dyad-speech.jules {
+    right: 2px;
+  }
+  .dyad-speech.nora::after {
+    left: 32px;
+  }
+  .dyad-speech.jules::after {
+    right: 32px;
   }
   .courtyard-line {
     bottom: 18px;
@@ -3356,10 +3456,10 @@ body[data-intro="trip"] .ouch {
     line-height: 1.2;
   }
   .dyad-readout {
-    grid-column: 1;
-    min-height: 84px;
-    padding: 10px;
-    gap: 4px;
+    grid-column: auto;
+    min-height: 0;
+    padding: 0;
+    gap: 0;
   }
   .dyad-read-kicker {
     font-size: 8px;
