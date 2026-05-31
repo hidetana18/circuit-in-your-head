@@ -1476,25 +1476,6 @@ body[data-intro="trip"] .ouch {
 .peter-thought::before { width: 8px; height: 8px; bottom: -10px; left: 14px; }
 .peter-thought::after  { width: 5px; height: 5px; bottom: -20px; left: 8px; }
 
-/* Gate hint — anchors inside the game-scene now. */
-.gate-hint {
-  position: absolute;
-  bottom: 16px;
-  right: 14px;
-  font-family: var(--sans);
-  font-weight: 700;
-  color: var(--brainstem-deep);
-  opacity: 0;
-  transform: translateX(-12px);
-  transition: opacity 0.5s, transform 0.5s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 13px;
-  z-index: 4;
-}
-.gate-hint .gate-arrow { font-size: 22px; }
-.game-character.won .gate-hint { opacity: 1; transform: translateX(0); }
 .game-character::before,
 .game-character::after {
   content: "✦";
