@@ -468,6 +468,7 @@
 
   let beatIdx     = 0;
   let autoTimer   = null;
+  let autoRunId   = 0;
   let isPlaying   = false;
   let introPlayed = false;
 
@@ -591,13 +592,17 @@
 
   function goTo(i, opts) {
     opts = opts || {};
+    const runId = opts.autoplay ? opts.runId : ++autoRunId;
     if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
     beatIdx = Math.max(0, Math.min(beats.length - 1, i));
     applyBeat(beatIdx);
     if (opts.autoplay && beatIdx < beats.length - 1) {
       const hold = beats[beatIdx].hold;
       if (hold > 0) {
-        autoTimer = setTimeout(() => goTo(beatIdx + 1, { autoplay: true }), hold);
+        autoTimer = setTimeout(() => {
+          if (runId !== autoRunId) return;
+          goTo(beatIdx + 1, { autoplay: true, runId });
+        }, hold);
       } else {
         setPlaying(false);
       }
@@ -608,14 +613,18 @@
   function setPlaying(v) {
     isPlaying = v;
     if (playBtn) playBtn.textContent = v ? "⏸ Pause" : (beatIdx >= beats.length - 1 ? "↺ Replay" : "▶ Auto-play");
-    if (!v && autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+    if (!v) {
+      autoRunId++;
+      if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+    }
   }
 
   function startAutoplay() {
+    const runId = ++autoRunId;
     if (beatIdx >= beats.length - 1) {
-      goTo(0, { autoplay: true });
+      goTo(0, { autoplay: true, runId });
     } else {
-      goTo(beatIdx, { autoplay: true });
+      goTo(beatIdx, { autoplay: true, runId });
     }
     setPlaying(true);
   }
