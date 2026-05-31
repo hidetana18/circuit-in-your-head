@@ -2866,8 +2866,8 @@ body[data-intro="trip"] .ouch {
   transition: transform 0.65s cubic-bezier(0.22, 0.85, 0.42, 1);
   z-index: 2;
 }
-.block-tower.nora  { left:  calc(34% + 4px); }
-.block-tower.jules { right: calc(34% + 4px); }
+.block-tower.nora  { left:  calc(50% - 46px); }
+.block-tower.jules { right: calc(50% - 46px); }
 .block {
   width: 26px;
   height: 21px;
@@ -2880,16 +2880,62 @@ body[data-intro="trip"] .ouch {
 .block.top  { background: #e7c89c; }
 .block.mid  { background: #d8b88a; }
 .block.base { background: #c2a374; }
+.castle-bridge {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  z-index: 1;
+  width: 64px;
+  height: 38px;
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+  transition: transform 0.65s cubic-bezier(0.22, 0.85, 0.42, 1);
+}
+.castle-bridge .block {
+  position: absolute;
+  bottom: 0;
+  width: 22px;
+  height: 18px;
+}
+.castle-bridge .block.left { left: 3px; }
+.castle-bridge .block.center {
+  left: 50%;
+  bottom: 15px;
+  transform: translateX(-50%);
+  background: #e7c89c;
+}
+.castle-bridge .block.right { right: 3px; }
+.castle-gate {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 16px;
+  height: 21px;
+  border: 2px solid rgba(92, 62, 48, 0.42);
+  border-bottom: 0;
+  border-radius: 9px 9px 2px 2px;
+  background: rgba(255, 248, 232, 0.5);
+  transform: translateX(-50%);
+  box-sizing: border-box;
+}
 
 #dyad-stage[data-phase="bump"] .block-tower.nora {
   animation: towerTopple 0.7s cubic-bezier(0.35, 0, 0.55, 1) 1 forwards;
 }
+#dyad-stage[data-phase="bump"] .castle-bridge {
+  animation: castleJolt 0.7s cubic-bezier(0.35, 0, 0.55, 1) 1 forwards;
+}
 #dyad-stage[data-phase="b-reads"] .block-tower.nora,
 #dyad-stage[data-phase="escalate"] .block-tower.nora,
 #dyad-stage[data-phase="peak"] .block-tower.nora,
-#dyad-stage[data-phase="breath"] .block-tower.nora,
-#dyad-stage[data-phase="settle"] .block-tower.nora {
+#dyad-stage[data-phase="breath"] .block-tower.nora {
   transform: translate(-14px, 18px) rotate(-78deg);
+}
+#dyad-stage[data-phase="b-reads"] .castle-bridge,
+#dyad-stage[data-phase="escalate"] .castle-bridge,
+#dyad-stage[data-phase="peak"] .castle-bridge,
+#dyad-stage[data-phase="breath"] .castle-bridge {
+  transform: translateX(-50%) translate(-5px, 4px) rotate(-5deg);
 }
 @keyframes towerTopple {
   0%   { transform: translate(0, 0)    rotate(0deg); }
@@ -2897,6 +2943,12 @@ body[data-intro="trip"] .ouch {
   32%  { transform: translate(0, 0)    rotate(3deg); }      /* brief recovery */
   60%  { transform: translate(-7px, 4px)  rotate(-38deg); } /* falling */
   100% { transform: translate(-14px, 18px) rotate(-78deg); }/* fallen */
+}
+@keyframes castleJolt {
+  0%   { transform: translateX(-50%) translate(0, 0) rotate(0deg); }
+  22%  { transform: translateX(-50%) translate(-1px, 0) rotate(-2deg); }
+  42%  { transform: translateX(-50%) translate(1px, 0) rotate(2deg); }
+  100% { transform: translateX(-50%) translate(-5px, 4px) rotate(-5deg); }
 }
 
 /* Quarrel marks — alarm indicators above each tower. Nora's lights up
@@ -3242,9 +3294,29 @@ body[data-intro="trip"] .ouch {
     height: 46px;
     bottom: 22px;
   }
+  .block-tower.nora  { left:  calc(50% - 34px); }
+  .block-tower.jules { right: calc(50% - 34px); }
   .block {
     width: 18px;
     height: 15px;
+    border-width: 1.5px;
+  }
+  .castle-bridge {
+    bottom: 22px;
+    width: 48px;
+    height: 29px;
+  }
+  .castle-bridge .block {
+    width: 17px;
+    height: 14px;
+    border-width: 1.5px;
+  }
+  .castle-bridge .block.left { left: 2px; }
+  .castle-bridge .block.center { bottom: 12px; }
+  .castle-bridge .block.right { right: 2px; }
+  .castle-gate {
+    width: 12px;
+    height: 16px;
     border-width: 1.5px;
   }
   #dyad-stage[data-phase="bump"] .block-tower.nora {
@@ -3253,9 +3325,14 @@ body[data-intro="trip"] .ouch {
   #dyad-stage[data-phase="b-reads"] .block-tower.nora,
   #dyad-stage[data-phase="escalate"] .block-tower.nora,
   #dyad-stage[data-phase="peak"] .block-tower.nora,
-  #dyad-stage[data-phase="breath"] .block-tower.nora,
-  #dyad-stage[data-phase="settle"] .block-tower.nora {
+  #dyad-stage[data-phase="breath"] .block-tower.nora {
     transform: translate(-10px, 4px) rotate(-78deg);
+  }
+  #dyad-stage[data-phase="b-reads"] .castle-bridge,
+  #dyad-stage[data-phase="escalate"] .castle-bridge,
+  #dyad-stage[data-phase="peak"] .castle-bridge,
+  #dyad-stage[data-phase="breath"] .castle-bridge {
+    transform: translateX(-50%) translate(-3px, 2px) rotate(-4deg);
   }
   @keyframes towerToppleMobile {
     0%   { transform: translate(0, 0)    rotate(0deg); }
