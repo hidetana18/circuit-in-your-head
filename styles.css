@@ -484,10 +484,9 @@ body[data-intro="think"] .kid-head      { transform: rotate(0deg); }
   filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.18));
   transition: transform 0.5s cubic-bezier(0.4, 0.9, 0.5, 1);
 }
-/* Slide in linearly during the run beat — matches the ground's scroll
-   speed so the banana looks pinned to the moving ground. */
+/* Bring the peel in quickly, then let it sit still before the trip beat. */
 body[data-intro="run"] .banana {
-  animation: bananaArrive 1.8s linear forwards;
+  animation: bananaArrive 0.62s cubic-bezier(0.18, 0.9, 0.22, 1) both;
 }
 @keyframes bananaArrive {
   from { transform: translateX(280px) rotate(-22deg); }  /* off-screen right */

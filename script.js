@@ -464,6 +464,7 @@
   const wBrpm     = document.getElementById("w-brpm");
   const thoughtEl = document.getElementById("kid-thought");
   const thoughtTextEl = thoughtEl ? thoughtEl.querySelector(".thought-text") : null;
+  const bananaEl  = document.querySelector(".banana");
 
   let beatIdx     = 0;
   let autoTimer   = null;
@@ -471,6 +472,13 @@
   let introPlayed = false;
 
   if (totalEl) totalEl.textContent = beats.length;
+
+  function restartAnimation(el) {
+    if (!el) return;
+    el.style.animation = "none";
+    void el.offsetWidth;
+    el.style.animation = "";
+  }
 
   function animateNumber(textNode, from, to, dur) {
     if (!textNode) return;
@@ -492,6 +500,7 @@
     // kid pose + finer beat name for facial expression polish
     body.dataset.intro = b.kid;
     body.dataset.introBeat = b.name;
+    if (b.name === "run") restartAnimation(bananaEl);
 
     // brain layers
     if (wiringSvg) {
@@ -631,7 +640,8 @@
   // autoplay once on first scroll into view
   if ("IntersectionObserver" in window) {
     const part1 = document.getElementById("part-1");
-    if (part1) {
+    const autoplayTarget = document.getElementById("intro-stage") || part1;
+    if (autoplayTarget) {
       const io = new IntersectionObserver((entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting && !introPlayed) {
@@ -641,7 +651,7 @@
           }
         });
       }, { threshold: 0.35 });
-      io.observe(part1);
+      io.observe(autoplayTarget);
     }
   }
 
