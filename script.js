@@ -1322,8 +1322,6 @@
   const dyadEventText = document.getElementById("dyad-event-text");
   const dyadReadPrimary = document.getElementById("dyad-read-primary");
   const dyadReadSecondary = document.getElementById("dyad-read-secondary");
-  const dyadARead = document.getElementById("dyad-a-read");
-  const dyadBRead = document.getElementById("dyad-b-read");
   const dyadASpeech = document.getElementById("dyad-speech-a");
   const dyadBSpeech = document.getElementById("dyad-speech-b");
   const dyadABpm = document.getElementById("dyad-a-bpm");
@@ -1350,8 +1348,6 @@
     if (dyadEventText) dyadEventText.textContent = b.event;
     if (dyadReadPrimary) dyadReadPrimary.textContent = b.read.primary;
     if (dyadReadSecondary) dyadReadSecondary.textContent = b.read.secondary;
-    if (dyadARead) dyadARead.textContent = b.read.a;
-    if (dyadBRead) dyadBRead.textContent = b.read.b;
     if (dyadASpeech) dyadASpeech.textContent = b.speech.a;
     if (dyadBSpeech) dyadBSpeech.textContent = b.speech.b;
     if (dyadABpm) animateNumber(dyadABpm, parseInt(dyadABpm.textContent, 10), b.vitals.a.bpm, 600);

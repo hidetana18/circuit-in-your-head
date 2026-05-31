@@ -62,7 +62,6 @@
 #dyad-stage .dyad-card-circuit,
 #dyad-stage .dyad-vitals,
 #dyad-stage .dyad-meter,
-#dyad-stage .dyad-person-read,
 #dyad-stage .dyad-name {
   position: relative;
   z-index: 1;
