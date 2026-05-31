@@ -2417,14 +2417,15 @@ body[data-intro="trip"] .ouch {
   transform: rotate(16deg);
 }
 .dyad-child-hair {
-  left: 8px;
-  top: -3px;
-  width: 34px;
-  height: 18px;
+  left: 10px;
+  top: 7px;
+  width: 30px;
+  height: 11px;
   background: var(--hair);
-  clip-path: none;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 34 18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M0 17 C7 3 21 -4 34 8 C27 5 22 5 17 7 C12 5 6 8 0 17 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 34 18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M0 17 C7 3 21 -4 34 8 C27 5 22 5 17 7 C12 5 6 8 0 17 Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  border-radius: 70% 68% 42% 44% / 82% 82% 38% 38%;
+  clip-path: polygon(0 100%, 9% 58%, 24% 24%, 43% 5%, 62% 0, 82% 22%, 100% 76%, 82% 60%, 65% 60%, 50% 78%, 33% 60%, 16% 68%);
+  -webkit-mask: none;
+  mask: none;
   opacity: 1;
   z-index: 2;
 }
@@ -2433,8 +2434,8 @@ body[data-intro="trip"] .ouch {
   content: none;
 }
 .dyad-child.jules .dyad-child-hair {
-  left: 8px;
-  width: 34px;
+  left: 10px;
+  width: 30px;
 }
 .dyad-child-cheek {
   top: 30px;
