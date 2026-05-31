@@ -2907,7 +2907,7 @@ body[data-intro="trip"] .ouch {
   bottom: 88px;
   width: 22px;
   height: 22px;
-  display: grid;
+  display: none;
   place-items: center;
   border-radius: 50%;
   background: #fff5ef;
