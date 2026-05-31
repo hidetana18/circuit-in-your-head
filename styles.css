@@ -1804,6 +1804,7 @@ body[data-intro="trip"] .ouch {
 .part-dyad {
   background: linear-gradient(180deg, #F5FBF7 0%, #FFF9F0 100%);
   max-width: none;
+  overflow-x: clip;
   padding-top: clamp(36px, 5vw, 72px);
   padding-bottom: clamp(42px, 6vw, 78px);
   padding-left: 0;
@@ -1876,20 +1877,15 @@ body[data-intro="trip"] .ouch {
   width: min(100%, 276px);
   height: auto;
   display: block;
-  overflow: visible;
+  overflow: hidden;
 }
 .dyad-card-circuit .dyad-brain-name {
   font-size: 7.8px;
   letter-spacing: 0.14em;
 }
-.dyad-card-circuit .dyad-organ-name {
-  font-size: 6.8px;
-}
+.dyad-card-circuit .dyad-organ-name,
 .dyad-card-circuit .dyad-organ-value {
-  font-size: 9.8px;
-}
-.dyad-card-circuit .dyad-organ-value .unit {
-  font-size: 6.8px;
+  display: none;
 }
 .dyad-brain {
   width: min(100%, 210px);
@@ -3145,6 +3141,17 @@ body[data-intro="trip"] .ouch {
     border-radius: 18px;
     padding: 12px;
   }
+  .part-dyad .part-head {
+    margin-bottom: 16px;
+  }
+  .part-dyad .part-note {
+    max-width: 320px;
+    font-size: 12px;
+    line-height: 1.45;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-wrap: anywhere;
+  }
   .dyad-person {
     min-height: 258px;
     gap: 7px;
@@ -3165,15 +3172,6 @@ body[data-intro="trip"] .ouch {
   }
   .dyad-card-circuit .dyad-brain-name {
     font-size: 7.2px;
-  }
-  .dyad-card-circuit .dyad-organ-name {
-    font-size: 6.2px;
-  }
-  .dyad-card-circuit .dyad-organ-value {
-    font-size: 8.7px;
-  }
-  .dyad-card-circuit .dyad-organ-value .unit {
-    font-size: 6px;
   }
   .dyad-brain { gap: 4px; }
   .mini-brain-svg.dyad-brain {
