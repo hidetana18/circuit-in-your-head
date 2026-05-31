@@ -701,7 +701,7 @@ body[data-intro="trip"] .ouch {
 }
 .wiring-badges .step-badge[data-step="1"] { color: #a85e6a; }
 .wiring-badges .step-badge[data-step="2"] { color: #5a7a5a; }
-.wiring-badges .step-badge[data-step="3"] { color: #bf715e; }
+.wiring-badges .step-badge[data-step="3"] { color: #a96f1f; }
 .wiring-badges .step-badge[data-step="4"] { color: #5a6fa0; }
 .wiring-badges .step-badge-role {
   font-family: var(--sans);
