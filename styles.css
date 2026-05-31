@@ -488,6 +488,7 @@ body[data-intro="run"] .banana {
 }
 body[data-intro="trip"] .banana,
 body[data-intro="think"] .banana {
+  transition-duration: 0.25s;
   transform: translate(-58px, -2px) rotate(-220deg);
 }
 
