@@ -2392,6 +2392,12 @@ body[data-intro="trip"] .ouch {
   z-index: 4;
   overflow: visible;
 }
+.dyad-child.nora .dyad-child-head {
+  transform: translateX(-50%) rotate(2deg);
+}
+.dyad-child.jules .dyad-child-head {
+  transform: translateX(-50%) rotate(-2deg);
+}
 .dyad-child-ear {
   top: 17px;
   width: 9px;
@@ -2510,6 +2516,12 @@ body[data-intro="trip"] .ouch {
 }
 .dyad-child-eye.left { left: 15px; }
 .dyad-child-eye.right { right: 15px; }
+.dyad-child.nora .dyad-child-eye::before {
+  transform: translateX(0.9px);
+}
+.dyad-child.jules .dyad-child-eye::before {
+  transform: translateX(-0.9px);
+}
 .dyad-child-nose {
   left: 50%;
   top: 29px;
@@ -2579,44 +2591,35 @@ body[data-intro="trip"] .ouch {
   clip-path: polygon(0 0, 50% 100%, 100% 0);
 }
 .dyad-child-arm {
-  top: 61px;
-  width: 29px;
-  height: 8.5px;
+  top: 59px;
+  width: 8.5px;
+  height: 34px;
   border-radius: 999px;
   background: var(--shirt-dark);
   box-shadow: inset 0 -2px 0 rgba(92, 58, 42, 0.08);
-  transform-origin: 5px 50%;
+  transform-origin: 50% 4px;
   transition: transform 0.45s ease;
-  z-index: 1;
+  z-index: 3;
 }
 .dyad-child-arm::after {
   content: "";
   position: absolute;
-  top: 50%;
+  left: 50%;
+  bottom: -5px;
   width: 8px;
   height: 8px;
   border: 1px solid var(--skin-line);
   border-radius: 50%;
   background: var(--skin);
-  transform: translateY(-50%);
+  transform: translateX(-50%);
 }
 .dyad-child-arm.back {
-  left: 7px;
-  transform: rotate(-52deg);
-  transform-origin: 27px 50%;
-  z-index: 0;
-}
-.dyad-child-arm.back::after {
-  left: -4px;
+  left: 12px;
+  transform: rotate(8deg);
 }
 .dyad-child-arm.front {
-  right: 7px;
-  transform: rotate(52deg);
-  transform-origin: 2px 50%;
-  z-index: 3;
-}
-.dyad-child-arm.front::after {
-  right: -4px;
+  right: 12px;
+  transform: rotate(-8deg);
 }
 .dyad-child-leg {
   top: 91px;
@@ -2667,7 +2670,7 @@ body[data-intro="trip"] .ouch {
   transform: translateX(-24px) rotate(-8deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.jules .dyad-child-arm.front {
-  transform: rotate(-64deg);
+  transform: rotate(-128deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.nora .dyad-child-head {
   transform: translateX(-50%) rotate(-7deg);
@@ -2676,10 +2679,10 @@ body[data-intro="trip"] .ouch {
   transform: translateX(-50%) rotate(-5deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.nora .dyad-child-arm.back {
-  transform: translateX(-2px) rotate(58deg);
+  transform: translateX(-2px) rotate(132deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.nora .dyad-child-arm.front {
-  transform: translateX(2px) rotate(-72deg);
+  transform: translateX(2px) rotate(-138deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.nora .dyad-child-leg.back {
   transform: rotate(12deg);
@@ -2691,7 +2694,7 @@ body[data-intro="trip"] .ouch {
   transform: translateX(-50%) rotate(-4deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.jules .dyad-child-arm.back {
-  transform: rotate(-44deg);
+  transform: rotate(14deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.jules .dyad-child-leg.front {
   transform: translateY(-1px) rotate(-10deg);
@@ -2706,13 +2709,13 @@ body[data-intro="trip"] .ouch {
   transform: translateX(-50%) rotate(-3deg);
 }
 #dyad-stage[data-phase="b-reads"] .dyad-child.nora .dyad-child-arm.front {
-  transform: translateX(2px) rotate(36deg);
+  transform: translateX(1px) rotate(-22deg);
 }
 #dyad-stage[data-phase="b-reads"] .dyad-child.jules .dyad-child-arm.back {
-  transform: translateX(-1px) rotate(-38deg);
+  transform: translateX(-1px) rotate(18deg);
 }
 #dyad-stage[data-phase="b-reads"] .dyad-child.jules .dyad-child-arm.front {
-  transform: translateX(1px) rotate(-54deg);
+  transform: translateX(1px) rotate(-116deg);
 }
 #dyad-stage[data-phase="escalate"] .dyad-child.nora,
 #dyad-stage[data-phase="peak"] .dyad-child.nora {
@@ -2730,11 +2733,11 @@ body[data-intro="trip"] .ouch {
 }
 #dyad-stage[data-phase="escalate"] .dyad-child .dyad-child-arm.back,
 #dyad-stage[data-phase="peak"] .dyad-child .dyad-child-arm.back {
-  transform: rotate(42deg);
+  transform: rotate(126deg);
 }
 #dyad-stage[data-phase="escalate"] .dyad-child .dyad-child-arm.front,
 #dyad-stage[data-phase="peak"] .dyad-child .dyad-child-arm.front {
-  transform: rotate(-42deg);
+  transform: rotate(-126deg);
 }
 #dyad-stage[data-phase="escalate"] .dyad-child.nora .dyad-child-leg.front,
 #dyad-stage[data-phase="peak"] .dyad-child.nora .dyad-child-leg.front {
@@ -2758,10 +2761,10 @@ body[data-intro="trip"] .ouch {
   transform: translateX(-50%) scaleY(1.03);
 }
 #dyad-stage[data-phase="breath"] .dyad-child.nora .dyad-child-arm.back {
-  transform: rotate(-44deg);
+  transform: rotate(8deg);
 }
 #dyad-stage[data-phase="breath"] .dyad-child.jules .dyad-child-arm.front {
-  transform: translateX(1px) rotate(42deg);
+  transform: translateX(1px) rotate(-18deg);
 }
 #dyad-stage[data-phase="bump"] .dyad-child.nora .dyad-child-head,
 #dyad-stage[data-phase="b-reads"] .dyad-child .dyad-child-head,
@@ -2848,7 +2851,7 @@ body[data-intro="trip"] .ouch {
   top: 24px;
 }
 #dyad-stage[data-phase="breath"] .dyad-child.nora .dyad-child-arm.front {
-  transform: translateX(-10px) translateY(-1px) rotate(-116deg);
+  transform: translateX(-2px) translateY(-1px) rotate(-78deg);
 }
 #dyad-stage[data-phase="settle"] .dyad-child-mouth {
   left: 18px;
